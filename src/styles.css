@@ -1,1 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: 'Lato', sans-serif;}
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+.user-mat-menu i.material-icons {
+    font-size: 20px;
+    top: 6px;
+    position: relative;
+    padding-right: 12px;
+    color: #33225a;
+  }
