@@ -41,4 +41,21 @@ mat-drawer.example-sidenav2 {
     -webkit-transform: scaleX(1);
     transform: scaleX(1);
 }
-
+.main-left-panel {
+    padding: 15px;
+    display: flex;
+    background: #fafafa;
+    border-bottom: 1px solid #e4e3e3;
+}
+.panel {
+    width: 130px;
+}
+.panel.first {
+    width: 160px;
+}
+.panel h6,.panel h5, .panel p{margin: 0}
+.panel p{
+    font-size: 12px
+}
+.panel.first i ,.panel.third i { font-size: 17px; vertical-align: bottom; margin-right: 5px; color: #ff4081; }
+.panel.second h5 { font-size: 11px; background: #c10000; text-align: center; padding: 3px 0; color: #fff; width: 83px; }

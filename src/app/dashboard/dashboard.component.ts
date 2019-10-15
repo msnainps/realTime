@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,13 +13,13 @@ export class DashboardComponent implements OnInit {
   }
   status: boolean = false;
   status2: boolean = false;
-
   addClass(){
     this.status = !this.status;  
  
   }
+
   addClass2(){
-    this.status2 = !this.status;  
+    this.status2 = !this.status2;  
  
   }
 
