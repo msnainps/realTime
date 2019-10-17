@@ -1,6 +1,6 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row class="header">
-    <div class="logo"><img src="../../assets/iCargo-Logo.png"></div>
+    <div class="logo"><img src="/assets/iCargo-Logo.png"></div>
 
     <button mat-button>
       <mat-icon class="example-icon" aria-hidden="false"><i class="material-icons">home</i></mat-icon>
@@ -13,7 +13,7 @@
     </button>
     <div class="date-picker2">
       <mat-form-field>
-        <input matInput [matDatepicker]="picker" placeholder="Choose a date">
+        <input matInput [matDatepicker]="picker" [(ngModel)]="date" placeholder="Choose a date">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
@@ -27,31 +27,31 @@
       <mat-menu #usernotification="matMenu" class="user-mat-menu notify_mat">
         <div class="user-info notifications">
           <h5>Total Shipments</h5>
-          <h6>456</h6>
+          <h6>{{header.totalShipement}}</h6>
         </div>
         <button mat-menu-item><i class="material-icons">
             keyboard_arrow_right </i>
-          <span matBadge="4" matBadgeOverlap="false">Parcel</span></button>
+          <span matBadge="{{header.parcel}}" matBadgeOverlap="false">Parcel</span></button>
         <button mat-menu-item><i class="material-icons"> keyboard_arrow_right </i>
-          <span matBadge="48" matBadgeColor="warn" matBadgeOverlap="false">Sameday</span></button>
+          <span matBadge="{{header.sameday}}" matBadgeColor="warn" matBadgeOverlap="false">Sameday</span></button>
         <button mat-menu-item><i class="material-icons"> keyboard_arrow_right </i>
-          <span matBadge="244" matBadgeColor="accent" matBadgeOverlap="false">Disputed</span></button>
+          <span matBadge="{{header.disputed}}" matBadgeColor="accent" matBadgeOverlap="false">Disputed</span></button>
       </mat-menu>
     </div>
 
 
     <div class="user-menu" [matMenuTriggerFor]="userprofile">
       <button mat-button>
-        <mat-icon class="example-icon" aria-hidden="false"> <img src="../../assets/1.jpg"></mat-icon>
+        <mat-icon class="example-icon" aria-hidden="false"> <img src="/assets/1.jpg"></mat-icon>
       </button>
       <!-- <button mat-mini-fab>
     <mat-icon class="example-icon" aria-hidden="false"><i class="material-icons">person</i></mat-icon>
   </button> -->
       <mat-menu #userprofile="matMenu" class="user-mat-menu">
         <div class="user-info">
-          <img src="../../assets/1.jpg">
-          <h5>Pankaj Chauhan</h5>
-          <h6>pankaj@perceptive-solutions.com</h6>
+          <img src="{{header.profileImage}}">
+          <h5>{{header.name}}</h5>
+          <h6>{{header.email}}</h6>
         </div>
         <button mat-menu-item><i class="material-icons">person</i>My Profile</button>
         <button mat-menu-item><i class="material-icons">lock</i>Change Password</button>

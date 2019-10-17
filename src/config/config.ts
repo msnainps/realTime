@@ -1,0 +1,23 @@
+export class config {
+    //  {
+    //     socket_api_url: '',
+    //     name: 'prod',
+    //     company_id: localStorage.getItem('company'),
+    //     user_id: localStorage.getItem('user_id'),
+    //     wairehouse_id: localStorage.getItem('warehouse_id'),
+    //     email: localStorage.getItem('primary_email'),
+    //     profileImage: localStorage.getItem('profile_image'),
+    //     user_level: localStorage.getItem('user_level')
+    // }
+
+    env = {
+        name: 'local',
+        socket_api_url: 'http://localhost:3000/',
+        company_id: 10,
+        user_id: 10,
+        wairehouse_id: 1,
+        email: '5ways@gmail.com',
+        profileImage: 'https://icargo-public.s3.eu-west-1.amazonaws.com/dev/images/company/profile/5cac6a1a74daf-5cac6a1a74df1-images.png',
+        user_level: 2
+    }
+}

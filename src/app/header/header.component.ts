@@ -1,5 +1,11 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
+import { HeaderService } from './header.service';
+import { Header } from './header.model';
+
+
+
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -8,15 +14,21 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  header:Header= new Header();
+  
+  constructor(private headerService:HeaderService) {
+    
+   }
 
+  
   ngOnInit() {
+    this.headerService.getHeaderDataListen(this);
   }
   isShown:Boolean=false;
   toggleShow() {
 
-    this.isShown = ! this.isShown;
+  this.isShown = ! this.isShown;
     
-    }
+  }
 
 }
