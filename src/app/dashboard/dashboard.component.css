@@ -1,61 +1,7 @@
-.map-dashboard {
-    height: calc(100vh - 64px);
-}
-mat-drawer.example-sidenav {
-    width: 500px;
-}
-mat-drawer.example-sidenav2 {
-    width: 400px;
-}
-.side-button.mat-button.mat-button-base {
-    height: 48px;
-    min-width: 23px;
-    position: absolute;
-    background: rgba(255,255,255,0.9) url(../../assets/open-arrow.png) no-repeat center;
-    background-size: 10px;
-    padding: 0px 0;
-    border-left: 1px solid #D4D4D4;
-    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.3);
-    border-radius: 0;
-}
-.side-button.mat-button.mat-button-base.success{
-    -webkit-transform: scaleX(-1);
-    transform: scaleX(-1);
-}
-.side-button2.mat-button.mat-button-base {
-    height: 48px;
-    min-width: 23px;
-    right: 0;
-    position: absolute;
-    background: rgba(255,255,255,0.9) url(../../assets/open-arrow.png) no-repeat center;
-    background-size: 10px;
-    padding: 0px 0;
-    top: 0;
-    -webkit-transform: scaleX(-1);
-    transform: scaleX(-1);
-    border-right: 1px solid #D4D4D4;
-    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.3);
-    border-radius: 0;
-}
-.side-button2.mat-button.mat-button-base.success{
-    -webkit-transform: scaleX(1);
-    transform: scaleX(1);
-}
-.main-left-panel {
-    padding: 15px;
-    display: flex;
-    background: #fafafa;
-    border-bottom: 1px solid #e4e3e3;
-}
-.panel {
-    width: 130px;
-}
-.panel.first {
-    width: 160px;
-}
-.panel h6,.panel h5, .panel p{margin: 0}
-.panel p{
-    font-size: 12px
-}
-.panel.first i ,.panel.third i { font-size: 17px; vertical-align: bottom; margin-right: 5px; color: #ff4081; }
-.panel.second h5 { font-size: 11px; background: #c10000; text-align: center; padding: 3px 0; color: #fff; width: 83px; }
+
+agm-map {
+    height: 100%;
+  }
+
+
+  

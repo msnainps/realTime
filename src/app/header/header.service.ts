@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import * as io from 'socket.io-client';
 import { HeaderComponent } from './header.component';
 import { config } from 'src/config/config';
+import { SocketService } from '../commonServices/socket.service';
+
 
 
 
@@ -13,22 +14,29 @@ import { config } from 'src/config/config';
 export class HeaderService {
 
   configSettings = new config();
-  apiUrl = this.configSettings.env.socket_api_url;
   companyId = this.configSettings.env.company_id;
   wairehouseId = this.configSettings.env.wairehouse_id;
   
   
-  socket;
-  constructor() { 
-    this.socket = io(this.apiUrl);
+  
+  notiFicationResponce;
+  constructor(private socket:SocketService) {
     this.getHeaderDataEmit();
+    this.socket.websocket.on('instantnotiFication',(data)=>{
+      this.notiFicationResponce = data;
+      if(this.notiFicationResponce.company_id == this.companyId){ //if responce is same as session user
+        this.getHeaderDataEmit();
+      }
+     
+    })
+    
   }
 
   getHeaderDataEmit(){
-    this.socket.emit("getUser",this.companyId,this.wairehouseId);
+    this.socket.websocket.emit("getUser",this.companyId,this.wairehouseId);
   }
   getHeaderDataListen(hearderComponent:HeaderComponent){
-    this.socket.on('user-info',(data)=>{
+    this.socket.websocket.on('user-info',(data)=>{
       
       hearderComponent.header  = {
         name:data.user_data.name,
@@ -41,7 +49,6 @@ export class HeaderService {
       };
       //this.showLoader=false;
       //return data;
-      
     });
   }
 }

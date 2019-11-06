@@ -14,6 +14,9 @@ import { Header } from './header.model';
 })
 export class HeaderComponent implements OnInit {
 
+
+  //SHow default date in angular
+  shipmentCurrentDate = new Date((new Date()));
   header:Header= new Header();
   
   constructor(private headerService:HeaderService) {
@@ -27,7 +30,7 @@ export class HeaderComponent implements OnInit {
   isShown:Boolean=false;
   toggleShow() {
 
-  this.isShown = ! this.isShown;
+  //this.isShown = ! this.isShown;
     
   }
 

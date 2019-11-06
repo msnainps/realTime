@@ -23,7 +23,7 @@ import {MatNativeDateModule, MatRippleModule} from '@angular/material/core';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatTooltipModule} from '@angular/material/tooltip';
-
+import {MatTableModule} from '@angular/material/table';
 
 
 
@@ -56,6 +56,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatToolbarModule,
     MatSidenavModule,
     MatTooltipModule,
+    MatTableModule
   ],
   exports: [
     CommonModule,
@@ -81,7 +82,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatNativeDateModule,
     MatToolbarModule,
     MatSidenavModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatTableModule
   ]
 })
 export class MaterialDesignModule { }

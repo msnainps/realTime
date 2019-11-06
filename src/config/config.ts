@@ -1,13 +1,14 @@
 export class config {
-    //  {
-    //     socket_api_url: '',
+    // env = {
+    //     socket_api_url: 'http://localhost:3000/',
     //     name: 'prod',
     //     company_id: localStorage.getItem('company'),
     //     user_id: localStorage.getItem('user_id'),
     //     wairehouse_id: localStorage.getItem('warehouse_id'),
     //     email: localStorage.getItem('primary_email'),
     //     profileImage: localStorage.getItem('profile_image'),
-    //     user_level: localStorage.getItem('user_level')
+    //     user_level: localStorage.getItem('user_level'),
+    //     google_api_key: 'AIzaSyD-X5xWDTa9L15dUYkWUjRExGRHznOfFsQ',   
     // }
 
     env = {
@@ -18,6 +19,7 @@ export class config {
         wairehouse_id: 1,
         email: '5ways@gmail.com',
         profileImage: 'https://icargo-public.s3.eu-west-1.amazonaws.com/dev/images/company/profile/5cac6a1a74daf-5cac6a1a74df1-images.png',
-        user_level: 2
+        user_level: 2,
+        google_api_key:'AIzaSyD-X5xWDTa9L15dUYkWUjRExGRHznOfFsQ'
     }
 }

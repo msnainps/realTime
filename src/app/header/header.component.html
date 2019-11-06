@@ -13,7 +13,7 @@
     </button>
     <div class="date-picker2">
       <mat-form-field>
-        <input matInput [matDatepicker]="picker" [(ngModel)]="date" placeholder="Choose a date">
+        <input matInput [matDatepicker]="picker" [(ngModel)]="shipmentCurrentDate" placeholder="Choose a date">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
