@@ -1,0 +1,143 @@
+/* .example-icon {
+    padding: 0 14px;
+  } */
+  h5{
+    font-size: 18px;
+  }
+  h6{
+    font-size: 13px;
+  }
+  .example-spacer {
+    flex: 1 1 auto;
+  }
+  .logo{
+    width: 200px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-right: 10px;
+  }
+  .logo img {
+    width: 97%;
+    position: relative;
+}
+.header {
+  align-items: inherit;
+  background: #33225a;
+  position:fixed;
+}
+.header button {
+  height: 100%;
+}
+.date-picker2 {
+  margin-left: 10px;
+}
+.date-picker2 .mat-form-field {
+  font-size: 15px;
+  margin-top: 7px;
+}
+.mat-form-field-infix{
+  width: 150px;
+}
+.date-picker2 .mat-datepicker-toggle {
+  color: #fff;
+  font-size: 22px;
+}
+.user-menu {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  flex-direction: column;
+}
+.user-info {
+  background: #ff4081;
+  padding: 12px 12px;
+  height: 48px;
+}
+.user-info img {
+  width: 18%;
+  float: left;
+}
+.user-info h5, .user-info h6 {
+  margin: 0;
+  color: #fff;
+  padding-left: 60px;
+}
+.user-info.notifications h5, .user-info.notifications h6 {
+  margin: 0;
+  color: #fff;
+  padding-left: 0px;
+}
+.user-menu img {
+  width: 35px;
+  height: 35px;
+  border-radius: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  top: -5px;
+  position: relative;
+  right: 3px;
+}
+.user-menu button{
+  height: 100%;
+}
+.search-row {
+  width: 100%;
+  position: fixed;
+  z-index: 99;
+}
+.search-row input {
+  width: 100%;
+  top: 0;
+  height: 42px;
+  padding: 0 16px;
+  font-size: 17px;
+  border: none;
+}
+.close-icon {
+  position: absolute;
+  top: 0;
+  right: 9px;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  flex-direction: column;
+  cursor: pointer;
+}
+.close-icon i {
+  color: #000;
+  font-size: 32px;
+}
+.user-info.notifications{
+  position: relative;
+  background: #33225a;
+}
+.user-info.notifications:after{
+    content: "";
+    position: absolute;
+    background: url(../../assets/img5.0dbfc1a61a9f2686785f.png) 0 0/cover no-repeat;
+    opacity: .2;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+.mat-menu-panel.notify_mat  {
+  min-width: 250px !important;
+}
+
+.user-menu-2 button {
+  height: 35px;
+  width: 35px;
+}
+.user-menu-2 button i{
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  flex-direction: column;
+  position: relative;
+  top: -3px;
+}
+

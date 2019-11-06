@@ -1,0 +1,228 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: 'Lato', sans-serif;}
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+.user-mat-menu i.material-icons {
+    font-size: 20px;
+    top: 6px;
+    position: relative;
+    padding-right: 12px;
+    color: #33225a;
+  }
+  
+.map-dashboard {
+height: calc(100vh - 64px);
+}
+mat-drawer.example-sidenav {
+    width: 650px;
+}
+mat-drawer.example-sidenav2 {
+width: 650px;
+    /*height: calc(100%-100px);*/
+    min-height: auto;
+    height: auto;
+}
+
+mat-drawer.example-sidenav2 {
+  transform: translate3d(650px,0px,0) !important;
+  visibility: visible !important;
+  overflow: initial;
+}
+mat-drawer.example-sidenav2.mat-drawer-opened{
+  transform: translate3d(0px,0px,0) !important;
+}
+.example-sidenav-content-2 {
+  position: absolute;
+  left: -23px;
+  z-index: 999;
+  height: 48px;
+  width: 23px;
+}
+
+.side-button.mat-button.mat-button-base {
+    height: 48px;
+    min-width: 23px;
+    position: absolute;
+    background: rgba(255,255,255,0.9) url(assets/open-arrow.png) no-repeat center;
+    background-size: 10px;
+    padding: 0px 0;
+    border-left: 1px solid #D4D4D4;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.3);
+    border-radius: 0;
+}
+.side-button.mat-button.mat-button-base.success{
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+}
+.side-button2.mat-button.mat-button-base {
+    height: 48px;
+    min-width: 23px;
+    right: 0;
+    position: absolute;
+    background: rgba(255,255,255,0.9) url(assets/open-arrow.png) no-repeat center;
+    background-size: 10px;
+    padding: 0px 0;
+    top: 0;
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    border-right: 1px solid #D4D4D4;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.3);
+    border-radius: 0;
+}
+.side-button2.mat-button.mat-button-base.success{
+    -webkit-transform: scaleX(1);
+    transform: scaleX(1);
+}
+.main-left-panel {
+    padding: 8px;
+    display: flex;
+    background: #fafafa;
+    border-bottom: 1px solid #e4e3e3;
+}
+.panel {
+    width: 30px;
+}
+.panel.first {
+    width: 150px;
+    padding-right: 5px;
+}
+.panel.second {
+  width: 100px;
+}
+.panel.third, .panel.fourth {
+  width: 150px;
+}
+.panel.fifth {
+  width: 80px;
+}
+.panel.sixth .mat-button {
+  padding: 0;
+  line-height: 0;
+  min-width: auto;
+}
+.panel h6,.panel h5, .panel p{margin: 0;
+  overflow: hidden;
+  -webkit-line-clamp: 1;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  word-break: break-all;
+}
+.panel p{
+    font-size: 12px
+}
+.panel i ,.panel i { font-size: 17px; vertical-align: bottom; margin-right: 5px; color:#33225a }
+.panel.second h5 {     
+font-size: 11px;
+background: #c10000;
+text-align: center;
+padding: 1px 4px;
+color: #fff;
+letter-spacing: 0.5px;
+font-weight: normal;
+width: 68px;
+border-radius: 2px; 
+}
+.panel.second.pending h5 {
+    background: #ffa500;
+}
+.panel.second.accepted h5 {
+    background: rgb(6, 144, 29);
+}
+.custom-accordian {
+  margin: 0 !important;
+}
+.custom-accordian .mat-expansion-panel-body {
+  padding: 0;
+}
+.custom-accordian .mat-expansion-panel-header {
+  padding: 0px 15px;
+  font-size: 18px;
+  height: 40px !important;
+}
+.main-left-panel.unassigned .first h6 i {
+  color: #c10000;
+}
+
+.main-left-panel.assigned .first h6 i {
+  color: #ffa500;
+}
+.main-left-panel.completed .first h6 i {
+  color: rgb(6, 144, 29);
+}
+.main-left-panel.unassigned {
+  background: #ecd1d1;
+}
+.main-left-panel.assigned {
+  background: #c6f5c8;
+}
+
+.example-container-3 {
+ height: 100%;
+  width: 649px;
+  overflow: auto;
+}
+
+.example-container-3 table {
+  width: 800px;
+  display: table;
+  table-layout: fixed;
+}
+.example-container-3 table > td.mat-column-star {
+  width: 20px;
+  padding-right: 8px;
+}
+
+.example-container-3 table th.mat-column-position,.example-container-3 table th.mat-column-weight, .example-container-3 table th.mat-column-symbol, .example-container-3 table th.mat-column-symbol2,
+.example-container-3 table td.mat-column-position, .example-container-3 table td.mat-column-weight, .example-container-3 table td.mat-column-symbol, .example-container-3 table td.mat-column-symbol2   {
+padding-left: 8px;
+width: 5px;
+}
+
+/*.example-container-3 table th.mat-column-weight, .example-container-3 table td.mat-column-weight{
+padding-left: 8px;
+width: 50px;
+}
+
+.example-container-3 table th.mat-column-symbol, .example-container-3 table td.mat-column-symbol {
+padding-left: 8px;
+width: 50px;
+}
+
+.example-container-3 table th.mat-column-symbol2, .example-container-3 table td.mat-column-symbol2 {
+padding-left: 8px;
+width: 50px;
+}*/
+td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type, th.mat-header-cell:first-of-type{
+padding-left: 18px !important;
+}
+.example-container-3 .mat-table-sticky:first-child {
+border-right: 1px solid #e0e0e0;
+/*width: 150px;*/
+width: 5px;
+}
+
+.example-container-3 .mat-table-sticky:last-child {
+border-left: 1px solid #e0e0e0;
+}
+
+tr.mat-footer-row, tr.mat-row{
+height: 35px !important;
+}
+/*.mat-drawer {
+bottom: auto !important;
+}*/
+
+mat-drawer.example-sidenav2{
+     position: absolute;
+     top: 0;
+     bottom: auto !important;
+}
+.example-container-modify{
+    width: 649px;
+    overflow-y: auto;
+    max-height: 90vh;
+    min-height: auto;
+}
+
+
