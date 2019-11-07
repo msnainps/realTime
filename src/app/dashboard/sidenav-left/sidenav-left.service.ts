@@ -17,9 +17,7 @@ export class SidenavLeftService {
   
   getAssignDropData(){
     this.socket.websocket.on('get-all-drops',(data)=>{
-      console.log("---Left Nav----");
       console.log(data);
-      console.log("---Left Nav----");
       this.assignDataList = data;
    });
   }
