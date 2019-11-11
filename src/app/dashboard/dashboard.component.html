@@ -1,6 +1,6 @@
 <mat-drawer-container class="example-container" autosize>
   <mat-drawer #drawer class="example-sidenav" mode="side">
-      <app-sidenav-left></app-sidenav-left>
+    <app-sidenav-left></app-sidenav-left>
   </mat-drawer>
 
   <div class="example-sidenav-content">
@@ -10,7 +10,7 @@
     </button>
   </div>
   <div class="map-dashboard">
-      <agm-map [latitude]="lat" [longitude]="lng">
+    <!-- <agm-map [latitude]="lat" [longitude]="lng">
         <agm-marker *ngFor="let marker of dashboardService.markerList" [latitude]="marker.shipment_latitude" [longitude]="marker.shipment_longitude" [label]="marker.icargo_execution_order.toString()" [iconUrl]="{
           url: marker.marker_url
       }">
@@ -20,7 +20,20 @@
                 <a routerLink="localhost:4200">Details</a>
             </agm-info-window>
         </agm-marker>
-    </agm-map>
+    </agm-map> -->
+    <mgl-map [style]="mapBoxStyle" [zoom]="[zoom]"
+      [center]="[lng,lat]" [cursorStyle]="cursorStyle">
+      <mgl-geojson-source id="dashboardService.points" [data]="dashboardService.points"></mgl-geojson-source>
+      <mgl-layer id="dashboardService.points" source="dashboardService.points" type="symbol" [layout]="{
+        'icon-image': '{icon}',
+        'icon-allow-overlap': true,
+        'text-field': '{execution_order}'
+      }" (click)="onClick($event)" (mouseEnter)="cursorStyle = 'pointer'" (mouseLeave)="cursorStyle = ''"></mgl-layer>
+
+      <mgl-popup *ngIf="selectedPoint" [lngLat]="selectedPoint.geometry.coordinates" (close)="selectedPoint = null">
+        <span [innerHTML]="selectedPoint.properties.description"></span>
+      </mgl-popup>
+    </mgl-map>
   </div>
 
   <mat-drawer #drawer2 class="example-sidenav2" mode="side" position="end">
@@ -30,7 +43,7 @@
         aria-label="Button that displays a tooltip when focused or hovered over" matTooltipPosition="left">
       </button>
     </div>
-<app-sidenav-right></app-sidenav-right>
+    <app-sidenav-right></app-sidenav-right>
   </mat-drawer>
 
 

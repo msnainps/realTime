@@ -8,9 +8,11 @@ export class config {
     //     email: localStorage.getItem('primary_email'),
     //     profileImage: localStorage.getItem('profile_image'),
     //     user_level: localStorage.getItem('user_level'),
-    //     google_api_key: 'AIzaSyD-X5xWDTa9L15dUYkWUjRExGRHznOfFsQ',   
+    //     google_api_key: 'AIzaSyD-X5xWDTa9L15dUYkWUjRExGRHznOfFsQ',
+    //     mapbox_api_key:'pk.eyJ1IjoiaW5zdGFkaXNwYXRjaCIsImEiOiJjazJvajJueWwwNjlmM2dwcHMxbTFiMHl0In0.9eyVqMCN3WIodGdslgQ1hA',
     // }
 
+    //This is used while development
     env = {
         name: 'local',
         socket_api_url: 'http://localhost:3000/',
@@ -20,6 +22,7 @@ export class config {
         email: '5ways@gmail.com',
         profileImage: 'https://icargo-public.s3.eu-west-1.amazonaws.com/dev/images/company/profile/5cac6a1a74daf-5cac6a1a74df1-images.png',
         user_level: 2,
-        google_api_key:'AIzaSyD-X5xWDTa9L15dUYkWUjRExGRHznOfFsQ'
+        google_api_key:'AIzaSyD-X5xWDTa9L15dUYkWUjRExGRHznOfFsQ',
+        mapbox_api_key:'pk.eyJ1IjoiaW5zdGFkaXNwYXRjaCIsImEiOiJjazJvajJueWwwNjlmM2dwcHMxbTFiMHl0In0.9eyVqMCN3WIodGdslgQ1hA',
     }
 }
