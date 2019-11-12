@@ -9,8 +9,8 @@
             </mat-panel-description>
         </mat-expansion-panel-header>
 
-        <ng-container *ngFor="let assignData of sidenaveleftService.assignDataList.shipment_data">
-            <ng-container *ngIf="assignData.drop_type == 'assinged' && assignData.shipment_service_type == 'P'">
+        <ng-container *ngFor="let assignData of sidenaveleftService.assignDataList.assingedData">
+            <ng-container *ngIf="assignData.drop_type == 'assinged'">
                 <div class="main-left-panel assigned">
                     <div class="panel first">
                         <h6><i class="material-icons"> fiber_manual_record </i>{{assignData.customer_name}}</h6>
