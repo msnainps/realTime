@@ -2,14 +2,14 @@
     <mat-expansion-panel [expanded]="true" class="custom-accordian">
         <mat-expansion-panel-header>
             <mat-panel-title>
-                Assigned ({{sidenaveleftService.assignDataList.assignDropCount}})
+                Assigned ({{sidenaveleftService.dataList.assignDropCount}})
             </mat-panel-title>
             <mat-panel-description>
 
             </mat-panel-description>
         </mat-expansion-panel-header>
 
-        <ng-container *ngFor="let assignData of sidenaveleftService.assignDataList.assingedData">
+        <ng-container *ngFor="let assignData of sidenaveleftService.dataList.assingedData">
             <ng-container *ngIf="assignData.drop_type == 'assinged'">
                 <div class="main-left-panel assigned">
                     <div class="panel first">
@@ -39,381 +39,45 @@
     <mat-expansion-panel [expanded]="true" class="custom-accordian">
         <mat-expansion-panel-header>
             <mat-panel-title>
-                Unassigned (255)
+                Unassigned ({{sidenaveleftService.dataList.unassignDropCount}})
             </mat-panel-title>
             <mat-panel-description>
 
                 <!-- <mat-icon>account_circle</mat-icon> -->
             </mat-panel-description>
         </mat-expansion-panel-header>
+        <ng-container *ngFor="let unassignData of sidenaveleftService.dataList.unassingedData">
+            <ng-container *ngIf="unassignData.drop_type == 'unassinged'">
         <div class="main-left-panel unassigned">
             <div class="panel first">
-                <h6><i class="material-icons"> fiber_manual_record </i>Meenakshitest11</h6>
+                <h6><i class="material-icons"> fiber_manual_record </i>{{unassignData.customer_name}}</h6>
             </div>
-            <div class="panel second">
+            <!-- <div class="panel second">
                 <h5> Paused</h5>
-            </div>
-            <div class="panel third">
-                <h6><i class="material-icons"> explore </i>TestOTA Assign</h6>
+            </div> -->
+            <div class="panel third fixed-width">
+                <h6><i class="material-icons"> explore </i>{{unassignData.route_name}}</h6>
             </div>
             <div class="panel fourth">
-                <h6><i class="material-icons"> date_range </i>02/09/18 14:23</h6>
+                <h6><i class="material-icons"> date_range </i>{{unassignData.service_date}}</h6>
             </div>
 
             <div class="panel fifth">
-                <h6><i class="material-icons"> directions_car </i>Meena</h6>
+                <!-- <h6><i class="material-icons"> directions_car </i>Meena</h6> -->
             </div>
             <div class="panel sixth">
                 <a mat-button routerLink="."><i class="material-icons"> more_vert </i></a>
             </div>
         </div>
-
-        <!-- list2 -->
-
-        <div class="main-left-panel unassigned">
-            <div class="panel first">
-                <h6><i class="material-icons"> fiber_manual_record </i>Meenakshitest11</h6>
-            </div>
-            <div class="panel second">
-                <h5> Paused</h5>
-            </div>
-            <div class="panel third">
-                <h6><i class="material-icons"> explore </i>TestOTA Assign</h6>
-            </div>
-            <div class="panel fourth">
-                <h6><i class="material-icons"> date_range </i>02/09/18 14:23</h6>
-            </div>
-
-            <div class="panel fifth">
-                <h6><i class="material-icons"> directions_car </i>Meena</h6>
-            </div>
-            <div class="panel sixth">
-                <a mat-button routerLink="."><i class="material-icons"> more_vert </i></a>
-            </div>
-        </div>
-
-        <!-- list3 -->
-
-        <div class="main-left-panel unassigned">
-            <div class="panel first">
-                <h6><i class="material-icons"> fiber_manual_record </i>Meenakshitest11</h6>
-            </div>
-            <div class="panel second pending">
-                <h5> Pending</h5>
-            </div>
-            <div class="panel third">
-                <h6><i class="material-icons"> explore </i>TestOTA Assign</h6>
-            </div>
-            <div class="panel fourth">
-                <h6><i class="material-icons"> date_range </i>02/09/18 14:23</h6>
-            </div>
-
-            <div class="panel fifth">
-                <h6><i class="material-icons"> directions_car </i>Meena</h6>
-            </div>
-            <div class="panel sixth">
-                <a mat-button routerLink="."><i class="material-icons"> more_vert </i></a>
-            </div>
-        </div>
-
-        <!-- list3 -->
-
-        <div class="main-left-panel unassigned">
-            <div class="panel first">
-                <h6><i class="material-icons"> fiber_manual_record </i>Meenakshitest11</h6>
-            </div>
-            <div class="panel second pending">
-                <h5> Pending</h5>
-            </div>
-            <div class="panel third">
-                <h6><i class="material-icons"> explore </i>TestOTA Assign</h6>
-            </div>
-            <div class="panel fourth">
-                <h6><i class="material-icons"> date_range </i>02/09/18 14:23</h6>
-            </div>
-
-            <div class="panel fifth">
-                <h6><i class="material-icons"> directions_car </i>Meena</h6>
-            </div>
-            <div class="panel sixth">
-                <a mat-button routerLink="."><i class="material-icons"> more_vert </i></a>
-            </div>
-        </div>
-
-        <!-- list3 -->
-
-        <div class="main-left-panel unassigned">
-            <div class="panel first">
-                <h6><i class="material-icons"> fiber_manual_record </i>Meenakshitest11</h6>
-            </div>
-            <div class="panel second pending">
-                <h5> Pending</h5>
-            </div>
-            <div class="panel third">
-                <h6><i class="material-icons"> explore </i>TestOTA Assign</h6>
-            </div>
-            <div class="panel fourth">
-                <h6><i class="material-icons"> date_range </i>02/09/18 14:23</h6>
-            </div>
-
-            <div class="panel fifth">
-                <h6><i class="material-icons"> directions_car </i>Meena</h6>
-            </div>
-            <div class="panel sixth">
-                <a mat-button routerLink="."><i class="material-icons"> more_vert </i></a>
-            </div>
-        </div>
-
-        <!-- list3 -->
-
-        <div class="main-left-panel unassigned">
-            <div class="panel first">
-                <h6><i class="material-icons"> fiber_manual_record </i>Meenakshitest11</h6>
-            </div>
-            <div class="panel second pending">
-                <h5> Pending</h5>
-            </div>
-            <div class="panel third">
-                <h6><i class="material-icons"> explore </i>TestOTA Assign</h6>
-            </div>
-            <div class="panel fourth">
-                <h6><i class="material-icons"> date_range </i>02/09/18 14:23</h6>
-            </div>
-
-            <div class="panel fifth">
-                <h6><i class="material-icons"> directions_car </i>Meena</h6>
-            </div>
-            <div class="panel sixth">
-                <a mat-button routerLink="."><i class="material-icons"> more_vert </i></a>
-            </div>
-        </div>
-
-        <!-- list3 -->
-
-        <div class="main-left-panel unassigned">
-            <div class="panel first">
-                <h6><i class="material-icons"> fiber_manual_record </i>Meenakshitest11</h6>
-            </div>
-            <div class="panel second accepted">
-                <h5> Accepted</h5>
-            </div>
-            <div class="panel third">
-                <h6><i class="material-icons"> explore </i>TestOTA Assign</h6>
-            </div>
-            <div class="panel fourth">
-                <h6><i class="material-icons"> date_range </i>02/09/18 14:23</h6>
-            </div>
-
-            <div class="panel fifth">
-                <h6><i class="material-icons"> directions_car </i>Meena</h6>
-            </div>
-            <div class="panel sixth">
-                <a mat-button routerLink="."><i class="material-icons"> more_vert </i></a>
-            </div>
-        </div>
-
-        <!-- list3 -->
-
-        <div class="main-left-panel unassigned">
-            <div class="panel first">
-                <h6><i class="material-icons"> fiber_manual_record </i>Meenakshitest11</h6>
-            </div>
-            <div class="panel second accepted">
-                <h5> Accepted</h5>
-            </div>
-            <div class="panel third">
-                <h6><i class="material-icons"> explore </i>TestOTA Assign</h6>
-            </div>
-            <div class="panel fourth">
-                <h6><i class="material-icons"> date_range </i>02/09/18 14:23</h6>
-            </div>
-
-            <div class="panel fifth">
-                <h6><i class="material-icons"> directions_car </i>Meena</h6>
-            </div>
-            <div class="panel sixth">
-                <a mat-button routerLink="."><i class="material-icons"> more_vert </i></a>
-            </div>
-        </div>
-
-        <!-- list3 -->
-
-        <div class="main-left-panel unassigned">
-            <div class="panel first">
-                <h6><i class="material-icons"> fiber_manual_record </i>Meenakshitest11</h6>
-            </div>
-            <div class="panel second accepted">
-                <h5> Accepted</h5>
-            </div>
-            <div class="panel third">
-                <h6><i class="material-icons"> explore </i>TestOTA Assign</h6>
-            </div>
-            <div class="panel fourth">
-                <h6><i class="material-icons"> date_range </i>02/09/18 14:23</h6>
-            </div>
-
-            <div class="panel fifth">
-                <h6><i class="material-icons"> directions_car </i>Meena</h6>
-            </div>
-            <div class="panel sixth">
-                <a mat-button routerLink="."><i class="material-icons"> more_vert </i></a>
-            </div>
-        </div>
-
-        <!-- list3 -->
-
-        <div class="main-left-panel unassigned">
-            <div class="panel first">
-                <h6><i class="material-icons"> fiber_manual_record </i>Meenakshitest11</h6>
-            </div>
-            <div class="panel second accepted">
-                <h5> Accepted</h5>
-            </div>
-            <div class="panel third">
-                <h6><i class="material-icons"> explore </i>TestOTA Assign</h6>
-            </div>
-            <div class="panel fourth">
-                <h6><i class="material-icons"> date_range </i>02/09/18 14:23</h6>
-            </div>
-
-            <div class="panel fifth">
-                <h6><i class="material-icons"> directions_car </i>Meena</h6>
-            </div>
-            <div class="panel sixth">
-                <a mat-button routerLink="."><i class="material-icons"> more_vert </i></a>
-            </div>
-        </div>
-
-        <!-- list3 -->
-
-        <div class="main-left-panel unassigned">
-            <div class="panel first">
-                <h6><i class="material-icons"> fiber_manual_record </i>Meenakshitest11</h6>
-            </div>
-            <div class="panel second accepted">
-                <h5> Accepted</h5>
-            </div>
-            <div class="panel third">
-                <h6><i class="material-icons"> explore </i>TestOTA Assign</h6>
-            </div>
-            <div class="panel fourth">
-                <h6><i class="material-icons"> date_range </i>02/09/18 14:23</h6>
-            </div>
-
-            <div class="panel fifth">
-                <h6><i class="material-icons"> directions_car </i>Meena</h6>
-            </div>
-            <div class="panel sixth">
-                <a mat-button routerLink="."><i class="material-icons"> more_vert </i></a>
-            </div>
-        </div>
-
-        <!-- list3 -->
-
-        <div class="main-left-panel unassigned">
-            <div class="panel first">
-                <h6><i class="material-icons"> fiber_manual_record </i>Meenakshitest11</h6>
-            </div>
-            <div class="panel second accepted">
-                <h5> Accepted</h5>
-            </div>
-            <div class="panel third">
-                <h6><i class="material-icons"> explore </i>TestOTA Assign</h6>
-            </div>
-            <div class="panel fourth">
-                <h6><i class="material-icons"> date_range </i>02/09/18 14:23</h6>
-            </div>
-
-            <div class="panel fifth">
-                <h6><i class="material-icons"> directions_car </i>Meena</h6>
-            </div>
-            <div class="panel sixth">
-                <a mat-button routerLink="."><i class="material-icons"> more_vert </i></a>
-            </div>
-        </div>
-
-        <!-- list3 -->
-
-        <div class="main-left-panel unassigned">
-            <div class="panel first">
-                <h6><i class="material-icons"> fiber_manual_record </i>Meenakshitest11</h6>
-            </div>
-            <div class="panel second accepted">
-                <h5> Accepted</h5>
-            </div>
-            <div class="panel third">
-                <h6><i class="material-icons"> explore </i>TestOTA Assign</h6>
-            </div>
-            <div class="panel fourth">
-                <h6><i class="material-icons"> date_range </i>02/09/18 14:23</h6>
-            </div>
-
-            <div class="panel fifth">
-                <h6><i class="material-icons"> directions_car </i>Meena</h6>
-            </div>
-            <div class="panel sixth">
-                <a mat-button routerLink="."><i class="material-icons"> more_vert </i></a>
-            </div>
-        </div>
-
-        <!-- list3 -->
-
-        <div class="main-left-panel unassigned">
-            <div class="panel first">
-                <h6><i class="material-icons"> fiber_manual_record </i>Meenakshitest11</h6>
-            </div>
-            <div class="panel second accepted">
-                <h5> Accepted</h5>
-            </div>
-            <div class="panel third">
-                <h6><i class="material-icons"> explore </i>TestOTA Assign</h6>
-            </div>
-            <div class="panel fourth">
-                <h6><i class="material-icons"> date_range </i>02/09/18 14:23</h6>
-            </div>
-
-            <div class="panel fifth">
-                <h6><i class="material-icons"> directions_car </i>Meena</h6>
-            </div>
-            <div class="panel sixth">
-                <a mat-button routerLink="."><i class="material-icons"> more_vert </i></a>
-            </div>
-        </div>
-
-        <!-- list3 -->
-
-        <div class="main-left-panel unassigned">
-            <div class="panel first">
-                <h6><i class="material-icons"> fiber_manual_record </i>Meenakshitest11</h6>
-            </div>
-            <div class="panel second accepted">
-                <h5> Accepted</h5>
-            </div>
-            <div class="panel third">
-                <h6><i class="material-icons"> explore </i>TestOTA Assign</h6>
-            </div>
-            <div class="panel fourth">
-                <h6><i class="material-icons"> date_range </i>02/09/18 14:23</h6>
-            </div>
-
-            <div class="panel fifth">
-                <h6><i class="material-icons"> directions_car </i>Meena</h6>
-            </div>
-            <div class="panel sixth">
-                <a mat-button routerLink="."><i class="material-icons"> more_vert </i></a>
-            </div>
-        </div>
-
-
-
-
+    </ng-container> 
+    </ng-container> 
     </mat-expansion-panel>
 
 
     <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false" class="custom-accordian">
         <mat-expansion-panel-header>
             <mat-panel-title>
-                Completed (35)
+                Completed ({{sidenaveleftService.dataList.completedDropCount}})
             </mat-panel-title>
             <mat-panel-description>
 
@@ -421,51 +85,30 @@
         </mat-expansion-panel-header>
         <!-- list3 -->
 
+        <ng-container *ngFor="let completed of sidenaveleftService.dataList.completedData">
+                <ng-container *ngIf="completed.drop_type == 'completed'">
         <div class="main-left-panel completed">
             <div class="panel first">
-                <h6><i class="material-icons"> fiber_manual_record </i>Meenakshitest11</h6>
-            </div>
-            <div class="panel second pending">
-                <h5> Pending</h5>
-            </div>
-            <div class="panel third">
-                <h6><i class="material-icons"> explore </i>TestOTA Assign</h6>
-            </div>
-            <div class="panel fourth">
-                <h6><i class="material-icons"> date_range </i>02/09/18 14:23</h6>
-            </div>
-
-            <div class="panel fifth">
-                <h6><i class="material-icons"> directions_car </i>Meena</h6>
-            </div>
-            <div class="panel sixth">
-                <a mat-button routerLink="."><i class="material-icons"> more_vert </i></a>
-            </div>
-        </div>
-
-        <!-- list3 -->
-
-        <div class="main-left-panel completed">
-            <div class="panel first">
-                <h6><i class="material-icons"> fiber_manual_record </i>Meenakshitest11</h6>
+                <h6><i class="material-icons"> fiber_manual_record </i>{{completed.customer_name}}</h6>
             </div>
             <div class="panel second accepted">
-                <h5> Accepted</h5>
+                <h5> {{completed.route_label}}</h5>
             </div>
             <div class="panel third">
-                <h6><i class="material-icons"> explore </i>TestOTA Assign</h6>
+                <h6><i class="material-icons"> explore </i>{{completed.route_name}}</h6>
             </div>
             <div class="panel fourth">
-                <h6><i class="material-icons"> date_range </i>02/09/18 14:23</h6>
+                <h6><i class="material-icons"> date_range </i>{{completed.completed_date}}</h6>
             </div>
 
             <div class="panel fifth">
-                <h6><i class="material-icons"> directions_car </i>Meena</h6>
+                <h6><i class="material-icons"> directions_car </i>{{completed.driver_name}}</h6>
             </div>
             <div class="panel sixth">
                 <a mat-button routerLink="."><i class="material-icons"> more_vert </i></a>
             </div>
         </div>
-
+    </ng-container> 
+    </ng-container> 
     </mat-expansion-panel>
 </mat-accordion>

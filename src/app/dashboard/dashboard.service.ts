@@ -33,10 +33,14 @@ export class DashboardService {
     this.socket.websocket.on('get-all-drops', (data) => {
       this.markerList = data.shipment_data;
 
+      //Merge assinged and Unassinged data
+      
+      data.shipment_data.push.apply(data.shipment_data, data.unassgn_shipment_data);
+      data.shipment_data.push.apply(data.shipment_data, data.completed_shipment_data)
       console.log(data.shipment_data);
 
-      //Create geoJson Data for Map=Box
 
+      //Create geoJson Data for Map=Box
       this.points = {};
       this.points.type = 'FeatureCollection';
       this.points.features = [];

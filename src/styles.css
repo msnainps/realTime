@@ -226,3 +226,6 @@ mat-drawer.example-sidenav2{
     min-height: auto;
 }
 
+.fixed-width{
+  width: 192px !important;
+}
