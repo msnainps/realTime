@@ -37,7 +37,7 @@ export class DashboardService {
       
       data.shipment_data.push.apply(data.shipment_data, data.unassgn_shipment_data);
       data.shipment_data.push.apply(data.shipment_data, data.completed_shipment_data)
-      console.log(data.shipment_data);
+      console.log(data);
 
 
       //Create geoJson Data for Map=Box
@@ -60,14 +60,16 @@ export class DashboardService {
           'geometry': {
             'type': 'Point',
             'coordinates': [
-              data.shipment_data[index1].shipment_longitude, data.shipment_data[index1].shipment_latitude
+              data.shipment_data[index1].shipment_longitude, 
+              data.shipment_data[index1].shipment_latitude
             ]
-          },
+          }
         };
       }
-      //console.log (this.points);
-
+      
+      console.log (this.points);
     });
+    
   }
 
   loadDropOnMapsEmit() {
