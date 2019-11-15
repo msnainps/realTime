@@ -24,7 +24,14 @@
     <mgl-map [style]="mapBoxStyle" [zoom]="[zoom]"
       [center]="[lng,lat]" [cursorStyle]="cursorStyle">
       <mgl-geojson-source id="dashboardService.points" [data]="dashboardService.points"></mgl-geojson-source>
+      <mgl-geojson-source id="dashboardService.driverInfo" [data]="dashboardService.driverInfo"></mgl-geojson-source>
       <mgl-layer id="dashboardService.points" source="dashboardService.points" type="symbol" [layout]="{
+        'icon-image': '{icon}',
+        'icon-allow-overlap': true,
+        'text-field': '{execution_order}'
+      }" (click)="onClick($event)" (mouseEnter)="cursorStyle = 'pointer'" (mouseLeave)="cursorStyle = ''"></mgl-layer>
+
+      <mgl-layer id="dashboardService.driverInfo" source="dashboardService.driverInfo" type="symbol" [layout]="{
         'icon-image': '{icon}',
         'icon-allow-overlap': true,
         'text-field': '{execution_order}'

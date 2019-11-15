@@ -17,8 +17,11 @@ export class DashboardService {
 
 
   points;
+  driverGpsInfo = {}
+  driverInfo;
   constructor(private socket: SocketService) {
     this.loadDropOnMapsEmit();
+    this.loadDriverData();
 
     this.socket.websocket.on('instantnotiFication', (data) => {
       this.notiFicationResponce = data;
@@ -37,7 +40,7 @@ export class DashboardService {
       
       data.shipment_data.push.apply(data.shipment_data, data.unassgn_shipment_data);
       data.shipment_data.push.apply(data.shipment_data, data.completed_shipment_data)
-      console.log(data);
+      //console.log(data);
 
 
       //Create geoJson Data for Map=Box
@@ -67,7 +70,7 @@ export class DashboardService {
         };
       }
       
-      console.log (this.points);
+      //console.log (this.points);
     });
     
   }
@@ -76,7 +79,55 @@ export class DashboardService {
     this.socket.websocket.emit('req-all-drops', { search_date: '', warehouse_id: this.wairehouseId, company_id: this.companyId });
   }
 
+  loadDriverData(){
+    console.log('driver--Data');
+    this.socket.drivergpssocket.on('offline-data-process',driverData => {
+      
+      var driverDataGps = (JSON.parse(driverData));
+      //console.log(driverDataGps);
 
+      if(driverDataGps.source == 'gps-location'){
+      //if(driverData.payload.companyId == this.companyId){
+        
+        if(driverDataGps.payload.companyId == 194){ 
+          this.driverGpsInfo[driverDataGps.payload.uid] = driverDataGps.payload
+      }
+      //console.log(this.driverGpsInfo);
+      this.plotDriverOnMap(this.driverGpsInfo);
+     }
+     
+    })
+  }
+
+
+  plotDriverOnMap(driverData){
+      this.driverInfo = {};
+      this.driverInfo.type = 'FeatureCollection';
+      this.driverInfo.features = [];
+
+      for (var index1 in driverData) {
+        this.driverInfo.features[index1] = {
+          'type': 'Feature',
+          "uid":"",
+          'properties': {
+            'description':
+              'driverInfo',
+            'icon': 'marker-editor-green',
+            'execution_order': 'd'
+          },
+          'geometry': {
+            'type': 'Point',
+            'coordinates': [
+              driverData[index1].longitude, 
+              driverData[index1].latitude
+            ]
+          }
+        };
+      }
+
+     // console.log(this.driverInfo);
+
+  }
 
 
 }

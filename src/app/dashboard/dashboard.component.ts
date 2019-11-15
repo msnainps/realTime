@@ -13,7 +13,7 @@ export class DashboardComponent implements OnInit {
   lat = 51.75343480000000000000;
   lng = -1.27945500000000000000;
   mapBoxStyle = "mapbox://styles/instadispatch/ck2u7n91p3kvq1cp30yrc0uz5";
-  zoom = 11.5;
+  zoom = 12;
 
   //points: GeoJSON.FeatureCollection<GeoJSON.Point>;
   selectedPoint: GeoJSON.Feature<GeoJSON.Point> | null;
