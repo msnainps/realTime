@@ -21,26 +21,29 @@
             </agm-info-window>
         </agm-marker>
     </agm-map> -->
-    <mgl-map [style]="mapBoxStyle" [zoom]="[zoom]"
+    <!-- <mgl-map [style]="mapBoxStyle" [zoom]="[zoom]"
       [center]="[lng,lat]" [cursorStyle]="cursorStyle">
       <mgl-geojson-source id="dashboardService.points" [data]="dashboardService.points"></mgl-geojson-source>
       <mgl-geojson-source id="dashboardService.driverInfo" [data]="dashboardService.driverInfo"></mgl-geojson-source>
-      <mgl-layer id="dashboardService.points" source="dashboardService.points" type="symbol" [layout]="{
+
+       <mgl-layer id="dashboardService.points" source="dashboardService.points" type="symbol" [layout]="{
         'icon-image': '{icon}',
         'icon-allow-overlap': true,
         'text-field': '{execution_order}'
-      }" (click)="onClick($event)" (mouseEnter)="cursorStyle = 'pointer'" (mouseLeave)="cursorStyle = ''"></mgl-layer>
+      }" (click)="onClick($event)" (mouseEnter)="cursorStyle = 'pointer'" (mouseLeave)="cursorStyle = ''"></mgl-layer> -->
 
-      <mgl-layer id="dashboardService.driverInfo" source="dashboardService.driverInfo" type="symbol" [layout]="{
+       <!--Drops Driver-->
+      <!-- <mgl-layer id="dashboardService.driverInfo" source="dashboardService.driverInfo" type="symbol" [layout]="{
         'icon-image': '{icon}',
         'icon-allow-overlap': true,
         'text-field': '{execution_order}'
-      }" (click)="onClick($event)" (mouseEnter)="cursorStyle = 'pointer'" (mouseLeave)="cursorStyle = ''"></mgl-layer>
+      }" (click)="onClick($event)" (mouseEnter)="cursorStyle = 'pointer'" (mouseLeave)="cursorStyle = ''"></mgl-layer> -->
 
-      <mgl-popup *ngIf="selectedPoint" [lngLat]="selectedPoint.geometry.coordinates" (close)="selectedPoint = null">
+      <!-- <mgl-popup *ngIf="selectedPoint" [lngLat]="selectedPoint.geometry.coordinates" (close)="selectedPoint = null">
         <span [innerHTML]="selectedPoint.properties.description"></span>
       </mgl-popup>
-    </mgl-map>
+    </mgl-map> --> 
+    <div id="map"></div>
   </div>
 
   <mat-drawer #drawer2 class="example-sidenav2" mode="side" position="end">

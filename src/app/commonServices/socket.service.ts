@@ -21,7 +21,7 @@ export class SocketService {
   
 
   constructor() {
-    console.log(this.url);
+    //console.log(this.url);
     this.websocket = io(this.socketUrl);
     this.drivergpssocket = io(this.url);
    }

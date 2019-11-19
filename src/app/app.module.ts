@@ -10,7 +10,7 @@ import { AgmCoreModule } from '@agm/core';
 import { config } from 'src/config/config';
 import { SidenavLeftComponent } from './dashboard/sidenav-left/sidenav-left.component';
 import { SidenavRightComponent } from './dashboard/sidenav-right/sidenav-right.component';
-import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
+// import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { FilterComponent } from './header/filter/filter.component';
 import { FilterDialog } from './header/filter/filter.dialog.component';
 
@@ -33,10 +33,10 @@ import { FilterDialog } from './header/filter/filter.dialog.component';
     MaterialDesignModule,
     AgmCoreModule.forRoot({
       apiKey: new config().env.google_api_key
-    }),
-    NgxMapboxGLModule.withConfig({
-      accessToken: new config().env.mapbox_api_key 
-    }) 
+    })
+    // NgxMapboxGLModule.withConfig({
+    //   accessToken: new config().env.mapbox_api_key 
+    // }) 
   ],
   providers: [],
   bootstrap: [AppComponent],
