@@ -54,6 +54,8 @@ export class DashboardService {
       data.shipment_data.push.apply(data.shipment_data, data.unassgn_shipment_data);
       data.shipment_data.push.apply(data.shipment_data, data.completed_shipment_data)
 
+      console.log(data.shipment_data);
+
       for (var index1 in data.shipment_data) {
         this.points.features[index1] = {
           'type': 'Feature',
@@ -91,8 +93,6 @@ export class DashboardService {
   }
 
   loadDriverData() {
-
-
     this.socket.drivergpssocket.on('offline-data-process', driverData => {
       var driverDataGps = (JSON.parse(driverData));
       if (driverDataGps.source == 'gps-location') {
@@ -104,7 +104,6 @@ export class DashboardService {
 
     })
   }
-
 
   plotDriverOnMap(driverData) {
     let checkDriver = false;
@@ -136,9 +135,9 @@ export class DashboardService {
         "uid": driverData.payload.userId,
         'properties': {
           'description':
-          driverData.payload.userId,
+            driverData.payload.userId,
           'icon': 'motorbike',
-          'execution_order':driverData.payload.userId,
+          'execution_order': driverData.payload.userId,
         },
         'geometry': {
           'type': 'Point',

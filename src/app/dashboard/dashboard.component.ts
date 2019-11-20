@@ -1,8 +1,13 @@
 import { Component, OnInit, AfterViewInit, Output } from '@angular/core';
 import { DashboardService } from './dashboard.service';
-import { MapMouseEvent } from 'mapbox-gl';
 import { MapboxService } from '../mapbox/mapbox.service';
+import { DriverinfoComponent } from './driverinfo/driverinfo.component';
+import { MatDialog,MatDialogRef } from '@angular/material';
 declare var mapboxgl:any;
+declare var document:any;
+
+
+
 
 @Component({
   selector: 'app-dashboard',
@@ -16,13 +21,11 @@ export class DashboardComponent implements OnInit {
   lng = -1.27945500000000000000;
   mapBoxStyle = "mapbox://styles/instadispatch/ck2u7n91p3kvq1cp30yrc0uz5";
   zoom = 8;
+  
 
-  //points: GeoJSON.FeatureCollection<GeoJSON.Point>;
-  selectedPoint: GeoJSON.Feature<GeoJSON.Point> | null;
-  cursorStyle: string;
-
-  constructor(private dashboardService: DashboardService, private mapbox: MapboxService) {
-
+  
+  constructor(private dashboardService: DashboardService, private mapbox: MapboxService,private dialog: MatDialog) {
+    document.mapCom=this;
   }
 
 
@@ -40,21 +43,27 @@ export class DashboardComponent implements OnInit {
     this.status2 = !this.status2;
   }
 
-
-
   alert(message: string) {
     alert(message);
   }
 
-  onClick(evt: MapMouseEvent) {
-    this.selectedPoint = null;
-    //this.ChangeDetectorRef.detectChanges();
-    this.selectedPoint = (<any>evt).features[0];
-  }
-
   ngAfterViewInit() {
+    
     this.mapbox.initMap();
     this.mapbox.map.on("load", () => {
+
+      //Drops
+      this.mapbox.map.addSource("points", this.dashboardService.formatedData);
+      this.mapbox.map.addLayer({
+        "id": "points",
+        "type": "symbol",
+        "source": "points",
+        "layout": {
+          'icon-image': '{icon}',
+          'icon-allow-overlap': true,
+          "text-field": '{execution_order}',
+        }
+      });
 
       //Driver
       this.mapbox.map.addSource("drivers", this.dashboardService.formatedData);
@@ -75,21 +84,8 @@ export class DashboardComponent implements OnInit {
         }
       });
 
-      //Drops
-      this.mapbox.map.addSource("points", this.dashboardService.formatedData);
-      this.mapbox.map.addLayer({
-        "id": "points",
-        "type": "symbol",
-        "source": "points",
-        "layout": {
-          'icon-image': '{icon}',
-          'icon-allow-overlap': true,
-          "text-field": '{execution_order}',
-        }
-      });
 
-
-      //Show POPUP on clicks
+      //Show POPUP on clicks parcels
     this.mapbox.map.on('click', 'points', function (e) {
       var coordinates = e.features[0].geometry.coordinates.slice();
       var description = e.features[0].properties.description;
@@ -102,6 +98,17 @@ export class DashboardComponent implements OnInit {
           .setHTML(description)
           .addTo(this);
      });
+
+     //Show POPUP on clicks Drivers
+    this.mapbox.map.on('click', 'drivers', function (e) {
+      var coordinates = e.features[0].geometry.coordinates.slice();
+      var description = e.features[0].properties.description;
+      //this.driverInfoPopUpRef = 
+      document.mapCom.dialog.open(DriverinfoComponent,{
+        
+      });
+
+    });
 
     });
 

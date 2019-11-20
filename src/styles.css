@@ -229,3 +229,74 @@ mat-drawer.example-sidenav2{
 .fixed-width{
   width: 192px !important;
 }
+
+/*Filter Css*/
+.postion-headding h2{
+  border-bottom: 1px solid #33225a;
+  padding-bottom: 10px;
+  margin-top: 0;
+  font-size: 17px;
+  letter-spacing: 0.5px;
+}
+
+.mat-dialog-container {
+  width: 600px !important; 
+ /* max-height: auto !important; */
+}
+.mat-dialog-content{
+  /* height: auto !important;*/
+  overflow-y: auto !important; 
+}
+
+
+.example-section {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  height: auto;
+  margin-top: 7px;
+  /* align-items: center; */
+  /* height: 60px; */
+}
+
+.example-margin {
+  margin: 0 10px;
+}
+
+
+.row-design{
+  display: flex;
+  flex-wrap: wrap;
+}
+.col-row-page{
+  width: 14%;
+}
+.col-row-page h2{
+  font-size: 14px;
+  font-family: arial;
+  padding: 8px 0px;
+  word-break: break-word;
+  letter-spacing: 0.5px;
+  margin: 5px 0;
+}
+.col-row-page2{
+  display: block;
+  margin:0;
+  width: 86%;
+}
+
+.example-additional-selection {
+  opacity: 0.75;
+  font-size: 0.75em;
+}
+.mat-dialog-container{
+position: relative !important;
+}
+.close-ed{
+top: 20px;
+position: absolute;
+right: 30px;
+font-size: 20px;
+color:#7b7b7b;
+cursor: pointer;
+}

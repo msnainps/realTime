@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { DriverinfoComponent } from './driverinfo/driverinfo.component';
 
 
 
 
 @NgModule({
-  declarations: [],
+  declarations: [DriverinfoComponent],
   imports: [
     CommonModule
   ]
