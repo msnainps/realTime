@@ -54,20 +54,39 @@ export class DashboardService {
       data.shipment_data.push.apply(data.shipment_data, data.unassgn_shipment_data);
       data.shipment_data.push.apply(data.shipment_data, data.completed_shipment_data)
 
-      console.log(data.shipment_data);
+      //console.log(data.shipment_data);
 
       for (var index1 in data.shipment_data) {
         this.points.features[index1] = {
           'type': 'Feature',
           'properties': {
             'description':
-              '<strong>Shipment ID:' + data.shipment_data[index1].shipment_ticket + '</strong></br>\
-               <strong>Customer Reference:'+ data.shipment_data[index1].cr + '</strong></br>\
-               <strong>Job Type:'+ data.shipment_data[index1].job_type + '</strong></br>\
-               <strong>Assign Driver:'+ data.shipment_data[index1].driver_name + '</strong>',
+              '<div class="drops-headding">' + data.shipment_data[index1].shipment_ticket + '</div>\
+              <div class="drops-min"><i class="material-icons drops-min-color1">home</i> <span>'+data.shipment_data[index1].customer_name+'</span><div>'+data.shipment_data[index1].fulladdress+'</div></div>\
+              <div class="drops-min"><i class="material-icons drops-min-color2">help_outline</i> <span>Ref:'+data.shipment_data[index1].cr+'</span><div>  <span>Job:</span> '+data.shipment_data[index1].job_type+'</div></div>\
+              <div class="drops-line"></div>\
+              <div class="drops-min"><i class="material-icons drops-min-color3">local_car_wash</i> <span>'+data.shipment_data[index1].driver_name+'</span><div>\
+              <div class="postion-set"><div class="dropdown show">\
+              <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">\
+              <i class="material-icons"> person_add </i></a>\
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">\
+              <li class="dropdown-item" >Action</li>\
+              <li class="dropdown-item">Another action</li>\
+              <li class="dropdown-item">Another action</li>\
+              <li class="dropdown-item">Another action</li>\
+              <li class="dropdown-item">Another action</li>\
+              <li class="dropdown-item">Another action</li>\
+              <li class="dropdown-item">Another action</li>\
+              <li class="dropdown-item">Another action</li>\
+              <li class="dropdown-item">Another action</li>\
+              <li class="dropdown-item">Another action</li>\
+              <li class="dropdown-item">Another action</li>\
+              <li class="dropdown-item">Another action</li>\
+              <li class="dropdown-item">Another action</li>\
+              </ul></div>\
+              </div></div>',
             'icon': data.shipment_data[index1].marker_url,
             'execution_order': data.shipment_data[index1].icargo_execution_order,
-            'message': 'bangulare'
           },
           'geometry': {
             'type': 'Point',
@@ -95,7 +114,10 @@ export class DashboardService {
   loadDriverData() {
     this.socket.drivergpssocket.on('offline-data-process', driverData => {
       var driverDataGps = (JSON.parse(driverData));
+      
       if (driverDataGps.source == 'gps-location') {
+        console.log("-----Driver GPS Data---");
+        console.log(driverDataGps);
         //if(driverData.payload.companyId == this.companyId){
         //if(driverDataGps.payload.companyId == 194){ 
         this.plotDriverOnMap(driverDataGps);
@@ -118,6 +140,8 @@ export class DashboardService {
               driverData.payload.userId,
             'icon': 'motorbike',
             'execution_order': driverData.payload.userId,
+            'driver_id':driverData.payload.userId,
+            'battery_status':driverData.payload.batteryStatus
           },
           'geometry': {
             'type': 'Point',
@@ -138,6 +162,8 @@ export class DashboardService {
             driverData.payload.userId,
           'icon': 'motorbike',
           'execution_order': driverData.payload.userId,
+          'driver_id':driverData.payload.userId,
+          'battery_status':driverData.payload.batteryStatus
         },
         'geometry': {
           'type': 'Point',
@@ -155,6 +181,10 @@ export class DashboardService {
     if (this.mapbox.map.getSource('drivers') != undefined) {
       this.mapbox.map.getSource('drivers').setData(this.formatedData.data);
     }
+  }
+
+  getDriverInfo(driver_id:Number){
+    return driver_id;
   }
 
 

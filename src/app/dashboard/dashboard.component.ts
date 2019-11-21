@@ -103,9 +103,14 @@ export class DashboardComponent implements OnInit {
     this.mapbox.map.on('click', 'drivers', function (e) {
       var coordinates = e.features[0].geometry.coordinates.slice();
       var description = e.features[0].properties.description;
+      var driver_id = e.features[0].properties.driver_id;
       //this.driverInfoPopUpRef = 
+      //let dc = new DriverinfoComponent(2);
+      //var driverInfo = 
+      console.log(document.mapCom.dashboardService.getDriverInfo(2));
+      
       document.mapCom.dialog.open(DriverinfoComponent,{
-        
+        data:{id:driver_id}
       });
 
     });

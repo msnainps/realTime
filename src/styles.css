@@ -300,3 +300,233 @@ font-size: 20px;
 color:#7b7b7b;
 cursor: pointer;
 }
+
+/*Driver-Details*/
+.mat-dialog-container,.meterial-box-width2{
+  width: 900px !important; 
+  /* max-height: auto !important; */
+  display: block !important;
+  }
+  .main-driver-details-section{
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-top: 20px;
+  }
+  .main-driver-details-section .section-col{
+  width: 30%;
+  margin-right: 20px;
+  margin-bottom: 15px;
+  }
+  .main-driver-details-section .section-col img {
+  width: 150px;
+  }
+  .main-driver-details-section .section-col2{
+  width: 67%;
+  display: flex;
+  flex-wrap: wrap;
+  }
+  .u-details-part{
+  width: 48%;
+  margin: 10px 5px;
+  }
+  .u-details-part .colume-1{
+  font-weight: 600;
+  font-size: 14px;
+  }
+  .u-details-part .colume-2{
+  color: #6f6f6f;
+  font-size: 13px;
+  }
+  .main-driver-details-table{
+  display: inline-block;
+  width: 100%;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  }
+  .main-driver-details-table .table td{
+  font-size: 14px;
+  font-family: arial;
+  }
+  .main-driver-details-table .table th{
+  font-size: 14px;
+  font-family: arial;
+  }
+   .close-ed[type=button] {
+  -webkit-appearance: unset !important;
+  }
+  /*Driver-Details*/
+
+table button.mat-raised-button{
+  line-height: 18px;
+  padding: 4px;
+  } 
+  table button.mat-raised-button.mat-warn {
+  background-color: #33225a;
+  font-size: 13px;
+  font-weight: normal;
+  }
+  
+  @media only screen and (min-width: 900px) and (max-width: 1280px){
+  .mat-dialog-container,.meterial-box-width2{
+  width: 100% !important; 
+  }
+  .u-details-part {
+  width: 46%;
+  }
+  .mat-dialog-content {
+    margin: 0 auto;
+  }
+  }
+  @media only screen and (min-width: 768px) and (max-width: 889px){
+  .main-driver-details-section {
+  display: inline;
+  }
+  .mat-dialog-container,.meterial-box-width2{
+  width: 100% !important; 
+  }
+  .main-driver-details-section .section-col2 {
+  width: 100%;
+  }
+}
+
+
+/* parcel Popup*/
+.mapboxgl-popup-content {
+    padding: 15px 15px 15px 15px;
+    width: 300px;
+    background: #484848d9;
+}
+
+.drops-headding{
+  font-size: 14px;
+  font-weight: 600;
+  position: relative;
+  margin-bottom: 20px;
+  color: #fff;
+}
+.drops-headding::after{
+  position: absolute;
+  content: "";
+  height: 2px;
+  width: 100%;
+  margin: auto;
+  left: 0;
+  background-color: #989898;
+  top: 22px;
+}
+.drops-line{
+  height: 2px;
+  width: 100%;
+  margin: 10px auto;
+  background-color: #989898;
+}
+.mapboxgl-popup-close-button {
+  position: absolute;
+  right: 6px;
+  color: #fff;
+  top: 9px;
+  border: 0;
+  font-size: 22px;
+  border-radius: 0 3px 0 0;
+  cursor: pointer;
+  background-color: transparent;
+}
+.drops-min{
+  display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-bottom: 10px;
+    color: #fff;
+} 
+.drops-min i{
+  width: 25px;
+  height: 25px;
+  border-radius: 100%;
+  text-align: center;
+  padding: 4px;
+  font-size: 17px;
+  color: #fff;
+  margin-right: 8px;
+  position: relative;
+}
+.mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip {
+  border-top-color: #484848d9;
+}
+.mapboxgl-popup-anchor-top .mapboxgl-popup-tip {
+  border-bottom-color:  #484848d9;
+}
+.drops-min-color1{
+  background:#ffa962;
+}
+.drops-min-color2{
+  background: #6e79ff;
+}
+.drops-min-color3{
+  background: #0dad37;
+}
+
+.drops-min span{
+  width: 87%;
+  font-weight: 600;
+}
+
+.drops-min div{
+  margin-left: 34px;
+  font-size: 11px;
+  font-weight: normal;
+  margin-top: -9px;
+  letter-spacing: 0.5px;
+  line-height: 13px;
+  
+}
+/* .drops-min {
+  background: #fff;
+  border: none;
+  border-radius: 100%;
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  bottom: 23px;
+  right: 15px;
+  text-decoration: none;
+} */
+/* .drops-min a i{
+  text-align: center;
+  color: #333;
+} */
+
+.postion-set{
+  border: none;
+  border-radius: 3px;
+  position: absolute;
+  text-align: center;
+  bottom: 21px;
+  right: 15px;
+  padding: 2px 5px;
+  text-decoration: none;
+  background: #fff;
+}
+.postion-set div{
+  margin-left: 0;
+  margin-top: 0;
+}
+.postion-set i{
+  text-align: center;
+  color: #333;
+  margin-right: 0;
+}
+
+.postion-set ul{
+  height: 200px;
+  overflow-x: auto;
+}
+.postion-set ul li{
+  font-size: 12px;
+  cursor: default;
+}
+.postion-set ul li:hover{
+  background-color: #b1b1b1;
+}
+/* parcel Popup*/
