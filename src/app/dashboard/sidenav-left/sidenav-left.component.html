@@ -28,8 +28,20 @@
                     <div class="panel fifth">
                         <h6><i class="material-icons"> directions_car </i>{{assignData.driver_name}}</h6>
                     </div>
-                    <div class="panel sixth">
+                    <!-- <div class="panel sixth">
                         <a mat-button routerLink="."><i class="material-icons"> more_vert </i></a>
+                    </div> -->
+                    <div class="panel sixth">
+                            <a mat-button routerLink="." [matMenuTriggerFor]="menu"><i class="material-icons"> more_vert </i></a>
+            
+                            <mat-menu #menu="matMenu">
+                                <ul class="set-list">
+                                <li><a href="" data-toggle="modal" data-target="#Modal1"><mat-icon>how_to_reg</mat-icon> <span>Assign Job</span></a></li>
+                                <li><a href="" data-toggle="modal" data-target="#Modal2"><mat-icon>cancel_presentation</mat-icon> <span>Cancel Job</span></a></li>
+                                <li><a href="" data-toggle="modal" data-target="#Modal3"><mat-icon>credit_card</mat-icon> <span>Withdraw</span></a></li>
+                                <li><a href="" data-toggle="modal" data-target="#Modal4"><mat-icon>remove_red_eye</mat-icon> <span>View Details</span></a></li>
+                            </ul>
+                            </mat-menu>
                     </div>
                 </div>
             </ng-container>

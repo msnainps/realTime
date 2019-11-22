@@ -456,6 +456,15 @@ table button.mat-raised-button{
 .mapboxgl-popup-anchor-top .mapboxgl-popup-tip {
   border-bottom-color:  #484848d9;
 }
+
+.mapboxgl-popup-anchor-top-right .mapboxgl-popup-tip {
+  border-bottom-color:  #484848d9;
+}
+
+.mapboxgl-popup-anchor-top-left .mapboxgl-popup-tip {
+  border-bottom-color:  #484848d9;
+}
+
 .drops-min-color1{
   background:#ffa962;
 }
@@ -529,4 +538,134 @@ table button.mat-raised-button{
 .postion-set ul li:hover{
   background-color: #b1b1b1;
 }
+
+.dr-info-ass{
+  background-color: darkblue;
+    color: #fff;
+    padding: 2px 8px;
+    display: inline-block;
+    border-radius: 4px;
+    font-size: 13px;
+}
+.dr-info-compl{
+  background-color:green;
+    color: #fff;
+    padding: 2px 8px;
+    display: inline-block;
+    border-radius: 4px;
+    font-size: 13px;
+}
 /* parcel Popup*/
+/* Side menu 22/11/2019*/
+
+.mat-menu-item {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: pointer;
+  outline: 0;
+  border: none;
+  -webkit-tap-highlight-color: transparent;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+  line-height: 38px;
+  height: 38px;
+  padding: 0 16px;
+  text-align: left;
+  text-decoration: none;
+  max-width: 100%;
+  position: relative;
+}
+
+
+.set-list{
+  margin: 0;
+  padding: 0;
+}
+.set-list li{
+  list-style: none;
+  transition: all 0.5s ease 0s;
+  border-bottom: 1px solid  #eee;
+}
+.set-list li a{
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  padding: 5px 16px;
+  display: block;
+  text-decoration: none;
+  color:  #333;
+}
+.set-list li:hover{
+  border-bottom: 1px solid  #33225a;
+}
+.set-list li a:last-child{
+  border-bottom: none;
+}
+.set-list li a span{
+  padding: 0;
+  top: -4px;
+  position: relative;
+}
+.set-list li a .mat-icon{
+font-size: 22px;
+color:#33225a;
+margin-right: 10px;
+}
+
+.modal-backdrop{
+  z-index: 1;
+}
+.modal{
+  z-index: 1060 !important;
+}
+
+.inner-set-section{}
+.tagline-headding{
+  font-size: 18px;
+margin-bottom: 13px;
+}
+.main-paira p{
+  font-size: 15px;
+  color: #5E5E5E;
+}
+.btn-primary {
+color: #fff;
+background-color:#33225a;
+border-color: #33225a;
+}
+.btn-primary.focus, .btn-primary:focus {
+box-shadow: 0 0 0 .2rem  #cfbaff;
+}
+.btn-primary:hover {
+color: #fff;
+background-color:#33225a;
+border-color: #33225a;
+}
+.btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show > .btn-primary.dropdown-toggle {
+color: #fff;
+background-color:#33225a;
+border-color: ##33225a;
+}
+.space-bitween{
+  padding: 3em 2em 20px 2em;
+}
+.close-box{
+  position: absolute;
+  right: 0;
+  z-index: 1;
+}
+.close-box button{
+border: none;
+color:#19112d;
+width: 40px;
+height: 40px;
+font-size: 20px;
+padding: 5px;
+cursor: pointer;
+background-color: transparent;
+transition: all 0.5s ease 0s;
+}
+/* Side menu 22/11/2019*/

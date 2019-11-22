@@ -7,14 +7,10 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
   styleUrls: ['./driverinfo.component.css']
 })
 export class DriverinfoComponent implements OnInit {
-
-  message: string = "Are you sure?"
-  confirmButtonText = "Yes"
-  cancelButtonText = "Cancel"
- 
   
   constructor(@Inject(MAT_DIALOG_DATA) public data:any) {
-    console.log(data);
+    //Data Comming from dashboard Component
+    //console.log(data);
    }
 
   ngOnInit() {

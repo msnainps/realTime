@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <title>InstaDash</title>
@@ -13,14 +14,140 @@
   <link href='https://api.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.css' rel='stylesheet' />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" ></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" ></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" ></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
   <script>
     var global = global || window;
   </script>
 </head>
+
 <body>
   <app-root></app-root>
+  <div class="wrapper-modal">
+    <div class="modal fade" id="Modal1" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+          <div class="close-box">
+            <button type="button" data-dismiss="modal">X</button>
+          </div>
+
+          <div class="modal-body space-bitween">
+            <form>
+              <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                  <div class="form-group">
+                    <label for="name" class="col-form-label">Name</label>
+                    <input type="text" class="form-control" id="name" placeholder="Name">
+                  </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                  <div class="form-group">
+                    <label for="date" class="col-form-label">Date</label>
+                    <input type="text" class="form-control" id="date" placeholder="Date">
+                  </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                  <div class="form-group">
+                    <label for="time" class="col-form-label">Time</label>
+                    <input type="text" class="form-control" id="time" placeholder="Time">
+                  </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                  <div class="form-group">
+                    <label for="Assign Driver" class="col-form-label">Assign Driver</label>
+
+                    <select class="form-control" id="sel1">
+                      <option>1</option>
+                      <option>2</option>
+                      <option>3</option>
+                      <option>4</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary">Send message</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="modal fade" id="Modal2" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="close-box">
+            <button type="button" data-dismiss="modal">X</button>
+          </div>
+
+          <div class="modal-body space-bitween">
+            <div class="inner-set-section">
+              <div class="tagline-headding">Would you like to withdraw the route ”Check status”?</div>
+              <div class="main-paira">
+                <p>All of the unprocessed shipment will move to saved job.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary">Please do it!</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="Modal3" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="close-box">
+            <button type="button" data-dismiss="modal">X</button>
+          </div>
+
+          <div class="modal-body space-bitween">
+            <div class="inner-set-section">
+              <div class="tagline-headding">Would you like to withdraw the route ”Check status”?</div>
+              <div class="main-paira">
+                <p>All of the unprocessed shipment will move to saved job.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary">Please do it!</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="Modal4" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="close-box">
+            <button type="button" data-dismiss="modal">X</button>
+          </div>
+
+          <div class="modal-body space-bitween">
+            <div class="inner-set-section">
+              <div class="tagline-headding">Would you like to withdraw the route ”Check status”?</div>
+              <div class="main-paira">
+                <p>All of the unprocessed shipment will move to saved job.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary">Please do it!</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
+
 </html>

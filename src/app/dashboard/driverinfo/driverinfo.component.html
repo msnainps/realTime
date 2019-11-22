@@ -18,10 +18,10 @@
 
                 <div class="section-col"><img src="../assets/driver-icon.png"></div>
                 <div class="section-col2">
-
+<!-- {{data | json}} -->
                     <div class="u-details-part">
                         <div class="colume-1">Driver Name</div>
-                        <div class="colume-2">123456</div>
+                        <div class="colume-2">{{data.info.name}}</div>
                     </div>
 
                     <div class="u-details-part">
@@ -38,25 +38,13 @@
                         <div class="colume-1">No. of Assigned Routes</div>
                         <div class="colume-2">Delivery Route</div>
                     </div>
-
-                    <div class="u-details-part">
-                        <div class="colume-1">Mobile</div>
-                        <div class="colume-2">8878787878</div>
-                    </div>
-
                     <div class="u-details-part">
                         <div class="colume-1">Battery</div>
-                        <div class="colume-2">40%</div>
+                        <div class="colume-2">{{data.info.battery_charge}}</div>
                     </div>
-
-                    <div class="u-details-part">
-                        <div class="colume-1">App Version</div>
-                        <div class="colume-2">0.0.1</div>
-                    </div>
-
                     <div class="u-details-part">
                         <div class="colume-1">Last Sync Time</div>
-                        <div class="colume-2">10.10.11</div>
+                        <div class="colume-2">{{data.info.last_sync_time}}</div>
                     </div>
 
                 </div>
@@ -70,28 +58,20 @@
                         <tr>
                             <th scope="col">S No.</th>
                             <th scope="col">Route Name</th>
+                            <th scope="col">Assigned Date</th>
+                            <th scope="col">Completed Date</th>
                             <th scope="col">Status</th>
+                            
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Drive Route</td>
-                            <td><button mat-raised-button color="warn">Assigned</button></td>
-                        </tr>
-
-                        <tr>
-                            <td>2</td>
-                            <td>Drive Route</td>
-                            <td><button mat-raised-button color="warn">Assigned</button></td>
-                        </tr>
-
-                        <tr>
-                            <td>3</td>
-                            <td>Drive Route</td>
-                            <td><button mat-raised-button color="warn">Assigned</button></td>
-                        </tr>
-
+                        <tr *ngFor="let driverData of data.info.parcelData.driver_data;let i = index">
+                                <td>{{i+1}}</td>
+                                <td>{{driverData.route_name}}</td>
+                                <td>{{driverData.assign_date_time}}</td>
+                                <td>{{driverData.completed_date_time}}</td>
+                                <td><span class="{{driverData.status_class}}">{{driverData.job_status}}</span></td>
+                            </tr>
                     </tbody>
                 </table>
 
