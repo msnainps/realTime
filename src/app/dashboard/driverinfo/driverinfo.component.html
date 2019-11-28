@@ -23,20 +23,14 @@
                         <div class="colume-1">Driver Name</div>
                         <div class="colume-2">{{data.info.name}}</div>
                     </div>
-
-                    <div class="u-details-part">
-                        <div class="colume-1">Email Address</div>
-                        <div class="colume-2">chandra@gmail.com</div>
-                    </div>
-
                     <div class="u-details-part">
                         <div class="colume-1">Active Route Name</div>
-                        <div class="colume-2">xyz</div>
+                        <div class="colume-2">{{data.info.parcelData.active_route}}</div>
                     </div>
 
                     <div class="u-details-part">
                         <div class="colume-1">No. of Assigned Routes</div>
-                        <div class="colume-2">Delivery Route</div>
+                        <div class="colume-2">{{data.info.parcelData.no_of_shipment}}</div>
                     </div>
                     <div class="u-details-part">
                         <div class="colume-1">Battery</div>
@@ -65,6 +59,7 @@
                         </tr>
                     </thead>
                     <tbody>
+                            <ng-container *ngIf="data.info.parcelData.driver_data?.length > 0">
                         <tr *ngFor="let driverData of data.info.parcelData.driver_data;let i = index">
                                 <td>{{i+1}}</td>
                                 <td>{{driverData.route_name}}</td>
@@ -72,6 +67,7 @@
                                 <td>{{driverData.completed_date_time}}</td>
                                 <td><span class="{{driverData.status_class}}">{{driverData.job_status}}</span></td>
                             </tr>
+                        </ng-container>
                     </tbody>
                 </table>
 

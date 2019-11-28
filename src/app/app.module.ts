@@ -15,6 +15,11 @@ import { FilterComponent } from './header/filter/filter.component';
 import { FilterDialog } from './header/filter/filter.dialog.component';
 import { MatDialogModule } from '@angular/material';
 import { DriverinfoComponent } from './dashboard/driverinfo/driverinfo.component';
+import { NgxSpinnerModule } from "ngx-spinner"; 
+import { HttpClientModule } from '@angular/common/http';
+import { ToastrModule } from 'ngx-toastr';
+import { SidenavLeftOperationComponent } from './dashboard/sidenav-left/sidenav-left-operation/sidenav-left-operation.component';
+
 
 
 @NgModule({
@@ -27,7 +32,8 @@ import { DriverinfoComponent } from './dashboard/driverinfo/driverinfo.component
     SidenavRightComponent,
     FilterComponent,
     FilterDialog,
-    DriverinfoComponent
+    DriverinfoComponent,
+    SidenavLeftOperationComponent
   ],
   imports: [
     AppRoutingModule,
@@ -37,10 +43,10 @@ import { DriverinfoComponent } from './dashboard/driverinfo/driverinfo.component
     AgmCoreModule.forRoot({
       apiKey: new config().env.google_api_key
     }),
-    MatDialogModule
-    // NgxMapboxGLModule.withConfig({
-    //   accessToken: new config().env.mapbox_api_key 
-    // }) 
+    MatDialogModule,
+    NgxSpinnerModule,
+    HttpClientModule,
+    ToastrModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent],

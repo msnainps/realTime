@@ -11,14 +11,15 @@ export class config {
     //     user_level: localStorage.getItem('user_level'),
     //     google_api_key: 'AIzaSyD-X5xWDTa9L15dUYkWUjRExGRHznOfFsQ',
     //     mapbox_api_key:'pk.eyJ1IjoiaW5zdGFkaXNwYXRjaCIsImEiOiJjazJvajJueWwwNjlmM2dwcHMxbTFiMHl0In0.9eyVqMCN3WIodGdslgQ1hA',
-    //     user_access_token :localStorage.getItem('access_token'),
+    //     icargo_access_token :localStorage.getItem('access_token'),
+    //     icargo_api_url:'http://localhost/parcel-api/v1/'
     // }
 
     //This is used while development
     env = {
         name: 'local',
         socket_api_url: 'http://localhost:3000/',
-        driver_socket_api_url: 'wss://gps.app-tree.co.uk:3000',
+        driver_socket_api_url: 'wss://gps.app-tree.co.uk:3500',
         company_id: 10,
         user_id: 10,
         wairehouse_id: 1,
@@ -27,6 +28,7 @@ export class config {
         user_level: 2,
         google_api_key:'AIzaSyD-X5xWDTa9L15dUYkWUjRExGRHznOfFsQ',
         mapbox_api_key:'pk.eyJ1IjoiaW5zdGFkaXNwYXRjaCIsImEiOiJjazJvajJueWwwNjlmM2dwcHMxbTFiMHl0In0.9eyVqMCN3WIodGdslgQ1hA',
-        user_access_token : 'NzQ5MzQ3Nzc3LTVkY2U5NDA2M2EyMjctMTA='
+        icargo_access_token : 'MTgwNDk4MDg4LTVkZDNjZWEwNzU2ZjAtMTA=',
+        icargo_api_url:'http://localhost/parcel-api/v1/'
     }
 }

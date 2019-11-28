@@ -12,7 +12,7 @@ export class SocketService {
   socketUrl = this.configSettings.env.socket_api_url;
   driverSocketUrl = this.configSettings.env.driver_socket_api_url;
   companyId = this.configSettings.env.company_id;
-  userAccessToken = this.configSettings.env.user_access_token;
+  userAccessToken = this.configSettings.env.icargo_access_token;
 
   //let url = "wss://gps.app-tree.co.uk:3000";
   //url += `/?token=${json.userId}&companyId=${json.companyId}&userType=${json.userType}`;

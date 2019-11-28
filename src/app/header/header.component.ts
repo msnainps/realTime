@@ -6,6 +6,8 @@ import { Header } from './header.model';
 
 
 
+
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -18,9 +20,10 @@ export class HeaderComponent implements OnInit {
   //SHow default date in angular
   shipmentCurrentDate = new Date((new Date()));
   header:Header= new Header();
+  toaserMsg;
   
   constructor(private headerService:HeaderService) {
-    
+   
    }
 
   

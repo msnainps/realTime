@@ -32,16 +32,22 @@
                         <a mat-button routerLink="."><i class="material-icons"> more_vert </i></a>
                     </div> -->
                     <div class="panel sixth">
-                            <a mat-button routerLink="." [matMenuTriggerFor]="menu"><i class="material-icons"> more_vert </i></a>
-            
-                            <mat-menu #menu="matMenu">
-                                <ul class="set-list">
-                                <li><a href="" data-toggle="modal" data-target="#Modal1"><mat-icon>how_to_reg</mat-icon> <span>Assign Job</span></a></li>
-                                <li><a href="" data-toggle="modal" data-target="#Modal2"><mat-icon>cancel_presentation</mat-icon> <span>Cancel Job</span></a></li>
-                                <li><a href="" data-toggle="modal" data-target="#Modal3"><mat-icon>credit_card</mat-icon> <span>Withdraw</span></a></li>
-                                <li><a href="" data-toggle="modal" data-target="#Modal4"><mat-icon>remove_red_eye</mat-icon> <span>View Details</span></a></li>
+                        <a mat-button routerLink="." [matMenuTriggerFor]="menu"><i class="material-icons"> more_vert
+                            </i></a>
+
+                        <mat-menu #menu="matMenu">
+                            <ul class="set-list">
+                                <li><a href="" (click)="cancelShipment(assignData.shipment_ticket)" data-toggle="modal" data-target="#Modal2">
+                                        <mat-icon>cancel_presentation</mat-icon> <span>Cancel Job</span>
+                                    </a></li>
+                                <li><a href="" data-toggle="modal" data-target="#Modal3">
+                                        <mat-icon>credit_card</mat-icon> <span>Withdraw</span>
+                                    </a></li>
+                                <li><a href="" data-toggle="modal" data-target="#Modal4">
+                                        <mat-icon>remove_red_eye</mat-icon> <span>View Details</span>
+                                    </a></li>
                             </ul>
-                            </mat-menu>
+                        </mat-menu>
                     </div>
                 </div>
             </ng-container>
@@ -60,29 +66,44 @@
         </mat-expansion-panel-header>
         <ng-container *ngFor="let unassignData of sidenaveleftService.dataList.unassingedData">
             <ng-container *ngIf="unassignData.drop_type == 'unassinged'">
-        <div class="main-left-panel unassigned">
-            <div class="panel first">
-                <h6><i class="material-icons"> fiber_manual_record </i>{{unassignData.customer_name}}</h6>
-            </div>
-            <!-- <div class="panel second">
+                <div class="main-left-panel unassigned">
+                    <div class="panel first">
+                        <h6><i class="material-icons"> fiber_manual_record </i>{{unassignData.customer_name}}</h6>
+                    </div>
+                    <!-- <div class="panel second">
                 <h5> Paused</h5>
             </div> -->
-            <div class="panel third fixed-width">
-                <h6><i class="material-icons"> explore </i>{{unassignData.route_name}}</h6>
-            </div>
-            <div class="panel fourth">
-                <h6><i class="material-icons"> date_range </i>{{unassignData.service_date}}</h6>
-            </div>
+                    <div class="panel third fixed-width">
+                        <h6><i class="material-icons"> explore </i>{{unassignData.route_name}}</h6>
+                    </div>
+                    <div class="panel fourth">
+                        <h6><i class="material-icons"> date_range </i>{{unassignData.service_date}}</h6>
+                    </div>
 
-            <div class="panel fifth">
-                <!-- <h6><i class="material-icons"> directions_car </i>Meena</h6> -->
-            </div>
-            <div class="panel sixth">
-                <a mat-button routerLink="."><i class="material-icons"> more_vert </i></a>
-            </div>
-        </div>
-    </ng-container> 
-    </ng-container> 
+                    <div class="panel fifth">
+                        <!-- <h6><i class="material-icons"> directions_car </i>Meena</h6> -->
+                    </div>
+                    <div class="panel sixth">
+                        <a mat-button routerLink="." [matMenuTriggerFor]="menu"><i class="material-icons"> more_vert
+                            </i></a>
+
+                        <mat-menu #menu="matMenu">
+                            <ul class="set-list">
+                                <li><a href="" data-toggle="modal" data-target="#Modal1">
+                                        <mat-icon>how_to_reg</mat-icon> <span>Assign Job</span>
+                                    </a></li>
+                                <li><a href="" (click)="cancelShipment(unassignData.shipment_ticket)" data-toggle="modal" data-target="#Modal2">
+                                        <mat-icon>cancel_presentation</mat-icon> <span>Cancel Job</span>
+                                    </a></li>
+                                <li><a href="" data-toggle="modal" data-target="#Modal4">
+                                        <mat-icon>remove_red_eye</mat-icon> <span>View Details</span>
+                                    </a></li>
+                            </ul>
+                        </mat-menu>
+                    </div>
+                </div>
+            </ng-container>
+        </ng-container>
     </mat-expansion-panel>
 
 
@@ -98,29 +119,38 @@
         <!-- list3 -->
 
         <ng-container *ngFor="let completed of sidenaveleftService.dataList.completedData">
-                <ng-container *ngIf="completed.drop_type == 'completed'">
-        <div class="main-left-panel completed">
-            <div class="panel first">
-                <h6><i class="material-icons"> fiber_manual_record </i>{{completed.customer_name}}</h6>
-            </div>
-            <div class="panel second accepted">
-                <h5> {{completed.route_label}}</h5>
-            </div>
-            <div class="panel third">
-                <h6><i class="material-icons"> explore </i>{{completed.route_name}}</h6>
-            </div>
-            <div class="panel fourth">
-                <h6><i class="material-icons"> date_range </i>{{completed.completed_date}}</h6>
-            </div>
+            <ng-container *ngIf="completed.drop_type == 'completed'">
+                <div class="main-left-panel completed">
+                    <div class="panel first">
+                        <h6><i class="material-icons"> fiber_manual_record </i>{{completed.customer_name}}</h6>
+                    </div>
+                    <div class="panel second completed">
+                        <h5> {{completed.route_label}}</h5>
+                    </div>
+                    <div class="panel third">
+                        <h6><i class="material-icons"> explore </i>{{completed.route_name}}</h6>
+                    </div>
+                    <div class="panel fourth">
+                        <h6><i class="material-icons"> date_range </i>{{completed.completed_date}}</h6>
+                    </div>
 
-            <div class="panel fifth">
-                <h6><i class="material-icons"> directions_car </i>{{completed.driver_name}}</h6>
-            </div>
-            <div class="panel sixth">
-                <a mat-button routerLink="."><i class="material-icons"> more_vert </i></a>
-            </div>
-        </div>
-    </ng-container> 
-    </ng-container> 
+                    <div class="panel fifth">
+                        <h6><i class="material-icons"> directions_car </i>{{completed.driver_name}}</h6>
+                    </div>
+                    <div class="panel sixth">
+                            <a mat-button routerLink="." [matMenuTriggerFor]="menu"><i class="material-icons"> more_vert
+                                </i></a>
+    
+                            <mat-menu #menu="matMenu">
+                                <ul class="set-list">
+                                    <li><a href="" data-toggle="modal" data-target="#Modal4">
+                                            <mat-icon>remove_red_eye</mat-icon> <span>View Details</span>
+                                        </a></li>
+                                </ul>
+                            </mat-menu>
+                        </div>
+                </div>
+            </ng-container>
+        </ng-container>
     </mat-expansion-panel>
 </mat-accordion>
