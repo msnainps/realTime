@@ -82,10 +82,8 @@ export class DashboardService {
               <div class="drops-min"><i class="material-icons drops-min-color2">help_outline</i> <span>Ref:'+ data.shipment_data[index1].cr + '</span><div>  <span>Job:</span> ' + data.shipment_data[index1].job_type + '</div></div>\
               <div class="drops-line"></div>\
               <div class="drops-min"><i class="material-icons drops-min-color3">local_car_wash</i> <span>'+ data.shipment_data[index1].driver_name + '</span><div>\
-              <div class="postion-set"><div class="dropdown show">\
-              <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">\
-              <i class="material-icons"> person_add </i></a>\
-              '+data.driverList+'</div>\
+              <div class="postion-set">\
+              '+(data.shipment_data[index1].drop_type == 'unassinged' ? data.driverList:"")+'\
               </div></div>',
             'icon': data.shipment_data[index1].marker_url,
             'execution_order': data.shipment_data[index1].icargo_execution_order,

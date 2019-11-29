@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { SidenavLeftService } from '../sidenav-left.service';
 import { ToastrService } from 'ngx-toastr';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 
 
@@ -12,13 +13,23 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class SidenavLeftOperationComponent implements OnInit {
 
+  assignDriverFormModel: any = {};
   shipment_ticket: any;
-  spiner_text: string = 'Cancel Job...';
-  constructor(private spinerService: NgxSpinnerService, private sidenavleftservice: SidenavLeftService, private toastr: ToastrService) { }
+  shipment_route_name:any;
+  shipment_route_id:any;
+  driverList:any[] = [];
+  constructor(private spinerService: NgxSpinnerService, private sidenavleftservice: SidenavLeftService, private toastr: ToastrService) {
+    
+   }
 
   ngOnInit() {
   }
 
+  
+  /**
+   * Cancel Shipment
+   * @param shipmentTkt
+   */
   processCancelShipment(shipmentTkt) {
     this.spinerService.show("cancelJob", {
       type: "line-scale-party",
@@ -52,6 +63,67 @@ export class SidenavLeftOperationComponent implements OnInit {
         })
       }
     });
+  }
+
+  /**
+   * Withdraw Route by shipment route id
+   */
+  processWithdrawShipment = (shipmentRouteId) => {
+    this.spinerService.show("withdrawJob", {
+      type: "line-scale-party",
+      size: "large",
+      color: "white"
+    });
+
+   
+    this.sidenavleftservice.withdrawAssignedRoute(shipmentRouteId).subscribe(val => {
+      var myStr = val;
+      var strArray = myStr.split(".");
+      var decodeBAse64 = JSON.parse(atob(strArray[1]));
+      if (decodeBAse64.status == 'fail') { 
+        this.toastr.info(decodeBAse64.message, '', {
+          closeButton: true, positionClass: 'toast-top-right', timeOut: 4000
+        });
+        this.spinerService.hide("withdrawJob");
+      }else{
+        this.toastr.success(decodeBAse64.message, '', {
+          closeButton: true, positionClass: 'toast-top-right', timeOut: 4000
+        });
+        this.spinerService.hide("withdrawJob");
+      } 
+    });
+  }
+
+  /**
+   * Assign Driver To Route
+   */
+  onClickAssignDriver = () => {
+
+    
+    this.spinerService.show("driverAssign", {
+      type: "line-scale-party",
+      size: "large",
+      color: "white"
+    });
+
+    this.sidenavleftservice.sameDayAssignedRoute(this.assignDriverFormModel).subscribe(val => {
+      var myStr = val;
+      var strArray = myStr.split(".");
+      var decodeBAse64 = JSON.parse(atob(strArray[1]));
+      if (decodeBAse64.status == 'error') { 
+        this.toastr.error(decodeBAse64.message, '', {
+          closeButton: true, positionClass: 'toast-top-right', timeOut: 4000
+        });
+        this.spinerService.hide("driverAssign");
+      }else{
+        this.toastr.success(decodeBAse64.message, '', {
+          closeButton: true, positionClass: 'toast-top-right', timeOut: 4000
+        });
+        this.spinerService.hide("driverAssign");
+      }
+      this.assignDriverFormModel = '';
+    });
+
   }
 
 }

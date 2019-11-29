@@ -40,7 +40,7 @@
                                 <li><a href="" (click)="cancelShipment(assignData.shipment_ticket)" data-toggle="modal" data-target="#Modal2">
                                         <mat-icon>cancel_presentation</mat-icon> <span>Cancel Job</span>
                                     </a></li>
-                                <li><a href="" data-toggle="modal" data-target="#Modal3">
+                                <li><a href="" (click)="WithdrawRoute(assignData.route_name,assignData.shipment_routed_id)" data-toggle="modal" data-target="#Modal3">
                                         <mat-icon>credit_card</mat-icon> <span>Withdraw</span>
                                     </a></li>
                                 <li><a href="" data-toggle="modal" data-target="#Modal4">
@@ -89,7 +89,7 @@
 
                         <mat-menu #menu="matMenu">
                             <ul class="set-list">
-                                <li><a href="" data-toggle="modal" data-target="#Modal1">
+                                <li><a href="" (click)="assignJob(unassignData.shipment_ticket,unassignData.shipment_routed_id)" data-toggle="modal" data-target="#Modal1">
                                         <mat-icon>how_to_reg</mat-icon> <span>Assign Job</span>
                                     </a></li>
                                 <li><a href="" (click)="cancelShipment(unassignData.shipment_ticket)" data-toggle="modal" data-target="#Modal2">
