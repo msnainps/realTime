@@ -22,6 +22,7 @@ import { SidenavLeftOperationComponent } from './dashboard/sidenav-left/sidenav-
 
 
 
+
 @NgModule({
   
   declarations: [
@@ -33,7 +34,8 @@ import { SidenavLeftOperationComponent } from './dashboard/sidenav-left/sidenav-
     FilterComponent,
     FilterDialog,
     DriverinfoComponent,
-    SidenavLeftOperationComponent
+    SidenavLeftOperationComponent,
+    
   ],
   imports: [
     AppRoutingModule,

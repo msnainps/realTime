@@ -1,8 +1,8 @@
 export class config {
     // env = {
-    //     socket_api_url: 'http://localhost:3000/',
-    //     driver_socket_api_url: 'wss://gps.app-tree.co.uk:3000',
-    //     name: 'prod',
+    //     socket_api_url: 'wss://socketapi.instadispatch.com:3001',
+    //     driver_socket_api_url: 'wss://gps.app-tree.co.uk:3500',
+    //     name: 'dev',
     //     company_id: localStorage.getItem('company'),
     //     user_id: localStorage.getItem('user_id'),
     //     wairehouse_id: localStorage.getItem('warehouse_id'),
@@ -12,10 +12,26 @@ export class config {
     //     google_api_key: 'AIzaSyD-X5xWDTa9L15dUYkWUjRExGRHznOfFsQ',
     //     mapbox_api_key:'pk.eyJ1IjoiaW5zdGFkaXNwYXRjaCIsImEiOiJjazJvajJueWwwNjlmM2dwcHMxbTFiMHl0In0.9eyVqMCN3WIodGdslgQ1hA',
     //     icargo_access_token :localStorage.getItem('access_token'),
-    //     icargo_api_url:'http://localhost/parcel-api/v1/'
+    //     icargo_api_url:'https://api.instadispatch.com/app-allignment/parcel-api/v1/'
+    // }
+//Live
+    // env = {
+    //     socket_api_url: 'wss://socketapi.instadispatch.com:3001',
+    //     driver_socket_api_url: 'wss://gps.app-tree.co.uk:3500',
+    //     name: 'live',
+    //     company_id: localStorage.getItem('company'),
+    //     user_id: localStorage.getItem('user_id'),
+    //     wairehouse_id: localStorage.getItem('warehouse_id'),
+    //     email: localStorage.getItem('primary_email'),
+    //     profileImage: localStorage.getItem('profile_image'),
+    //     user_level: localStorage.getItem('user_level'),
+    //     google_api_key: 'AIzaSyD-X5xWDTa9L15dUYkWUjRExGRHznOfFsQ',
+    //     mapbox_api_key:'pk.eyJ1IjoiaW5zdGFkaXNwYXRjaCIsImEiOiJjazJvajJueWwwNjlmM2dwcHMxbTFiMHl0In0.9eyVqMCN3WIodGdslgQ1hA',
+    //     icargo_access_token :localStorage.getItem('access_token'),
+    //     icargo_api_url:'https://api.instadispatch.com/live/v1/'
     // }
 
-    //This is used while development
+    //Local
     env = {
         name: 'local',
         socket_api_url: 'http://localhost:3000/',

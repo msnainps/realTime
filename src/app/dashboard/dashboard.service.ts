@@ -56,6 +56,9 @@ export class DashboardService {
 
 
     this.socket.websocket.on('instantnotiFication', (data) => {
+      console.log('---Notification---');
+      console.log(data);
+      console.log('---Notification---');
       this.notiFicationResponce = data;
       if (this.notiFicationResponce.company_id == this.companyId) { //if responce is same as session user
         this.loadDropOnMapsEmit();
@@ -120,10 +123,10 @@ export class DashboardService {
         console.log("-----Driver GPS Data---");
         console.log(driverDataGps);
         console.log("!-----Driver GPS Data---");
-        //if(driverData.payload.companyId == this.companyId){
+        if(driverDataGps.payload.companyId == this.companyId){
         //if(driverDataGps.payload.companyId == 194){ 
         this.plotDriverOnMap(driverDataGps);
-        //}
+        }
       }
 
     })

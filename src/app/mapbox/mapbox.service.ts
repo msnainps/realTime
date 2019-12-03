@@ -16,8 +16,8 @@ export class MapboxService {
    public initMap(){
     this.map=new mapboxgl.Map({
       container: 'map',
-      style: 'mapbox://styles/instadispatch/ck2u7n91p3kvq1cp30yrc0uz5',
-      zoom: 8,
+      style: 'mapbox://styles/instadispatch/ck3ps5h4n1e9r1co0e7wctvhz',
+      zoom: 10,
       center: [-1.27945500000000000000, 51.75343480000000000000],
       });
       this.map.addControl(new mapboxgl.NavigationControl());

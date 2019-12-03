@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, ɵCompiler_compileModuleAndAllComponentsAsync__POST_R3__ } from '@angular/core';
 import { SidenavLeftService } from './sidenav-left.service';
 import { SidenavLeftOperationComponent } from './sidenav-left-operation/sidenav-left-operation.component';
+import { ToastrService } from 'ngx-toastr';
 
 
 
@@ -18,7 +19,7 @@ export class SidenavLeftComponent implements OnInit {
   driverList:any[] = [];
   assignDriverFormModel: any = {};
   @Input() sidebarLeftNavOp:SidenavLeftOperationComponent; //Send Data to SidenavLeftOperationComponent
-  constructor(private sidenaveleftService:SidenavLeftService) { }
+  constructor(private sidenaveleftService:SidenavLeftService,private toastr: ToastrService) { }
 
   ngOnInit() {
     this.sidenaveleftService.getAssignDropData();
@@ -41,7 +42,14 @@ export class SidenavLeftComponent implements OnInit {
 
     //get All Ticket
     this.sidenaveleftService.getAllTickets(shipmentTicket,shipmenRouteId).subscribe(res => {
+      if(res.ticket_list.length > 0){
       this.sidebarLeftNavOp.assignDriverFormModel.shipment_ticket = res.ticket_list[0]['tktList'];
+      }else{
+        this.toastr.info('You can not assign driver to this job !!', '', {
+          closeButton: true, positionClass: 'toast-top-right', timeOut: 4000
+        });
+        this.sidebarLeftNavOp.driverList = [];
+      }
     });
   }
 
