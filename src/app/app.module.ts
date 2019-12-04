@@ -19,7 +19,7 @@ import { NgxSpinnerModule } from "ngx-spinner";
 import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { SidenavLeftOperationComponent } from './dashboard/sidenav-left/sidenav-left-operation/sidenav-left-operation.component';
-
+import { AgGridModule } from '@ag-grid-community/angular';
 
 
 
@@ -48,7 +48,8 @@ import { SidenavLeftOperationComponent } from './dashboard/sidenav-left/sidenav-
     MatDialogModule,
     NgxSpinnerModule,
     HttpClientModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    AgGridModule.withComponents([])
   ],
   providers: [],
   bootstrap: [AppComponent],

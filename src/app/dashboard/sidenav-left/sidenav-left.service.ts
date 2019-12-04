@@ -190,5 +190,22 @@ export class SidenavLeftService {
     });
   }
 
+  //Get All Route Details
+  getRouteDetails = (routeId,type) => {
+    this.socket.websocket.emit('req-route-details-grid', 
+      {
+       warehouse_id: this.wairehouseId,
+       company_id: this.companyId,
+       routedId:routeId,
+       route_type:type
+      }
+    );
+    return Observable.create(observer => {
+      this.socket.websocket.on('get-route-details-grid', data => {
+        observer.next(data);
+      });
+    });
+  }
+
 
 }

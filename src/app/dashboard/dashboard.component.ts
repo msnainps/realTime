@@ -215,6 +215,8 @@ assignDriver(driverid: number) {
     document.querySelector(".mapboxgl-popup").remove();
     document.mapCom.spinnerService.hide("driverAssign");
 
+    document.mapCom.dashboardService.loadDropOnMapsEmit();//For Realtime Data
+
     var myStr = response;
     var strArray = myStr.split(".");
     var decodeBAse64 = JSON.parse(atob(strArray[1]));

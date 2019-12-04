@@ -1,8 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
-
+@import "~@ag-grid-community/all-modules/dist/styles/ag-grid.css";
+@import "~@ag-grid-community/all-modules/dist/styles/ag-theme-balham.css";
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
 html, body { height: 100%; }
 body { margin: 0; font-family: 'Lato', sans-serif;}
-@import '@angular/material/prebuilt-themes/indigo-pink.css';
 .user-mat-menu i.material-icons {
     font-size: 20px;
     top: 6px;
@@ -779,4 +780,14 @@ display: block;
 cursor: pointer;
 padding: 10px 20px;
 border-radius: 3px;
+}
+
+.modal-footers{
+    width: 98%;
+    line-height: 39px;
+    padding: 3px;
+    margin: 51px 5px 3px 7px;
+}
+.modal-footers .btn-primary{
+margin: 6px;
 }

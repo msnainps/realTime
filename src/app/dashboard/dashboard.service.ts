@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { config } from 'src/config/config';
 import { SocketService } from '../commonServices/socket.service';
 import { MapboxService } from '../mapbox/mapbox.service';
-import { Observable, Observer,throwError } from 'rxjs';
+import { Observable, Observer, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { retry, catchError, map } from 'rxjs/operators';
 
@@ -49,7 +49,7 @@ export class DashboardService {
       "features": []
     }
   };
-  constructor(private socket: SocketService, private mapbox: MapboxService, private http:HttpClient) {
+  constructor(private socket: SocketService, private mapbox: MapboxService, private http: HttpClient) {
 
     this.loadDropOnMapsEmit();
     this.loadDriverData();
@@ -61,7 +61,9 @@ export class DashboardService {
       console.log('---Notification---');
       this.notiFicationResponce = data;
       if (this.notiFicationResponce.company_id == this.companyId) { //if responce is same as session user
-        this.loadDropOnMapsEmit();
+        setTimeout(() => {
+          this.loadDropOnMapsEmit();
+        }, 15000);
       }
 
     })
@@ -86,12 +88,12 @@ export class DashboardService {
               <div class="drops-line"></div>\
               <div class="drops-min"><i class="material-icons drops-min-color3">local_car_wash</i> <span>'+ data.shipment_data[index1].driver_name + '</span><div>\
               <div class="postion-set">\
-              '+(data.shipment_data[index1].drop_type == 'unassinged' ? data.driverList:"")+'\
+              '+ (data.shipment_data[index1].drop_type == 'unassinged' ? data.driverList : "") + '\
               </div></div>',
             'icon': data.shipment_data[index1].marker_url,
             'execution_order': data.shipment_data[index1].icargo_execution_order,
-            'shipment_id':data.shipment_data[index1].shipment_ticket,
-            'shipment_route_id':data.shipment_data[index1].shipment_routed_id
+            'shipment_id': data.shipment_data[index1].shipment_ticket,
+            'shipment_route_id': data.shipment_data[index1].shipment_routed_id
           },
           'geometry': {
             'type': 'Point',
@@ -123,9 +125,9 @@ export class DashboardService {
         console.log("-----Driver GPS Data---");
         console.log(driverDataGps);
         console.log("!-----Driver GPS Data---");
-        if(driverDataGps.payload.companyId == this.companyId){
-        //if(driverDataGps.payload.companyId == 194){ 
-        this.plotDriverOnMap(driverDataGps);
+        if (driverDataGps.payload.companyId == this.companyId) {
+          //if(driverDataGps.payload.companyId == 194){ 
+          this.plotDriverOnMap(driverDataGps);
         }
       }
 
@@ -206,36 +208,36 @@ export class DashboardService {
     });
   }
 
-  vechileType(vechileType:any){
-    if(vechileType){
-      if(vechileType.toLowerCase() == 'van' || vechileType.toLowerCase() == 'car'){
+  vechileType(vechileType: any) {
+    if (vechileType) {
+      if (vechileType.toLowerCase() == 'van' || vechileType.toLowerCase() == 'car') {
         return 'mini-van'
-      }else if(vechileType.toLowerCase() == 'bike'){
+      } else if (vechileType.toLowerCase() == 'bike') {
         return 'motorbike';
-      }else if(vechileType.toLowerCase() == 'cycle'){
+      } else if (vechileType.toLowerCase() == 'cycle') {
         return 'cycle'
-      }else{
+      } else {
         return 'mini-van'
       }
-    }else{
+    } else {
       return 'mini-van'
     }
   }
 
-  assignDriverToRoute(routeData:any=Object):Observable<any>{
+  assignDriverToRoute(routeData: any = Object): Observable<any> {
     const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
-    return this.http.post<any>(this.iacrgoApiUrl+routeData.endPointUrl, JSON.stringify(routeData), 
-    {
-      headers, responseType:'text' as 'json'
-    })
-    .pipe(
-      retry(),
-      catchError(this.handleError)
-    )
+    return this.http.post<any>(this.iacrgoApiUrl + routeData.endPointUrl, JSON.stringify(routeData),
+      {
+        headers, responseType: 'text' as 'json'
+      })
+      .pipe(
+        retry(),
+        catchError(this.handleError)
+      )
   }
 
-   // Error handling 
-   // Handle API errors
+  // Error handling 
+  // Handle API errors
   handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
@@ -246,7 +248,7 @@ export class DashboardService {
       console.error(
         `Backend returned code ${error.status}, ` +
         `body was: ${error.error}`);
-        console.log(error.error);
+      console.log(error.error);
     }
     // return an observable with a user-facing error message
     return throwError(

@@ -18,6 +18,10 @@ export class SidenavLeftComponent implements OnInit {
   shipment_route_id:any;
   driverList:any[] = [];
   assignDriverFormModel: any = {};
+  rowData:any;
+  routeName:any;
+  driverName:any;
+  
   @Input() sidebarLeftNavOp:SidenavLeftOperationComponent; //Send Data to SidenavLeftOperationComponent
   constructor(private sidenaveleftService:SidenavLeftService,private toastr: ToastrService) { }
 
@@ -51,6 +55,22 @@ export class SidenavLeftComponent implements OnInit {
         this.sidebarLeftNavOp.driverList = [];
       }
     });
+  }
+
+  viewDetails(shipment_route_id,type){
+
+    this.sidebarLeftNavOp.routeType = type;
+
+    this.sidenaveleftService.getRouteDetails(shipment_route_id,type).subscribe(resp => {
+      if(resp.routeDetailsData.length > 0){
+      this.sidebarLeftNavOp.rowData = resp.routeDetailsData;
+      }
+      if(resp.routeInfo.length > 0){
+      this.sidebarLeftNavOp.routeName = resp.routeInfo[0].route_name;
+      this.sidebarLeftNavOp.driverName = resp.routeInfo[0].driver_name;
+      }
+    });
+
   }
 
 }

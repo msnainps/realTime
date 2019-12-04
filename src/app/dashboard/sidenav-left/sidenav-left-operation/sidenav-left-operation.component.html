@@ -1,150 +1,161 @@
 <div class="wrapper-modal">
 
-      <!--Assign Job-->
-        <div class="modal fade" id="Modal1" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-    
-              <div class="close-box">
-                <button type="button" data-dismiss="modal">X</button>
-              </div>
-    
-              <div class="modal-body space-bitween">
-                  <form #assign = "ngForm" (ngSubmit) = "onClickAssignDriver()" >
-                  <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                      <div class="form-group">
-                        <label for="name" class="col-form-label">Route Name</label>
-                        <input type="text" class="form-control" id="name" placeholder="Route Name" name='route_name' [(ngModel)]="assignDriverFormModel.route_name" #route_name="ngModel" 
-                        [ngClass]="{ 'is-invalid': assign.submitted && route_name.invalid }" autocomplete="off" required />
-                        <div *ngIf="assign.submitted && route_name.invalid" class="invalid-feedback">
-                            <div *ngIf="route_name.errors.required">Route Name is required</div>
-                        </div>
-                      </div>
-                    </div>
-    
-                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                      <div class="form-group">
-                        <label for="date" class="col-form-label">Date</label>
-                        <input type="text" class="form-control" id="date" placeholder="Date">
-                      </div>
-                    </div>
-    
-                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                      <div class="form-group">
-                        <label for="time" class="col-form-label">Time</label>
-                        <input type="text" class="form-control" id="time" placeholder="Time">
-                      </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                      <div class="form-group">
-                        <label for="Assign Driver" class="col-form-label">Assign Driver</label>
-                        <select class="form-control" id="sel1" name='driver_id' [(ngModel)]="assignDriverFormModel.driver_id" #driver_id="ngModel" 
-                        [ngClass]="{ 'is-invalid': assign.submitted && driver_id.invalid }" required>
-                            <option [value]='0' selected="selected">--Select Driver--</option>
-                            <option *ngFor="let driver of driverList; let i = index" [value]="driver.id">
-                                {{driver.name}}
-                            </option>
-                        </select>
-                        <div *ngIf="assign.submitted && driver_id.invalid" class="invalid-feedback">
-                            <div *ngIf="driver_id.errors.required">Driver is required</div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="modal-footer">
-                      <button type="button" type="submit" class="btn btn-primary" [disabled]="!assign.form.valid">Assign Driver</button>
-                    </div>
-                </form>
-              </div>
-              
-            </div>
-          </div>
-        </div>
-        <!--//Assign Job-->
-    
-    
-        <!--Cancel Job-->
-        <div class="modal fade" id="Modal2" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="close-box">
-                <button type="button" data-dismiss="modal">X</button>
-              </div>
-    
-              <div class="modal-body space-bitween">
-                <div class="inner-set-section">
-                  <div class="tagline-headding">Would you like to cancel the job ?</div>
-                  <div class="main-paira">
-                    <p>Shipment Ticket:{{shipment_ticket}}</p>
-                  </div>
-                </div>
-              </div>
-    
-              <div class="modal-footer">
-                <button (click)="processCancelShipment(shipment_ticket)" type="button" class="btn btn-primary">Please do it!</button>
-              </div>
-              <div class="modal-footer">
-                <button type="button" data-dismiss="modal">Cancel</button>
-              </div>
-              
-            </div>
-          </div>
-        </div>
-        <!--//Cancel Job-->
-    
-        <!--Withdraw Job-->
-        <div class="modal fade" id="Modal3" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="close-box">
-                <button type="button" data-dismiss="modal">X</button>
-              </div>
-    
-              <div class="modal-body space-bitween">
-                <div class="inner-set-section">
-                  <div class="tagline-headding">Would you like to withdraw the route {{shipment_route_name}}?</div>
-                  <div class="main-paira">
-                    <p>All of the unprocessed shipment will move to saved job.</p>
-                  </div>
-                </div>
-              </div>
-    
-              <div class="modal-footer">
-                <button (click)="processWithdrawShipment(shipment_route_id)" type="button" class="btn btn-primary">Please do it!</button>
-              </div>
-              <div class="modal-footer">
-                <button type="button" data-dismiss="modal">Cancel</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!--//Withdraw Job-->
+  <!--Assign Job-->
+  <div class="modal fade" id="Modal1" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
 
-        <!--View Details-->
-        <div class="modal fade" id="Modal4" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="close-box">
-                <button type="button" data-dismiss="modal">X</button>
-              </div>
-    
-              <div class="modal-body space-bitween">
-                <div class="inner-set-section">
-                  <div class="tagline-headding">Would you like to withdraw the route ”Check status”?</div>
-                  <div class="main-paira">
-                    <p>All of the unprocessed shipment will move to saved job.</p>
+        <div class="close-box">
+          <button type="button" data-dismiss="modal">X</button>
+        </div>
+
+        <div class="modal-body space-bitween">
+          <form #assign="ngForm" (ngSubmit)="onClickAssignDriver()">
+            <div class="row">
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="form-group">
+                  <label for="name" class="col-form-label">Route Name</label>
+                  <input type="text" class="form-control" id="name" placeholder="Route Name" name='route_name'
+                    [(ngModel)]="assignDriverFormModel.route_name" #route_name="ngModel"
+                    [ngClass]="{ 'is-invalid': assign.submitted && route_name.invalid }" autocomplete="off" required />
+                  <div *ngIf="assign.submitted && route_name.invalid" class="invalid-feedback">
+                    <div *ngIf="route_name.errors.required">Route Name is required</div>
                   </div>
                 </div>
               </div>
-    
-              <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Please do it!</button>
+
+              <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <div class="form-group">
+                  <label for="date" class="col-form-label">Date</label>
+                  <input type="text" class="form-control" id="date" placeholder="Date">
+                </div>
+              </div>
+
+              <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <div class="form-group">
+                  <label for="time" class="col-form-label">Time</label>
+                  <input type="text" class="form-control" id="time" placeholder="Time">
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="form-group">
+                  <label for="Assign Driver" class="col-form-label">Assign Driver</label>
+                  <select class="form-control" id="sel1" name='driver_id' [(ngModel)]="assignDriverFormModel.driver_id"
+                    #driver_id="ngModel" [ngClass]="{ 'is-invalid': assign.submitted && driver_id.invalid }" required>
+                    <option [value]='0' selected="selected">--Select Driver--</option>
+                    <option *ngFor="let driver of driverList; let i = index" [value]="driver.id">
+                      {{driver.name}}
+                    </option>
+                  </select>
+                  <div *ngIf="assign.submitted && driver_id.invalid" class="invalid-feedback">
+                    <div *ngIf="driver_id.errors.required">Driver is required</div>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
+            <div class="modal-footer">
+              <button type="button" type="submit" class="btn btn-primary" [disabled]="!assign.form.valid">Assign
+                Driver</button>
+            </div>
+          </form>
         </div>
-        <!--//View Details-->
-
 
       </div>
+    </div>
+  </div>
+  <!--//Assign Job-->
+
+
+  <!--Cancel Job-->
+  <div class="modal fade" id="Modal2" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="close-box">
+          <button type="button" data-dismiss="modal">X</button>
+        </div>
+
+        <div class="modal-body space-bitween">
+          <div class="inner-set-section">
+            <div class="tagline-headding">Would you like to cancel the job ?</div>
+            <div class="main-paira">
+              <p>Shipment Ticket:{{shipment_ticket}}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button (click)="processCancelShipment(shipment_ticket)" type="button" class="btn btn-primary">Please do
+            it!</button>
+        </div>
+        <div class="modal-footer">
+          <button type="button" data-dismiss="modal">Cancel</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!--//Cancel Job-->
+
+  <!--Withdraw Job-->
+  <div class="modal fade" id="Modal3" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="close-box">
+          <button type="button" data-dismiss="modal">X</button>
+        </div>
+
+        <div class="modal-body space-bitween">
+          <div class="inner-set-section">
+            <div class="tagline-headding">Would you like to withdraw the route {{shipment_route_name}}?</div>
+            <div class="main-paira">
+              <p>All of the unprocessed shipment will move to saved job.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button (click)="processWithdrawShipment(shipment_route_id)" type="button" class="btn btn-primary">Please do
+            it!</button>
+        </div>
+        <div class="modal-footer">
+          <button type="button" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--//Withdraw Job-->
+
+  <!--View Details-->
+  <div class="modal fade" id="Modal4" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="close-box">
+          <button type="button" data-dismiss="modal">X</button>
+        </div>
+        <div class="modal-footers" *ngIf="routeType=='assign'">
+          <button (click)="processReleaseShipment()" type="button" class="btn btn-primary">Release Shipment</button>
+          <button type="button" class="btn btn-primary">Carded Shipment</button>
+          <button type="button" class="btn btn-primary">Deliver Shipment</button>
+          <button type="button" class="btn btn-primary">Export Cagesheet</button>
+        </div>
+        <div class="modal-body space-bitween">
+          <div class="mx-auto" style="width: 200px;">
+            <span>Route:{{routeName}}</span>
+          </div>
+          <div class="mx-auto" style="width: 200px;">
+            <span>Driver:{{driverName}}</span>
+          </div>
+
+          <div class="inner-set-section">
+            <ag-grid-angular style="width: 500px; height: 500px;" class="ag-theme-balham" [rowData]="rowData"
+              [columnDefs]="columnDefs" [modules]="modules" [suppressRowClickSelection]="true" [rowSelection]='selectionMode' (selectionChanged)="onSelectionChanged($event)">
+            </ag-grid-angular>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--//View Details-->
+
+
+</div>
