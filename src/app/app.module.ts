@@ -49,7 +49,8 @@ import { AgGridModule } from '@ag-grid-community/angular';
     NgxSpinnerModule,
     HttpClientModule,
     ToastrModule.forRoot(),
-    AgGridModule.withComponents([])
+    AgGridModule.withComponents([]),
+    
   ],
   providers: [],
   bootstrap: [AppComponent],

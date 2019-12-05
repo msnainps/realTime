@@ -120,9 +120,6 @@ export class SidenavLeftService {
   sameDayAssignedRoute(assignFormData): Observable<any> {
     const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
 
-    console.log(assignFormData);
-    
-
     this.routeData = {
       'endPointUrl': 'samedaydriverassign',
       'company_id': '' + this.companyId,
@@ -135,8 +132,6 @@ export class SidenavLeftService {
       'assign_time':formatDate(new Date(), 'dd-MM-yyyy hh:mm:ss a', 'en-US', '+0530'),
       "timezone_name":Intl.DateTimeFormat().resolvedOptions().timeZone
     }
-
-    console.log(this.routeData);
 
     return this.http.post<any>(this.iacrgoApiUrl + this.routeData.endPointUrl, JSON.stringify(this.routeData),
       {
@@ -205,6 +200,101 @@ export class SidenavLeftService {
         observer.next(data);
       });
     });
+  }
+
+  //Rease shipment
+  releaselJob(rlsTktList,shipRouteId):Observable<any> {
+    const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
+
+    this.routeData = {
+      'endPointUrl': 'withdrawroute',
+      'company_id': '' + this.companyId,
+      'warehouse_id': '' + this.wairehouseId,
+      'email': this.email,
+      'access_token': this.access_token,
+      'shipment_route_id': shipRouteId,
+      'shipment_ticket':rlsTktList.join('","'),
+      "timezone_name":Intl.DateTimeFormat().resolvedOptions().timeZone
+    }
+
+    return this.http.post<any>(this.iacrgoApiUrl + this.routeData.endPointUrl, JSON.stringify(this.routeData),
+      {
+        headers, responseType: 'text' as 'json'
+      })
+      .pipe(
+        retry(),
+        catchError(this.handleError)
+      )
+  }
+
+  /**
+   * Carded Job
+   * @param cradedTktList 
+   * @param shipRouteId 
+   * @param cardedFormValue 
+   */
+  cardedJob(cradedTktList,shipRouteId,cardedFormValue):Observable<any> {
+    const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
+
+    this.routeData = {
+      'endPointUrl': 'cardedbycontroller',
+      'company_id': '' + this.companyId,
+      'warehouse_id': '' + this.wairehouseId,
+      'email': this.email,
+      'access_token': this.access_token,
+      'shipment_route_id': shipRouteId,
+      'shipment_ticket':cradedTktList.join('","'),
+      'comment':cardedFormValue.driver_comment,
+      'next_date_time':formatDate(new Date(), 'dd-MM-yyyy hh:mm:ss a', 'en-US', '+0530'),
+      'failure_status':cardedFormValue.carded_status,
+      'timezone_name':Intl.DateTimeFormat().resolvedOptions().timeZone
+    }
+
+    //console.log(this.routeData);
+
+    return this.http.post<any>(this.iacrgoApiUrl + this.routeData.endPointUrl, JSON.stringify(this.routeData),
+      {
+        headers, responseType: 'text' as 'json'
+      })
+      .pipe(
+        retry(),
+        catchError(this.handleError)
+      )
+  }
+
+  /**
+   * Deliver Job
+   * @param deliverTktList 
+   * @param shipRouteId 
+   * @param cardedFormValue 
+   */
+  deliverJob(deliverTktList,shipRouteId,deliverFormValue):Observable<any> {
+    const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
+
+    this.routeData = {
+      'endPointUrl': 'deliveredbycontroller',
+      'company_id': '' + this.companyId,
+      'warehouse_id': '' + this.wairehouseId,
+      'email': this.email,
+      'access_token': this.access_token,
+      'shipment_route_id': shipRouteId,
+      'shipment_ticket':deliverTktList.join(","),
+      'comment':deliverFormValue.deliver_comment,
+      'next_date_time':formatDate(new Date(), 'dd-MM-yyyy hh:mm:ss a', 'en-US', '+0530'),
+      'contact_name':deliverFormValue.contact_person,
+      'timezone_name':Intl.DateTimeFormat().resolvedOptions().timeZone
+    }
+
+    console.log(this.routeData);
+
+    return this.http.post<any>(this.iacrgoApiUrl + this.routeData.endPointUrl, JSON.stringify(this.routeData),
+      {
+        headers, responseType: 'text' as 'json'
+      })
+      .pipe(
+        retry(),
+        catchError(this.handleError)
+      )
   }
 
 

@@ -59,6 +59,7 @@ export class SidenavLeftComponent implements OnInit {
 
   viewDetails(shipment_route_id,type){
 
+    this.sidebarLeftNavOp.releaseShipmentTkt = '';//Reset selected checkbox from grid
     this.sidebarLeftNavOp.routeType = type;
 
     this.sidenaveleftService.getRouteDetails(shipment_route_id,type).subscribe(resp => {

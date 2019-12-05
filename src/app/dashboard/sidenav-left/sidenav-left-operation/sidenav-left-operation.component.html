@@ -134,9 +134,15 @@
         </div>
         <div class="modal-footers" *ngIf="routeType=='assign'">
           <button (click)="processReleaseShipment()" type="button" class="btn btn-primary">Release Shipment</button>
-          <button type="button" class="btn btn-primary">Carded Shipment</button>
-          <button type="button" class="btn btn-primary">Deliver Shipment</button>
-          <button type="button" class="btn btn-primary">Export Cagesheet</button>
+          <a href="" class="btn btn-primary" data-toggle="modal" data-target="#Modal6"
+            [attr.data-dismiss]="releaseShipmentTkt.length?modal:''">
+            <span>Deliver Shipment</span>
+          </a>
+          <button type="button" class="btn btn-primary" (click)="downloadExportCageSheet()">Export Cagesheet</button>
+          <a href="" class="btn btn-primary" data-toggle="modal" data-target="#Modal5"
+            [attr.data-dismiss]="releaseShipmentTkt.length?modal:''">
+            <span>Carded Shipment</span>
+          </a>
         </div>
         <div class="modal-body space-bitween">
           <div class="mx-auto" style="width: 200px;">
@@ -147,8 +153,9 @@
           </div>
 
           <div class="inner-set-section">
-            <ag-grid-angular style="width: 500px; height: 500px;" class="ag-theme-balham" [rowData]="rowData"
-              [columnDefs]="columnDefs" [modules]="modules" [suppressRowClickSelection]="true" [rowSelection]='selectionMode' (selectionChanged)="onSelectionChanged($event)">
+            <ag-grid-angular style="width: auto; height: 500px;" class="ag-theme-balham" [rowData]="rowData"
+              [columnDefs]="columnDefs" [modules]="modules" [suppressRowClickSelection]="true"
+              [rowSelection]='selectionMode' (selectionChanged)="onSelectionChanged($event)">
             </ag-grid-angular>
           </div>
         </div>
@@ -158,4 +165,121 @@
   <!--//View Details-->
 
 
+  <!--Shipment Carded Form-->
+  <div *ngIf="releaseShipmentTkt.length" class="modal fade" id="Modal5" tabindex="-1" role="dialog"
+    aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="close-box">
+          <button type="button" data-dismiss="modal">X</button>
+        </div>
+
+        <div class="modal-body space-bitween">
+          <div class="inner-set-section">
+            <div class="tagline-headding">Carded Shipment(s)</div>
+          </div>
+          <form #cardedForm="ngForm" (ngSubmit)="onClickCarded()">
+            <div class="row">
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="form-group">
+                  <label for="name" class="col-form-label">Carded Status</label>
+                  <select class="form-control" id="sel1" name='carded_status' [(ngModel)]="cardedFormModel.carded_status" #carded_status="ngModel" required>
+                    <option selected="selected">--Select Status--</option>
+                    <option *ngFor="let cd of cardedeOptions" [value]="cd">
+                        {{cd}}
+                      </option>
+                  </select>
+                  <div *ngIf="cardedForm.submitted && driver_comment.invalid" class="invalid-feedback">
+                      <div *ngIf="carded_status.errors.required">Comment is required</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="form-group">
+                  <label for="name" class="col-form-label">Drivers Comment</label>
+                  <input type="text" class="form-control" id="name" placeholder="Comment" name='driver_comment'
+                    [(ngModel)]="cardedFormModel.driver_comment" #driver_comment="ngModel" autocomplete="off" required/>
+                </div>
+                <div *ngIf="cardedForm.submitted && driver_comment.invalid" class="invalid-feedback">
+                    <div *ngIf="driver_comment.errors.required">Comment is required</div>
+                </div>
+              </div>
+
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="form-group">
+                  <label for="date" class="col-form-label">Next Schedule Date and Time</label>
+                  <input type="text" class="form-control" id="date" placeholder="Date">
+                </div>
+              </div>
+
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" type="submit" class="btn btn-primary"
+                [disabled]="!cardedForm.form.valid">Carded</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--//Shipment Carded Form-->
+
+  <!--Deliver Shipment-->
+  <div *ngIf="releaseShipmentTkt.length" class="modal fade" id="Modal6" tabindex="-1" role="dialog"
+    aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="close-box">
+          <button type="button" data-dismiss="modal">X</button>
+        </div>
+
+        <div class="modal-body space-bitween">
+          <div class="inner-set-section">
+            <div class="tagline-headding">Delivered Shipment(s)</div>
+          </div>
+          <form #deliverForm="ngForm" (ngSubmit)="onClickDeliver()">
+            <div class="row">
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="form-group">
+                  <label for="name" class="col-form-label">Contact Person</label>
+                  <input type="text" class="form-control" id="name" placeholder="Contact Person" name='contact_person'
+                    [(ngModel)]="deliverFormModel.contact_person" #contact_person="ngModel" autocomplete="off" required/>
+                </div>
+                <div *ngIf="deliverForm.submitted && contact_person.invalid" class="invalid-feedback">
+                    <div *ngIf="contact_person.errors.required">Contact Name required</div>
+                </div>
+              </div>
+
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="form-group">
+                  <label for="name" class="col-form-label">Comment</label>
+                  <input type="text" class="form-control" id="name" placeholder="Comment" name='deliver_comment'
+                    [(ngModel)]="deliverFormModel.deliver_comment" #deliver_comment="ngModel" autocomplete="off" required/>
+                </div>
+                <div *ngIf="deliverForm.submitted && deliver_comment.invalid" class="invalid-feedback">
+                    <div *ngIf="deliver_comment.errors.required">Comment is required</div>
+                </div>
+              </div>
+
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="form-group">
+                  <label for="date" class="col-form-label">Next Schedule Date and Time</label>
+                  <input type="text" class="form-control" id="date" placeholder="Date">
+                </div>
+              </div>
+
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" type="submit" class="btn btn-primary"
+                [disabled]="!deliverForm.form.valid">Carded</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--//Deliver Shipment-->
 </div>
