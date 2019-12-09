@@ -2,10 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { SidenavLeftService } from '../sidenav-left.service';
 import { ToastrService } from 'ngx-toastr';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DashboardService } from '../../dashboard.service';
 import { AllCommunityModules } from '@ag-grid-community/all-modules';
-
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
+import { Observable, Observer, throwError, observable } from 'rxjs';
+import { ObserversModule } from '@angular/cdk/observers';
 
 
 
@@ -21,53 +25,77 @@ export class SidenavLeftOperationComponent implements OnInit {
   shipment_route_name: any;
   shipment_route_id: any;
   driverList: any[] = [];
-  rowData:any;
-  routeName:any;
-  driverName:any;
-  routeType:any;
-  releaseShipmentTkt:any = [];
+  rowData: any;
+  routeName: any;
+  driverName: any;
+  routeType: any;
+  releaseShipmentTkt: any = [];
   cardedFormModel: any = {};
-  cardedeOptions:any = ['CARDED'];
-  cradedTktList:any = [];
-  shipRouteId:any = '';
-  rlsTktList:any = [];
+  cardedeOptions: any = ['CARDED'];
+  cradedTktList: any = [];
+  shipRouteId: any = '';
+  rlsTktList: any = [];
   deliverFormModel: any = {};
-  deliverTktList:any = [];
- 
-
+  deliverTktList: any = [];
+  pdf: any;
+  deliverFormVal: FormGroup;
   selectionMode = 'multiple';
+  submittedDelV = false;
+  cardedFormVal: FormGroup;
+  submittedCard = false;
+  assignDriverFormVal: FormGroup;
+  submittedAssign = false;
+
   //Grid headers
   columnDefs = [
-    {headerName: 'Docket No', field: 'docket_no', sortable: true, filter: true, checkboxSelection: true,headerCheckboxSelection: true},
-    {headerName: 'Service', field: 'service_type', sortable: true, filter: true},
-    {headerName: 'Service Date', field: 'service_date', sortable: true, filter: true},
-    {headerName: 'Service Time', field: 'service_time', sortable: true, filter: true},
-    {headerName: 'Weight', field: 'weight', sortable: true, filter: true},
-    {headerName: 'Postcode', field: 'postcode', sortable: true, filter: true},
-    {headerName: 'Consignee Name', field: 'consignee_name', sortable: true, filter: true},
-    {headerName: 'Address1', field: 'address1', sortable: true, filter: true},
-    {headerName: 'Phone', field: 'phone', sortable: true, filter: true},
-    {headerName: 'Execution Order', field: 'execution_order', sortable: true, filter: true},
-    {headerName: 'Attempt', field: 'attempt', sortable: true, filter: true},
-    {headerName: 'Estimated Time', field: 'estimatedtime', sortable: true, filter: true},
-    {headerName: 'Status', field: 'current_status', sortable: true, filter: true},
-    {headerName: 'Action', field: 'action'},
+    { headerName: 'Docket No', field: 'docket_no', sortable: true, filter: true, checkboxSelection: true, headerCheckboxSelection: true },
+    { headerName: 'Service', field: 'service_type', sortable: true, filter: true },
+    { headerName: 'Service Date', field: 'service_date', sortable: true, filter: true },
+    { headerName: 'Service Time', field: 'service_time', sortable: true, filter: true },
+    { headerName: 'Weight', field: 'weight', sortable: true, filter: true },
+    { headerName: 'Postcode', field: 'postcode', sortable: true, filter: true },
+    { headerName: 'Consignee Name', field: 'consignee_name', sortable: true, filter: true },
+    { headerName: 'Address1', field: 'address1', sortable: true, filter: true },
+    { headerName: 'Phone', field: 'phone', sortable: true, filter: true },
+    { headerName: 'Execution Order', field: 'execution_order', sortable: true, filter: true },
+    { headerName: 'Attempt', field: 'attempt', sortable: true, filter: true },
+    { headerName: 'Estimated Time', field: 'estimatedtime', sortable: true, filter: true },
+    { headerName: 'Status', field: 'current_status', sortable: true, filter: true },
+    { headerName: 'Action', field: 'action' },
   ];
 
- 
+
 
   modules = AllCommunityModules;
 
   constructor(
-    private spinerService: NgxSpinnerService, 
-    private sidenavleftservice: SidenavLeftService, 
-    private toastr: ToastrService, 
+    private spinerService: NgxSpinnerService,
+    private sidenavleftservice: SidenavLeftService,
+    private toastr: ToastrService,
     private dashboardService: DashboardService,
-    ) {
+    private formBuilder: FormBuilder
+  ) {
 
   }
 
   ngOnInit() {
+    //Delivery Form Validation
+    this.deliverFormVal = this.formBuilder.group({
+      contact_person: ['', Validators.required],
+      deliver_comment: ['', Validators.required],
+    });
+
+    //Carded Form Validation
+    this.cardedFormVal = this.formBuilder.group({
+      carded_status: ['', Validators.required],
+      driver_comment: ['', Validators.required],
+    });
+
+    //Driver Assign Form Validation
+    this.assignDriverFormVal = this.formBuilder.group({
+      route_name: ['', Validators.required],
+      driver_id: ['', Validators.required],
+    });
   }
 
 
@@ -145,7 +173,11 @@ export class SidenavLeftOperationComponent implements OnInit {
    * Assign Driver To Route
    */
   onClickAssignDriver = () => {
-
+    
+    this.submittedAssign = true;
+    if (this.assignDriverFormVal.invalid) {
+      return;
+    }
 
     this.spinerService.show("driverAssign", {
       type: "line-scale-party",
@@ -169,20 +201,20 @@ export class SidenavLeftOperationComponent implements OnInit {
         });
         this.spinerService.hide("driverAssign");
       }
-      this.assignDriverFormModel = '';
+      this.assignDriverFormModel = {};
     });
 
   }
 
-  onSelectionChanged(event){ //When select check box from grid
+  onSelectionChanged(event) { //When select check box from grid
     this.releaseShipmentTkt = event.api.getSelectedRows();
   }
 
   //Release shipment
   processReleaseShipment() {
-    
-    
-    if(this.releaseShipmentTkt.length > 0){ //If selected
+
+
+    if (this.releaseShipmentTkt.length > 0) { //If selected
       this.spinerService.show("releasejob", {
         type: "line-scale-party",
         size: "large",
@@ -192,9 +224,9 @@ export class SidenavLeftOperationComponent implements OnInit {
       for (var i = 0; i < this.releaseShipmentTkt.length; i++) {
         this.rlsTktList.push(this.releaseShipmentTkt[i].shipment_ticket);
       }
-      this.shipRouteId = ''+this.releaseShipmentTkt[0].shipment_routed_id;
+      this.shipRouteId = '' + this.releaseShipmentTkt[0].shipment_routed_id;
       //releaselJob
-      this.sidenavleftservice.releaselJob(this.rlsTktList,this.shipRouteId).subscribe(res => {
+      this.sidenavleftservice.releaselJob(this.rlsTktList, this.shipRouteId).subscribe(res => {
 
         this.dashboardService.loadDropOnMapsEmit();////For Realtime Data
         var strArray = res.split(".");
@@ -206,7 +238,7 @@ export class SidenavLeftOperationComponent implements OnInit {
 
         this.spinerService.hide("releasejob");
       })
-    }else{
+    } else {
       this.toastr.warning('Please select shipment', '', {
         closeButton: true, positionClass: 'toast-top-right', timeOut: 2000
       });
@@ -214,10 +246,13 @@ export class SidenavLeftOperationComponent implements OnInit {
   }
 
   //Carded Job
-  onClickCarded(){
-    console.log(this.cardedFormModel);
-    
-    if(this.releaseShipmentTkt.length > 0 && Object.keys(this.cardedFormModel).length > 0){ //If selected
+  onClickCarded() {
+    this.submittedCard = true;
+    if (this.cardedFormVal.invalid) {
+      return;
+    }
+
+    if (this.releaseShipmentTkt.length > 0 && Object.keys(this.cardedFormModel).length > 0) { //If selected
       this.spinerService.show("carded", {
         type: "line-scale-party",
         size: "large",
@@ -227,11 +262,11 @@ export class SidenavLeftOperationComponent implements OnInit {
       for (var i = 0; i < this.releaseShipmentTkt.length; i++) {
         this.cradedTktList.push(this.releaseShipmentTkt[i].shipment_ticket);
       }
-      this.shipRouteId = ''+this.releaseShipmentTkt[0].shipment_routed_id;
+      this.shipRouteId = '' + this.releaseShipmentTkt[0].shipment_routed_id;
       //releaselJob
-      this.sidenavleftservice.cardedJob(this.cradedTktList,this.shipRouteId,this.cardedFormModel).subscribe(res => {
+      this.sidenavleftservice.cardedJob(this.cradedTktList, this.shipRouteId, this.cardedFormModel).subscribe(res => {
 
-        this.cardedFormModel = ''; //Reset Form Model
+        this.cardedFormModel = {}; //Reset Form Model
 
         this.dashboardService.loadDropOnMapsEmit();////For Realtime Data
         var strArray = res.split(".");
@@ -243,7 +278,7 @@ export class SidenavLeftOperationComponent implements OnInit {
 
         this.spinerService.hide("carded");
       })
-    }else{
+    } else {
       this.toastr.error('Form value required!', '', {
         closeButton: true, positionClass: 'toast-top-right', timeOut: 2000
       });
@@ -254,10 +289,13 @@ export class SidenavLeftOperationComponent implements OnInit {
   /**
    * Deliver Job
    */
-  onClickDeliver(){
-    console.log(this.deliverFormModel);
+  onClickDeliver() {
+    this.submittedDelV = true;
+    if (this.deliverFormVal.invalid) {
+      return;
+    }
 
-    if(this.releaseShipmentTkt.length > 0 && Object.keys(this.deliverFormModel).length > 0){ //If selected
+    if (this.releaseShipmentTkt.length > 0 && Object.keys(this.deliverFormModel).length > 0) { //If selected
       this.spinerService.show("deliverJob", {
         type: "line-scale-party",
         size: "large",
@@ -267,11 +305,11 @@ export class SidenavLeftOperationComponent implements OnInit {
       for (var i = 0; i < this.releaseShipmentTkt.length; i++) {
         this.deliverTktList.push(this.releaseShipmentTkt[i].shipment_ticket);
       }
-      this.shipRouteId = ''+this.releaseShipmentTkt[0].shipment_routed_id;
+      this.shipRouteId = '' + this.releaseShipmentTkt[0].shipment_routed_id;
       //releaselJob
-      this.sidenavleftservice.deliverJob(this.deliverTktList,this.shipRouteId,this.deliverFormModel).subscribe(res => {
+      this.sidenavleftservice.deliverJob(this.deliverTktList, this.shipRouteId, this.deliverFormModel).subscribe(res => {
 
-        this.deliverFormModel = ''; //Reset Form Model
+        this.deliverFormModel = {}; //Reset Form Model
 
         this.dashboardService.loadDropOnMapsEmit();////For Realtime Data
         var strArray = res.split(".");
@@ -283,65 +321,202 @@ export class SidenavLeftOperationComponent implements OnInit {
 
         this.spinerService.hide("deliverJob");
       })
-    }else{
+    } else {
       this.toastr.error('Form value required!', '', {
         closeButton: true, positionClass: 'toast-top-right', timeOut: 2000
       });
     }
   }
 
-  downloadExportCageSheet(){
-//     var doc = new jsPDF();
-//     //doc.text(20, 20, 'This PDF has a title, subject, author, keywords and a creator.');
+  /**
+   * create and download pdf
+   */
+  downloadExportCageSheet() {
 
-//        var col = ["Sr. No.","Details"];
-//        var col1 = ["Details", "Values"];
-//        var rows = [];
-//        var rows1 = [];
+    this.spinerService.show("gen-pdf", {
+      type: "line-scale-party",
+      size: "large",
+      color: "white"
+    });
+    this.sidenavleftservice.getCasgePDFData(this.shipment_route_id).subscribe(res => {
 
-//        var itemNew = [
+      var strArray = res.split(".");
+      var decodeBAse64 = JSON.parse(atob(strArray[1]));
+      if (decodeBAse64.run_sheet_data.length > 0) {
+        this.spinerService.hide("gen-pdf");
+        this.createPdf(decodeBAse64).subscribe(pdfData => {
+          this.pdf = pdfMake;
+          this.pdf.createPdf(pdfData).open();
+          this.pdf.createPdf(pdfData).download(decodeBAse64.route_name + '.pdf');
+          this.pdf.createPdf(pdfData).print();
+        });
+      } else {
+        this.toastr.info('No data is avaible', '', {
+          closeButton: true, positionClass: 'toast-top-right', timeOut: 2000
+        });
+      }
+    })
+  }
 
-//         { index:'1',id: 'Case Number', name : '101111111' },
-//         { index:'2',id: 'Patient Name', name : 'UAT DR' },
-//         { index:'3',id: 'Hospital Name', name: 'Dr Abcd' }
-      
-//       ]
+  /**
+   * Create HTML data for PDF
+   * @param pdfData 
+   */
+  createPdf(pdfData): Observable<any> {
+    var documentDefinition = {
+      header: {
+        margin: 10,
+        columns: [{
+          fontSize: 10,
+          bold: false,
+          text: 'Route Name - ' + pdfData.route_name,
+          alignment: 'justify',
+          margin: [10, 0, 0, 0],
+        },
+        {
+          fontSize: 18,
+          bold: true,
+          alignment: 'center',
+          margin: [10, 0, 0, 0],
+          text: 'Cage Check Sheet'
+        },
+        {
+          fontSize: 10,
+          bold: true,
+          text: '',
+          alignment: 'right',
+          margin: [10, 0, 0, 0],
+        }
+        ]
+      },
+      footer: function (page, pages) {
+        return {
+          columns: [{
+            alignment: 'right',
+            text: [{
+              text: page.toString(),
+              italics: true
+            },
+              ' of ',
+            {
+              text: pages.toString(),
+              italics: true
+            }
+            ]
+          }],
+          margin: [10, 0]
+        };
+      },
+      content: [
+        {
+          style: 'tableExample',
+          color: '#444',
+          table: {
+            headerRows: 2,
+            widths: ['auto', 'auto', 'auto', 'auto', 50, 'auto', 'auto', 150, "auto", "auto"],
+            body: [
+              [{
+                text: 'S.No',
+                style: 'tableHeader',
+                alignment: 'center'
+              }, {
+                text: 'Drop Order',
+                style: 'tableHeader',
+                alignment: 'center'
+              }, {
+                text: 'Docket No',
+                style: 'tableHeader',
+                alignment: 'center'
+              }, {
+                text: 'Address 1',
+                style: 'tableHeader',
+                alignment: 'center'
+              }, {
+                text: 'Postcode',
+                style: 'tableHeader',
+                alignment: 'center'
+              }, {
+                text: 'Exp. Item(S)',
+                style: 'tableHeader',
+                alignment: 'center'
+              }, {
+                text: 'Exp. Delivery Date',
+                style: 'tableHeader',
+                alignment: 'center'
+              }, {
+                text: 'Order Number',
+                style: 'tableHeader',
+                alignment: 'center'
+              }, {
+                text: 'Sku Number',
+                style: 'tableHeader',
+                alignment: 'center'
+              }, {
+                text: 'Received Item(S)',
+                style: 'tableHeader',
+                alignment: 'center'
+              }],
+            ]
+          }
+        }
+      ],
+      pageSize: 'A3',
+      styles: {
+        header: {
+          fontSize: 18,
+          bold: false,
+          margin: [0, 0, 0, 10]
+        },
+        subheader: {
+          fontSize: 16,
+          bold: false,
+          margin: [0, 10, 0, 5]
+        },
+        tableExample: {
+          margin: [0, 5, 0, 15]
+        },
+        tableHeader: {
+          bold: false,
+          fontSize: 8,
+          color: 'black'
+        }
+      }
+    };
+    //Push PDF data to table
+    for (var i = 0; i < pdfData.run_sheet_data.length; i++) {
+      let items = pdfData.run_sheet_data[i];
+      var orderNumber = ((items.customer_reference1) ? items.customer_reference1 : '');
+      var skuNumber = ((items.customer_reference2) ? items.customer_reference2 : '');
+      documentDefinition.content[0].table.body.push([i + 1, items.icargo_execution_order, items.instaDispatch_docketNumber, items.address_line1, items.shipment_postcode, items.shipment_total_item, items.shipment_required_service_date, orderNumber, skuNumber, ""]);
+    }
 
-//        itemNew.forEach(element => {      
-//         var temp = [element.index,element.id];
-//         var temp1 = [element.id,element.name];
-//         rows.push(temp);
-//         rows1.push(temp1);
-//       });        
+    return Observable.create(observer => {
+      observer.next(documentDefinition);
+      observer.complete();
+    });
 
-//         //doc.table(col, rows, { startY: 10 },{});
+  }
 
-//         //==doc.autoTable(col1, rows1, { startY: 60 });
-//         doc.save('Test.pdf');
+  /**
+   * Used OnlyFor validation
+   */
+  validateDeliverShipment() {
+    if (!this.releaseShipmentTkt.length) {
+      this.toastr.warning('Please select shipment', '', {
+        closeButton: true, positionClass: 'toast-top-right', timeOut: 2000
+      });
+    }
+  }
 
-// //Output as Data URI
-//     //doc.save('Test.pdf');
-//     doc.output('dataurlnewwindow');
-    // const header1 = new Cell('Header1');
-    // const header2 = new Cell('Header2');
-    // const header3 = new Cell('Header3', { fillColor: '#cecece' });
- 
-    // // Create headers row
-    // const headerRows = new Row([header1, header2, header3]);
- 
-    // // Create a content row
-    // const row1 = new Row([new Cell('One value goes here '), new Cell('Another one here'), new Cell('OK?')]);
- 
-    // // Custom  column widths
-    // const widths = [100, '*', 200, '*'];
- 
-    // // Create table object
-    // const table = new Table(headerRows, [row1], widths);
- 
-    // Add table to document
-    // this.pdfmake.addTable(table);
-    // this.pdfmake.open();
-    // this.pdfmake.download();
+  /**
+  * Used OnlyFor validation
+  */
+  validateCardedShipment() {
+    if (!this.releaseShipmentTkt.length) {
+      this.toastr.warning('Please select shipment', '', {
+        closeButton: true, positionClass: 'toast-top-right', timeOut: 2000
+      });
+    }
   }
 
 }

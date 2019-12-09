@@ -76,6 +76,9 @@ export class DashboardComponent implements OnInit {
           'icon-image': '{icon}',
           'icon-allow-overlap': true,
           "text-field": '{execution_order}',
+          "icon-ignore-placement":true,
+          "symbol-avoid-edges":true,
+          "text-allow-overlap":true
         }
       });
 
@@ -89,7 +92,9 @@ export class DashboardComponent implements OnInit {
           'icon-image': '{icon}',
           'icon-allow-overlap': true,
           "text-field": '{name}',
-          'text-offset': [0, 1.5]
+          'text-offset': [0, 1.5],
+          "text-allow-overlap":true,
+          "icon-ignore-placement":true
         },
         paint: {
           'text-color': '#00ff00',

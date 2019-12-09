@@ -12,7 +12,7 @@ export class config {
     //     google_api_key: 'AIzaSyD-X5xWDTa9L15dUYkWUjRExGRHznOfFsQ',
     //     mapbox_api_key:'pk.eyJ1IjoiaW5zdGFkaXNwYXRjaCIsImEiOiJjazJvajJueWwwNjlmM2dwcHMxbTFiMHl0In0.9eyVqMCN3WIodGdslgQ1hA',
     //     icargo_access_token :localStorage.getItem('access_token'),
-    //     icargo_api_url:'https://api.instadispatch.com/app-allignment/parcel-api/v1/'
+    //     icargo_api_url:'https://api.instadispatch.com/dev/v1/'
     // }
 //Live
     // env = {
@@ -35,7 +35,7 @@ export class config {
     env = {
         name: 'local',
         socket_api_url: 'http://localhost:3000/',
-        driver_socket_api_url: 'wss://gps.app-tree.co.uk:3500',
+        driver_socket_api_url: 'wss://gps.app-tree.co.uk:3000',
         company_id: 10,
         user_id: 10,
         wairehouse_id: 1,

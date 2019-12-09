@@ -20,7 +20,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { SidenavLeftOperationComponent } from './dashboard/sidenav-left/sidenav-left-operation/sidenav-left-operation.component';
 import { AgGridModule } from '@ag-grid-community/angular';
-
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 
 
 @NgModule({
@@ -50,7 +50,8 @@ import { AgGridModule } from '@ag-grid-community/angular';
     HttpClientModule,
     ToastrModule.forRoot(),
     AgGridModule.withComponents([]),
-    
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

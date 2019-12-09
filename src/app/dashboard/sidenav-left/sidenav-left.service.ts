@@ -250,8 +250,6 @@ export class SidenavLeftService {
       'timezone_name':Intl.DateTimeFormat().resolvedOptions().timeZone
     }
 
-    //console.log(this.routeData);
-
     return this.http.post<any>(this.iacrgoApiUrl + this.routeData.endPointUrl, JSON.stringify(this.routeData),
       {
         headers, responseType: 'text' as 'json'
@@ -285,8 +283,28 @@ export class SidenavLeftService {
       'timezone_name':Intl.DateTimeFormat().resolvedOptions().timeZone
     }
 
-    console.log(this.routeData);
+    return this.http.post<any>(this.iacrgoApiUrl + this.routeData.endPointUrl, JSON.stringify(this.routeData),
+      {
+        headers, responseType: 'text' as 'json'
+      })
+      .pipe(
+        retry(),
+        catchError(this.handleError)
+      )
+  }
 
+  getCasgePDFData(shipmentRouteId):Observable<any>{
+    const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
+
+    this.routeData = {
+      'endPointUrl': 'getRunsheetData',
+      'company_id': '' + this.companyId,
+      'warehouse_id': '' + this.wairehouseId,
+      'email': this.email,
+      'access_token': this.access_token,
+      'routeid': shipmentRouteId,
+      'timezone_name':Intl.DateTimeFormat().resolvedOptions().timeZone
+    }
     return this.http.post<any>(this.iacrgoApiUrl + this.routeData.endPointUrl, JSON.stringify(this.routeData),
       {
         headers, responseType: 'text' as 'json'

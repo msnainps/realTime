@@ -1,5 +1,59 @@
 <mat-accordion [multi]="true">
-    <mat-expansion-panel [expanded]="true" class="custom-accordian">
+
+        <mat-expansion-panel [expanded]="false" class="custom-accordian">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Unassigned ({{sidenaveleftService.dataList.unassignDropCount}})
+                    </mat-panel-title>
+                    <mat-panel-description>
+        
+                        <!-- <mat-icon>account_circle</mat-icon> -->
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <ng-container *ngFor="let unassignData of sidenaveleftService.dataList.unassingedData">
+                    <ng-container *ngIf="unassignData.drop_type == 'unassinged'">
+                        <div class="main-left-panel unassigned">
+                            <div class="panel first">
+                                <h6><i class="material-icons"> fiber_manual_record </i>{{unassignData.customer_name}}</h6>
+                            </div>
+                            <!-- <div class="panel second">
+                        <h5> Paused</h5>
+                    </div> -->
+                            <div class="panel third fixed-width">
+                                <h6><i class="material-icons"> explore </i>{{unassignData.route_name}}</h6>
+                            </div>
+                            <div class="panel fourth">
+                                <h6><i class="material-icons"> date_range </i>{{unassignData.service_date}}</h6>
+                            </div>
+        
+                            <div class="panel fifth">
+                                <!-- <h6><i class="material-icons"> directions_car </i>Meena</h6> -->
+                            </div>
+                            <div class="panel sixth">
+                                <a mat-button routerLink="." [matMenuTriggerFor]="menu"><i class="material-icons"> more_vert
+                                    </i></a>
+        
+                                <mat-menu #menu="matMenu">
+                                    <ul class="set-list">
+                                        <li><a href="" (click)="assignJob(unassignData.shipment_ticket,unassignData.shipment_routed_id)" data-toggle="modal" data-target="#Modal1">
+                                                <mat-icon>how_to_reg</mat-icon> <span>Assign Job</span>
+                                            </a></li>
+                                        <li><a href="" (click)="cancelShipment(unassignData.shipment_ticket)" data-toggle="modal" data-target="#Modal2">
+                                                <mat-icon>cancel_presentation</mat-icon> <span>Cancel Job</span>
+                                            </a></li>
+                                        <li><a href="" (click)="viewDetails(unassignData.shipment_routed_id,'unassign')" data-toggle="modal" data-target="#Modal4">
+                                                <mat-icon>remove_red_eye</mat-icon> <span>View Details</span>
+                                            </a></li>
+                                    </ul>
+                                </mat-menu>
+                            </div>
+                        </div>
+                    </ng-container>
+                </ng-container>
+            </mat-expansion-panel>
+
+
+    <mat-expansion-panel [expanded]="false" class="custom-accordian">
         <mat-expansion-panel-header>
             <mat-panel-title>
                 Assigned ({{sidenaveleftService.dataList.assignDropCount}})
@@ -44,58 +98,6 @@
                                         <mat-icon>credit_card</mat-icon> <span>Withdraw</span>
                                     </a></li>
                                 <li><a href="" (click)="viewDetails(assignData.shipment_routed_id,'assign')" data-toggle="modal" data-target="#Modal4">
-                                        <mat-icon>remove_red_eye</mat-icon> <span>View Details</span>
-                                    </a></li>
-                            </ul>
-                        </mat-menu>
-                    </div>
-                </div>
-            </ng-container>
-        </ng-container>
-    </mat-expansion-panel>
-
-    <mat-expansion-panel [expanded]="true" class="custom-accordian">
-        <mat-expansion-panel-header>
-            <mat-panel-title>
-                Unassigned ({{sidenaveleftService.dataList.unassignDropCount}})
-            </mat-panel-title>
-            <mat-panel-description>
-
-                <!-- <mat-icon>account_circle</mat-icon> -->
-            </mat-panel-description>
-        </mat-expansion-panel-header>
-        <ng-container *ngFor="let unassignData of sidenaveleftService.dataList.unassingedData">
-            <ng-container *ngIf="unassignData.drop_type == 'unassinged'">
-                <div class="main-left-panel unassigned">
-                    <div class="panel first">
-                        <h6><i class="material-icons"> fiber_manual_record </i>{{unassignData.customer_name}}</h6>
-                    </div>
-                    <!-- <div class="panel second">
-                <h5> Paused</h5>
-            </div> -->
-                    <div class="panel third fixed-width">
-                        <h6><i class="material-icons"> explore </i>{{unassignData.route_name}}</h6>
-                    </div>
-                    <div class="panel fourth">
-                        <h6><i class="material-icons"> date_range </i>{{unassignData.service_date}}</h6>
-                    </div>
-
-                    <div class="panel fifth">
-                        <!-- <h6><i class="material-icons"> directions_car </i>Meena</h6> -->
-                    </div>
-                    <div class="panel sixth">
-                        <a mat-button routerLink="." [matMenuTriggerFor]="menu"><i class="material-icons"> more_vert
-                            </i></a>
-
-                        <mat-menu #menu="matMenu">
-                            <ul class="set-list">
-                                <li><a href="" (click)="assignJob(unassignData.shipment_ticket,unassignData.shipment_routed_id)" data-toggle="modal" data-target="#Modal1">
-                                        <mat-icon>how_to_reg</mat-icon> <span>Assign Job</span>
-                                    </a></li>
-                                <li><a href="" (click)="cancelShipment(unassignData.shipment_ticket)" data-toggle="modal" data-target="#Modal2">
-                                        <mat-icon>cancel_presentation</mat-icon> <span>Cancel Job</span>
-                                    </a></li>
-                                <li><a href="" (click)="viewDetails(unassignData.shipment_routed_id,'unassign')" data-toggle="modal" data-target="#Modal4">
                                         <mat-icon>remove_red_eye</mat-icon> <span>View Details</span>
                                     </a></li>
                             </ul>
