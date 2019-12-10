@@ -632,7 +632,7 @@ margin-right: 10px;
   position: 0 !important;
 }
 .modal{
-  z-index: 1060 !important;
+  z-index: 9 !important;
 }
 .tagline-headding{
   font-size: 18px;
@@ -707,4 +707,22 @@ border-radius: 3px;
 }
 .modal-footers .btn-primary{
 margin: 6px;
+}
+
+@media (min-width: 576px){
+.modal-dialog.modal-dialog2  {
+    max-width: 1000px;
+    margin: 1.75rem auto;
+}
+}
+
+.modal-footers.modal-footers2{
+  width: 66%;
+  margin: 51px auto 3px auto;
+}
+.space-bitween h4{
+  font-size: 16px;
+  font-weight: 600;
+  display: inline-block;
+  margin-right: 8px;
 }

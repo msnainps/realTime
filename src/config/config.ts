@@ -44,7 +44,7 @@ export class config {
         user_level: 2,
         google_api_key:'AIzaSyD-X5xWDTa9L15dUYkWUjRExGRHznOfFsQ',
         mapbox_api_key:'pk.eyJ1IjoiaW5zdGFkaXNwYXRjaCIsImEiOiJjazJvajJueWwwNjlmM2dwcHMxbTFiMHl0In0.9eyVqMCN3WIodGdslgQ1hA',
-        icargo_access_token : 'MTgwNDk4MDg4LTVkZDNjZWEwNzU2ZjAtMTA=',
+        icargo_access_token : 'OTg5NDEwMTU1LTVkZWUzYWIxZDZjYjgtMTA=',
         icargo_api_url:'http://localhost/parcel-api/v1/'
     }
 }

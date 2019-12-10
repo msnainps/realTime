@@ -129,7 +129,7 @@ export class SidenavLeftService {
       'shipment_ticket': ''+assignFormData.shipment_ticket,
       'route_name':''+assignFormData.route_name,
       'driver_id':''+assignFormData.driver_id,
-      'assign_time':formatDate(new Date(), 'dd-MM-yyyy hh:mm:ss a', 'en-US', '+0530'),
+      'assign_time':formatDate(new Date(assignFormData.assign_date_time), 'dd-MM-yyyy hh:mm:ss a', 'en-US', '+0530'),
       "timezone_name":Intl.DateTimeFormat().resolvedOptions().timeZone
     }
 
@@ -245,7 +245,7 @@ export class SidenavLeftService {
       'shipment_route_id': shipRouteId,
       'shipment_ticket':cradedTktList.join('","'),
       'comment':cardedFormValue.driver_comment,
-      'next_date_time':formatDate(new Date(), 'dd-MM-yyyy hh:mm:ss a', 'en-US', '+0530'),
+      'next_date_time':formatDate(new Date(cardedFormValue.carded_date_time), 'dd-MM-yyyy hh:mm:ss a', 'en-US', '+0530'),
       'failure_status':cardedFormValue.carded_status,
       'timezone_name':Intl.DateTimeFormat().resolvedOptions().timeZone
     }
@@ -278,7 +278,7 @@ export class SidenavLeftService {
       'shipment_route_id': shipRouteId,
       'shipment_ticket':deliverTktList.join(","),
       'comment':deliverFormValue.deliver_comment,
-      'next_date_time':formatDate(new Date(), 'dd-MM-yyyy hh:mm:ss a', 'en-US', '+0530'),
+      'next_date_time':formatDate(new Date(deliverFormValue.deliver_date_time), 'dd-MM-yyyy hh:mm:ss a', 'en-US', '+0530'),
       'contact_name':deliverFormValue.contact_person,
       'timezone_name':Intl.DateTimeFormat().resolvedOptions().timeZone
     }

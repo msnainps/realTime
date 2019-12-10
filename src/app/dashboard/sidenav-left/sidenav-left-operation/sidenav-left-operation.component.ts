@@ -9,8 +9,7 @@ import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 import { Observable, Observer, throwError, observable } from 'rxjs';
-import { ObserversModule } from '@angular/cdk/observers';
-
+import { DateTimeAdapter } from 'ng-pick-datetime';
 
 
 @Component({
@@ -45,6 +44,8 @@ export class SidenavLeftOperationComponent implements OnInit {
   submittedCard = false;
   assignDriverFormVal: FormGroup;
   submittedAssign = false;
+  showHideModal = 'block';
+  
 
   //Grid headers
   columnDefs = [
@@ -73,9 +74,10 @@ export class SidenavLeftOperationComponent implements OnInit {
     private sidenavleftservice: SidenavLeftService,
     private toastr: ToastrService,
     private dashboardService: DashboardService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    dateTimeAdapter: DateTimeAdapter<any>
   ) {
-
+    dateTimeAdapter.setLocale('it'); //For date format 10/12/2019
   }
 
   ngOnInit() {
@@ -83,18 +85,21 @@ export class SidenavLeftOperationComponent implements OnInit {
     this.deliverFormVal = this.formBuilder.group({
       contact_person: ['', Validators.required],
       deliver_comment: ['', Validators.required],
+      deliver_date_time:['', Validators.required]
     });
 
     //Carded Form Validation
     this.cardedFormVal = this.formBuilder.group({
       carded_status: ['', Validators.required],
       driver_comment: ['', Validators.required],
+      carded_date_time:['', Validators.required]
     });
 
     //Driver Assign Form Validation
     this.assignDriverFormVal = this.formBuilder.group({
       route_name: ['', Validators.required],
       driver_id: ['', Validators.required],
+      assign_date_time : ['', Validators.required]
     });
   }
 
@@ -112,6 +117,10 @@ export class SidenavLeftOperationComponent implements OnInit {
 
     //Check shipment ticket is eligible or not
     this.sidenavleftservice.checkEligibleForCancel(shipmentTkt).subscribe(val => {
+
+      this.showHideModal = 'none';
+      document.querySelector(".modal-backdrop").remove();
+
       var myStr = val;
       var strArray = myStr.split(".");
       var decodeBAse64 = JSON.parse(atob(strArray[1]));
@@ -151,6 +160,10 @@ export class SidenavLeftOperationComponent implements OnInit {
 
 
     this.sidenavleftservice.withdrawAssignedRoute(shipmentRouteId).subscribe(val => {
+
+      this.showHideModal = 'none';
+      document.querySelector(".modal-backdrop").remove();
+
       this.dashboardService.loadDropOnMapsEmit();////For Realtime Data
       var myStr = val;
       var strArray = myStr.split(".");
@@ -178,7 +191,6 @@ export class SidenavLeftOperationComponent implements OnInit {
     if (this.assignDriverFormVal.invalid) {
       return;
     }
-
     this.spinerService.show("driverAssign", {
       type: "line-scale-party",
       size: "large",
@@ -186,6 +198,10 @@ export class SidenavLeftOperationComponent implements OnInit {
     });
 
     this.sidenavleftservice.sameDayAssignedRoute(this.assignDriverFormModel).subscribe(val => {
+
+      this.showHideModal = 'none';
+      document.querySelector(".modal-backdrop").remove();
+
       this.dashboardService.loadDropOnMapsEmit();////For Realtime Data
       var myStr = val;
       var strArray = myStr.split(".");
@@ -227,6 +243,10 @@ export class SidenavLeftOperationComponent implements OnInit {
       this.shipRouteId = '' + this.releaseShipmentTkt[0].shipment_routed_id;
       //releaselJob
       this.sidenavleftservice.releaselJob(this.rlsTktList, this.shipRouteId).subscribe(res => {
+        
+        this.showHideModal = 'none';
+        document.querySelector(".modal-backdrop").remove();
+        
 
         this.dashboardService.loadDropOnMapsEmit();////For Realtime Data
         var strArray = res.split(".");
@@ -265,6 +285,10 @@ export class SidenavLeftOperationComponent implements OnInit {
       this.shipRouteId = '' + this.releaseShipmentTkt[0].shipment_routed_id;
       //releaselJob
       this.sidenavleftservice.cardedJob(this.cradedTktList, this.shipRouteId, this.cardedFormModel).subscribe(res => {
+
+
+        this.showHideModal = 'none';
+        document.querySelector(".modal-backdrop").remove();
 
         this.cardedFormModel = {}; //Reset Form Model
 
@@ -308,6 +332,9 @@ export class SidenavLeftOperationComponent implements OnInit {
       this.shipRouteId = '' + this.releaseShipmentTkt[0].shipment_routed_id;
       //releaselJob
       this.sidenavleftservice.deliverJob(this.deliverTktList, this.shipRouteId, this.deliverFormModel).subscribe(res => {
+
+        this.showHideModal = 'none';
+        document.querySelector(".modal-backdrop").remove();
 
         this.deliverFormModel = {}; //Reset Form Model
 
@@ -518,5 +545,6 @@ export class SidenavLeftOperationComponent implements OnInit {
       });
     }
   }
+
 
 }

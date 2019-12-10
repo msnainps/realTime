@@ -2,7 +2,7 @@
 
   <!--Assign Job-->
   <div class="modal fade" id="Modal1" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog" role="document" id="loginModal" [ngStyle]="{'display':showHideModal}">
       <div class="modal-content">
 
         <div class="close-box">
@@ -24,19 +24,16 @@
                 </div>
               </div>
 
-              <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+              <div class="col-xs-12 col-sm-6 col-md-6 col-lg-12">
                 <div class="form-group">
-                  <label for="date" class="col-form-label">Date</label>
-                  <!-- <input type="text" class="form-control" id="date" placeholder="Date"> -->
-                </div>
-              </div>
-
-              <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                <div class="form-group">
-                  <label for="time" class="col-form-label">Time</label>
-                  <!-- <input type="text" class="form-control" id="time" placeholder="Time"> -->
-                  <input [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" placeholder="Date Time">
+                  <label for="time" class="col-form-label">Date/Time</label>
+                  <input class="form-control" [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" formControlName='assign_date_time'
+                  [(ngModel)]="assignDriverFormModel.assign_date_time"
+                  [ngClass]="{ 'is-invalid': submittedAssign &amp;&amp; assignDriverFormVal.controls.assign_date_time.errors }" autocomplete="off" />
                   <owl-date-time #dt1></owl-date-time>
+                  <div *ngIf="submittedAssign &amp;&amp; assignDriverFormVal.controls.assign_date_time.errors" class="text-danger">
+                    <div *ngIf="assignDriverFormVal.controls.assign_date_time.errors.required">Date Time is required</div>
+                </div>
                 </div>
               </div>
               
@@ -71,7 +68,7 @@
 
   <!--Cancel Job-->
   <div class="modal fade" id="Modal2" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog" role="document" [ngStyle]="{'display':showHideModal}">
       <div class="modal-content">
         <div class="close-box">
           <button type="button" data-dismiss="modal">X</button>
@@ -101,7 +98,7 @@
 
   <!--Withdraw Job-->
   <div class="modal fade" id="Modal3" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog" role="document" [ngStyle]="{'display':showHideModal}">
       <div class="modal-content">
         <div class="close-box">
           <button type="button" data-dismiss="modal">X</button>
@@ -130,12 +127,12 @@
 
   <!--View Details-->
   <div class="modal fade" id="Modal4" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-dialog2" role="document" [ngStyle]="{'display':showHideModal}">
       <div class="modal-content">
         <div class="close-box">
           <button type="button" data-dismiss="modal">X</button>
         </div>
-        <div class="modal-footers" *ngIf="routeType=='assign'">
+        <div class="modal-footers modal-footers2" *ngIf="routeType=='assign'">
           <button (click)="processReleaseShipment()" type="button" class="btn btn-primary">Release Shipment</button>
           <a href="" (click)="validateDeliverShipment()" class="btn btn-primary" data-toggle="modal" data-target="#Modal6"
             [attr.data-dismiss]="releaseShipmentTkt.length?modal:''">
@@ -148,11 +145,11 @@
           </a>
         </div>
         <div class="modal-body space-bitween">
-          <div class="mx-auto" style="width: 200px;">
-            <span>Route:{{routeName}}</span>
+          <div style="width: 100%;">
+            <span><h4>Route:</h4>{{routeName}}</span>
           </div>
-          <div class="mx-auto" style="width: 200px;">
-            <span>Driver:{{driverName}}</span>
+          <div style="width: 100%;">
+            <span><h4>Driver:</h4>{{driverName}}</span>
           </div>
 
           <div class="inner-set-section">
@@ -171,7 +168,7 @@
   <!--Carded Shipment Form-->
   <div *ngIf="releaseShipmentTkt.length" class="modal fade" id="Modal5" tabindex="-1" role="dialog"
     aria-labelledby="ModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog" role="document" [ngStyle]="{'display':showHideModal}">
       <div class="modal-content">
         <div class="close-box">
           <button type="button" data-dismiss="modal">X</button>
@@ -214,8 +211,14 @@
               <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="form-group">
                   <label for="date" class="col-form-label">Next Schedule Date and Time</label>
-                  <input type="text" class="form-control" id="date" placeholder="Date">
+                  <input type="text" class="form-control" id="date" [owlDateTime]="dt3" [owlDateTimeTrigger]="dt3" formControlName='carded_date_time'
+                  [(ngModel)]="cardedFormModel.carded_date_time"
+                  [ngClass]="{ 'is-invalid': submittedCard &amp;&amp; cardedFormVal.controls.carded_date_time.errors }" required autocomplete="off" />
+                  <owl-date-time #dt3></owl-date-time>
                 </div>
+                <div *ngIf="submittedCard &amp;&amp; cardedFormVal.controls.carded_date_time.errors" class="text-danger">
+                  <div *ngIf="cardedFormVal.controls.carded_date_time.errors.required">Date Time is required</div>
+              </div>
               </div>
 
 
@@ -233,7 +236,7 @@
   <!--Deliver Shipment-->
   <div *ngIf="releaseShipmentTkt.length" class="modal fade" id="Modal6" tabindex="-1" role="dialog"
     aria-labelledby="ModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog" role="document" [ngStyle]="{'display':showHideModal}">
       <div class="modal-content">
         <div class="close-box">
           <button type="button" data-dismiss="modal">X</button>
@@ -272,8 +275,15 @@
               <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="form-group">
                   <label for="date" class="col-form-label">Next Schedule Date and Time</label>
-                  <input type="text" class="form-control" id="date" placeholder="Date">
+                  <input type="text" class="form-control" id="date" [owlDateTime]="dt2" [owlDateTimeTrigger]="dt2" formControlName='deliver_date_time' 
+                  [(ngModel)]="deliverFormModel.deliver_date_time" 
+                  [ngClass]="{ 'is-invalid': submittedDelV &amp;&amp; deliverFormVal.controls.deliver_date_time.errors }"
+                  autocomplete="off" required/>
+                  <owl-date-time #dt2></owl-date-time>
                 </div>
+                <div *ngIf="submittedDelV &amp;&amp; deliverFormVal.controls.deliver_date_time.errors" class="text-danger">
+                  <div *ngIf="deliverFormVal.controls.deliver_date_time.errors.required">Date Time is required</div>
+              </div>
               </div>
 
 

@@ -30,15 +30,18 @@ export class SidenavLeftComponent implements OnInit {
   }
 
   cancelShipment(shipmentTkt){
+    this.sidebarLeftNavOp.showHideModal = 'block';
     this.sidebarLeftNavOp.shipment_ticket = shipmentTkt;
   }
 
   WithdrawRoute(shipmentRouteName,shipmentRouteId){
+    this.sidebarLeftNavOp.showHideModal = 'block';
     this.sidebarLeftNavOp.shipment_route_name = shipmentRouteName;
     this.sidebarLeftNavOp.shipment_route_id = shipmentRouteId;
   }
 
   assignJob(shipmentTicket,shipmenRouteId){
+    this.sidebarLeftNavOp.showHideModal = 'block';
     //get Driver List
     this.sidenaveleftService.getDriverList().subscribe(quote => {
       this.sidebarLeftNavOp.driverList = quote.driver_data;
@@ -58,7 +61,7 @@ export class SidenavLeftComponent implements OnInit {
   }
 
   viewDetails(shipment_route_id,type){
-    
+    this.sidebarLeftNavOp.showHideModal = 'block';
 
     this.sidebarLeftNavOp.releaseShipmentTkt = '';//Reset selected checkbox from grid
     this.sidebarLeftNavOp.routeType = type;
