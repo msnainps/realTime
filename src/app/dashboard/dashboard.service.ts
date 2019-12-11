@@ -71,35 +71,36 @@ export class DashboardService {
 
   loadDropOnMapsListen() {
     this.socket.websocket.on('get-all-drops', (data) => {
-      this.markerList = data.shipment_data;
-      data.shipment_data.push.apply(data.shipment_data, data.unassgn_shipment_data);
-      data.shipment_data.push.apply(data.shipment_data, data.completed_shipment_data)
+      //this.markerList = data.shipment_data;
+      //data.shipment_data.push.apply(data.shipment_data, data.unassgn_shipment_data);
+      //data.shipment_data.push.apply(data.shipment_data, data.completed_shipment_data)
 
       console.log(data);
 
-      for (var index1 in data.shipment_data) {
+      for (var index1 in data.mapPlotData) {
         this.points.features[index1] = {
           'type': 'Feature',
           'properties': {
             'description':
-              '<div class="drops-headding">' + data.shipment_data[index1].shipment_ticket + '</div>\
-              <div class="drops-min"><i class="material-icons drops-min-color1">home</i> <span>'+ data.shipment_data[index1].customer_name + '</span><div>' + data.shipment_data[index1].fulladdress + '</div></div>\
-              <div class="drops-min"><i class="material-icons drops-min-color2">help_outline</i> <span>Ref:'+ data.shipment_data[index1].cr + '</span><div>  <span>Job:</span> ' + data.shipment_data[index1].job_type + '</div></div>\
+              (data.mapPlotData[index1].drop_type == 'same-coord' ? data.mapPlotData[index1].shipmentTicketList : 
+              '<div class="drops-headding">' + data.mapPlotData[index1].shipment_ticket + '</div>\
+              <div class="drops-min"><i class="material-icons drops-min-color1">home</i> <span>'+ data.mapPlotData[index1].customer_name + '</span><div>' + data.mapPlotData[index1].fulladdress + '</div></div>\
+              <div class="drops-min"><i class="material-icons drops-min-color2">help_outline</i> <span>Ref:'+ data.mapPlotData[index1].cr + '</span><div>  <span>Job:</span> ' + data.mapPlotData[index1].job_type + '</div></div>\
               <div class="drops-line"></div>\
-              <div class="drops-min"><i class="material-icons drops-min-color3">local_car_wash</i> <span>'+ data.shipment_data[index1].driver_name + '</span><div>\
+              <div class="drops-min"><i class="material-icons drops-min-color3">local_car_wash</i> <span>'+ data.mapPlotData[index1].driver_name + '</span><div>\
               <div class="postion-set">\
-              '+ (data.shipment_data[index1].drop_type == 'unassinged' ? data.driverList : "") + '\
-              </div></div>',
-            'icon': data.shipment_data[index1].marker_url,
-            'execution_order': data.shipment_data[index1].icargo_execution_order,
-            'shipment_id': data.shipment_data[index1].shipment_ticket,
-            'shipment_route_id': data.shipment_data[index1].shipment_routed_id
+              '+ (data.mapPlotData[index1].drop_type == 'unassinged' ? data.driverList : "") + '\
+              </div></div>'),
+            'icon': data.mapPlotData[index1].marker_url,
+            'execution_order': data.mapPlotData[index1].icargo_execution_order,
+            'shipment_id': data.mapPlotData[index1].shipment_ticket,
+            'shipment_route_id': data.mapPlotData[index1].shipment_routed_id
           },
           'geometry': {
             'type': 'Point',
             'coordinates': [
-              data.shipment_data[index1].shipment_longitude,
-              data.shipment_data[index1].shipment_latitude
+              data.mapPlotData[index1].shipment_longitude,
+              data.mapPlotData[index1].shipment_latitude
             ]
           }
         };

@@ -79,6 +79,9 @@ export class DashboardComponent implements OnInit {
           "icon-ignore-placement":true,
           "symbol-avoid-edges":true,
           "text-allow-overlap":true
+        },
+        paint: {
+          'text-color': '#00ff00'
         }
       });
 

@@ -22,14 +22,5 @@ export class MapboxService {
       center: [-1.27945500000000000000, 51.75343480000000000000],
       });
       this.map.addControl(new mapboxgl.NavigationControl());
-
-      // spiderfier = new MapboxglSpiderfier(this.map, {
-      //   onClick: function(e, options){
-      //     console.log(options.marker);
-      //   },
-      //   markerWidth: 40,
-      //   markerHeight: 40,
-      // });
-      
    }
 }
