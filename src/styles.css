@@ -434,7 +434,7 @@ table button.mat-raised-button{
   background-color: #989898;
 }
 .mapboxgl-popup-close-button {
-  position: absolute;
+  /* position: absolute;
   right: 6px;
   color: #fff;
   top: 9px;
@@ -442,7 +442,19 @@ table button.mat-raised-button{
   font-size: 22px;
   border-radius: 0 3px 0 0;
   cursor: pointer;
-  background-color: transparent;
+  background-color: transparent; */
+  position: absolute;
+    right: 0px;
+    color: #fff;
+    top: 0px;
+    border: 0;
+    font-size: 22px;
+    border-radius: 0 3px 0 0;
+    width: 60px;
+    cursor: pointer;
+    height: 30px;
+    background-color: transparent;
+    z-index: 99;
 }
 .drops-min{
   display: flex;
@@ -725,4 +737,42 @@ margin: 6px;
   font-weight: 600;
   display: inline-block;
   margin-right: 8px;
+}
+
+
+.mapboxgl-popup-content ol li{
+  color: #fff;
+  font-size: 14px;
+}
+.mapboxgl-popup-content ol li a{
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+}
+.postion-set.postion-set-new{
+  border: none;
+    border-radius: 3px;
+    position: absolute;
+    text-align: center;
+    bottom: 21px;
+    right: 15px;
+    padding: 2px 5px;
+    text-decoration: none;
+    background: #fff;
+}
+
+.modal-content.modal-content-shipment{
+    width: 302px !important;
+    background-color: rgba(0, 0, 0, 0.5) !important;
+}
+.modal-content.modal-content-shipment .close-box button {
+  color: #ffffff !important;
+  width: 50px;
+  font-size: 14px;
+}
+.modal-content.modal-content-shipment .drops-headding::after {
+  top: 26px;
+}
+.modal-content.modal-content-shipment .drops-min span {
+  margin-bottom: 6px;
 }

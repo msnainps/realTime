@@ -26,27 +26,65 @@
 
 
 </mat-drawer-container>
-<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" type="ball-spin-clockwise" name='driverAssign'>  
-    <p style="color: white">Assign Driver....</p>
+<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" type="ball-spin-clockwise" name='driverAssign'>
+  <p style="color: white">Assign Driver....</p>
 </ngx-spinner>
-<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" type="ball-spin-clockwise" name='cancelJob'>  
-    <p style="color: white">Cancel Job....</p>
+<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" type="ball-spin-clockwise" name='cancelJob'>
+  <p style="color: white">Cancel Job....</p>
 </ngx-spinner>
-<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" type="ball-spin-clockwise" name='withdrawJob'>  
+<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" type="ball-spin-clockwise" name='withdrawJob'>
   <p style="color: white">Withdraw Assinged Route ....</p>
 </ngx-spinner>
-<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" type="ball-spin-clockwise" name='releasejob'>  
+<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" type="ball-spin-clockwise" name='releasejob'>
   <p style="color: white">Release Job ....</p>
 </ngx-spinner>
-<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" type="ball-spin-clockwise" name='carded'>  
-    <p style="color: white">carded Job ....</p>
-  </ngx-spinner>
-  <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" type="ball-spin-clockwise" name='deliverJob'>  
-      <p style="color: white">deliver Job ....</p>
-  </ngx-spinner>
-  <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" type="ball-spin-clockwise" name='gen-pdf'>  
-      <p style="color: white">Generating Cagesheet ....</p>
-  </ngx-spinner>
+<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" type="ball-spin-clockwise" name='carded'>
+  <p style="color: white">carded Job ....</p>
+</ngx-spinner>
+<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" type="ball-spin-clockwise" name='deliverJob'>
+  <p style="color: white">deliver Job ....</p>
+</ngx-spinner>
+<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" type="ball-spin-clockwise" name='gen-pdf'>
+  <p style="color: white">Generating Cagesheet ....</p>
+</ngx-spinner>
 
 <app-sidenav-left-operation #sidebarLeftNavOp></app-sidenav-left-operation>
+
+<!--Same Coordinate Shipemnt Info-->
+<div class="modal fade" id="Modal-shInfo" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document" [ngStyle]="{'display':showHideModal}">
+    <div class="modal-content modal-content-shipment">
+      <div class="close-box">
+        <button type="button" data-dismiss="modal">X</button>
+      </div>
+      <div class="mapboxgl-popup-content">
+        <div class="drops-headding">{{shipmentInfo.ticket}}</div>
+        <div class="drops-min"><i class="material-icons drops-min-color1">home</i> <span>{{shipmentInfo.customerName}}</span>
+          <div>{{shipmentInfo.address}}</div>
+        </div>
+        <div class="drops-min"><i class="material-icons drops-min-color2">help_outline</i> <span>Ref:{{shipmentInfo.customerReference}}</span>
+          <div><span>Job:</span> {{shipmentInfo.jobType}}</div>
+        </div>
+        <div class="drops-line"></div>
+        <div class="drops-min"><i class="material-icons drops-min-color3">local_car_wash</i><span>{{shipmentInfo.driverName}}</span>
+          <div>
+            <div class="postion-set postion-set-new" *ngIf="shipmentInfo.assigned_driver == 0">
+               <div class="dropdown show">
+                 <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuDlList" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                   <i class="material-icons"> person_add </i>
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuDlList">
+                      <li *ngFor="let driverList of shipmentInfo.driverList;let i = index" class="dropdown-item" (click)='assignDriverSameCordinate(driverList.id)'>
+                      {{driverList.name}}
+                      </li>
+                </ul>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Same Coordinate Shipemnt Info-->
 

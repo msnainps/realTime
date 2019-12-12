@@ -256,4 +256,18 @@ export class DashboardService {
       'Something bad happened; please try again later.');
   };
 
+  /**
+   * Get Shipment TicketInfo and Driver Details
+   * @param shipmentTkt 
+   */
+  getSameCorrdinateTktInfo(shipmentTkt: string): Observable<any> {
+    this.socket.websocket.emit('req-shipmentTkt-info', { warehouse_id: this.wairehouseId, company_id: this.companyId, shipment_tkt: shipmentTkt });
+    this.socket.websocket.on('get-shipmentTkt-info', (data) => {
+      this.observer.next(data);
+    })
+    return this.createObservable();
+  }
+
+  
+
 }
