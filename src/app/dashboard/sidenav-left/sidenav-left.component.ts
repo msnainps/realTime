@@ -62,6 +62,7 @@ export class SidenavLeftComponent implements OnInit {
 
   viewDetails(shipment_route_id,type){
     this.sidebarLeftNavOp.showHideModal = 'block';
+    this.sidebarLeftNavOp.rowData = ''; //Reset Grid Data
 
     this.sidebarLeftNavOp.releaseShipmentTkt = '';//Reset selected checkbox from grid
     this.sidebarLeftNavOp.routeType = type;

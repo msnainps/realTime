@@ -63,7 +63,7 @@ export class DashboardService {
       if (this.notiFicationResponce.company_id == this.companyId) { //if responce is same as session user
         setTimeout(() => {
           this.loadDropOnMapsEmit();
-        }, 15000);
+        }, 2000);
       }
 
     })
@@ -126,10 +126,10 @@ export class DashboardService {
         console.log("-----Driver GPS Data---");
         console.log(driverDataGps);
         console.log("!-----Driver GPS Data---");
-        //if (driverDataGps.payload.companyId == this.companyId) {
+        if (driverDataGps.payload.companyId == this.companyId) {
           //if(driverDataGps.payload.companyId == 194){ 
           this.plotDriverOnMap(driverDataGps);
-        //}
+        }
       }
 
     })

@@ -173,14 +173,14 @@ export class DashboardComponent implements OnInit {
         document.mapCom.driverInfoPopup['last_sync_time'] = document.mapCom.getFullDateTime(e.features[0].properties.last_sync_time);
         document.mapCom.driverInfoPopup['battery_charge'] = e.features[0].properties.battery_status;
 
-
+        document.mapCom.driverInfoPopup['parcelData'] = [ {active_route: '',no_of_shipment:'',driver_data:{}} ];
         //document.mapCom.driverInfoPopup['parcelData'] = document.mapCom.dashboardService.getDriverParcelInfo(driver_id);
         document.mapCom.sub = document.mapCom.dashboardService.getDriverParcelInfo(driver_id).subscribe(quote => {
           document.mapCom.driverInfoPopup['parcelData'] = quote;
         });
 
 
-        console.log(document.mapCom.driverInfoPopup);
+        //console.log(document.mapCom.driverInfoPopup);
 
         document.mapCom.dialog.open(DriverinfoComponent, {
           data: { 'info': document.mapCom.driverInfoPopup }
@@ -259,6 +259,10 @@ export class DashboardComponent implements OnInit {
 
   }
 
+  /**
+   * Get Ticket Info from for same coordinate Ticket
+   * @param tkt 
+   */
   getTktInfo(tkt: string) {
       document.mapCom.dashboardService.getSameCorrdinateTktInfo(tkt).subscribe((res) => {
       document.mapCom.shipmentInfo.ticket = res.tktInfo[0].shipment_ticket;

@@ -59,7 +59,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                            <ng-container *ngIf="data.info.parcelData.driver_data.length > 0">
+                            
                         <tr *ngFor="let driverData of data.info.parcelData.driver_data;let i = index">
                                 <td>{{i+1}}</td>
                                 <td>{{driverData.route_name}}</td>
@@ -67,7 +67,7 @@
                                 <td>{{driverData.completed_date_time}}</td>
                                 <td><span class="{{driverData.status_class}}">{{driverData.job_status}}</span></td>
                             </tr>
-                        </ng-container>
+                        
                     </tbody>
                 </table>
 
