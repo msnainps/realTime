@@ -1,7 +1,7 @@
 export class config {
     // env = {
     //     socket_api_url: 'wss://socketapi.instadispatch.com:3001',
-    //     driver_socket_api_url: 'wss://gps.app-tree.co.uk:3500',
+    //     driver_socket_api_url: 'wss://gps.app-tree.co.uk:3000',
     //     name: 'dev',
     //     company_id: localStorage.getItem('company'),
     //     user_id: localStorage.getItem('user_id'),
@@ -12,12 +12,13 @@ export class config {
     //     google_api_key: 'AIzaSyD-X5xWDTa9L15dUYkWUjRExGRHznOfFsQ',
     //     mapbox_api_key:'pk.eyJ1IjoiaW5zdGFkaXNwYXRjaCIsImEiOiJjazJvajJueWwwNjlmM2dwcHMxbTFiMHl0In0.9eyVqMCN3WIodGdslgQ1hA',
     //     icargo_access_token :localStorage.getItem('access_token'),
-    //     icargo_api_url:'https://api.instadispatch.com/dev/v1/'
+    //     icargo_api_url:'https://api.instadispatch.com/dev/v1/'.
+    //     socket_rest_api_url: 'https://socketapi.instadispatch.com:3001/',
     // }
-//Live
+    //Live
     // env = {
     //     socket_api_url: 'wss://socketapi.instadispatch.com:3001',
-    //     driver_socket_api_url: 'wss://gps.app-tree.co.uk:3500',
+    //     driver_socket_api_url: 'wss://gps.app-tree.co.uk:3000',
     //     name: 'live',
     //     company_id: localStorage.getItem('company'),
     //     user_id: localStorage.getItem('user_id'),
@@ -28,7 +29,8 @@ export class config {
     //     google_api_key: 'AIzaSyD-X5xWDTa9L15dUYkWUjRExGRHznOfFsQ',
     //     mapbox_api_key:'pk.eyJ1IjoiaW5zdGFkaXNwYXRjaCIsImEiOiJjazJvajJueWwwNjlmM2dwcHMxbTFiMHl0In0.9eyVqMCN3WIodGdslgQ1hA',
     //     icargo_access_token :localStorage.getItem('access_token'),
-    //     icargo_api_url:'https://api.instadispatch.com/live/v1/'
+    //     icargo_api_url:'https://api.instadispatch.com/live/v1/',
+    //       socket_rest_api_url: 'https://socketapi.instadispatch.com:3001/',
     // }
 
     //Local
@@ -42,9 +44,10 @@ export class config {
         email: '5ways@gmail.com',
         profileImage: 'https://icargo-public.s3.eu-west-1.amazonaws.com/dev/images/company/profile/5cac6a1a74daf-5cac6a1a74df1-images.png',
         user_level: 2,
-        google_api_key:'AIzaSyD-X5xWDTa9L15dUYkWUjRExGRHznOfFsQ',
-        mapbox_api_key:'pk.eyJ1IjoiaW5zdGFkaXNwYXRjaCIsImEiOiJjazJvajJueWwwNjlmM2dwcHMxbTFiMHl0In0.9eyVqMCN3WIodGdslgQ1hA',
-        icargo_access_token : 'OTg5NDEwMTU1LTVkZWUzYWIxZDZjYjgtMTA=',
-        icargo_api_url:'http://localhost/parcel-api/v1/'
+        google_api_key: 'AIzaSyD-X5xWDTa9L15dUYkWUjRExGRHznOfFsQ',
+        mapbox_api_key: 'pk.eyJ1IjoiaW5zdGFkaXNwYXRjaCIsImEiOiJjazJvajJueWwwNjlmM2dwcHMxbTFiMHl0In0.9eyVqMCN3WIodGdslgQ1hA',
+        icargo_access_token: 'OTg5NDEwMTU1LTVkZWUzYWIxZDZjYjgtMTA=',
+        icargo_api_url: 'http://localhost/parcel-api/v1/',
+        socket_rest_api_url: 'http://localhost:3000/',
     }
 }

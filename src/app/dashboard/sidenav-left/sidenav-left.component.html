@@ -3,7 +3,7 @@
         <mat-expansion-panel [expanded]="false" class="custom-accordian">
                 <mat-expansion-panel-header>
                     <mat-panel-title>
-                        Unassigned ({{sidenaveleftService.dataList.unassignDropCount}})
+                        Unassigned ({{sidenaveleftService.dataList.unassignDropCount?sidenaveleftService.dataList.unassignDropCount:0}})
                     </mat-panel-title>
                     <mat-panel-description>
         
@@ -56,7 +56,7 @@
     <mat-expansion-panel [expanded]="false" class="custom-accordian">
         <mat-expansion-panel-header>
             <mat-panel-title>
-                Assigned ({{sidenaveleftService.dataList.assignDropCount}})
+                Assigned ({{sidenaveleftService.dataList.assignDropCount?sidenaveleftService.dataList.assignDropCount:0}})
             </mat-panel-title>
             <mat-panel-description>
 
@@ -112,7 +112,7 @@
     <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false" class="custom-accordian">
         <mat-expansion-panel-header>
             <mat-panel-title>
-                Completed ({{sidenaveleftService.dataList.completedDropCount}})
+                Completed ({{sidenaveleftService.dataList.completedDropCount?sidenaveleftService.dataList.completedDropCount:0}})
             </mat-panel-title>
             <mat-panel-description>
 

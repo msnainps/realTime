@@ -63,7 +63,7 @@ export class DashboardService {
       if (this.notiFicationResponce.company_id == this.companyId) { //if responce is same as session user
         setTimeout(() => {
           this.loadDropOnMapsEmit();
-        }, 2000);
+        }, 15000);
       }
 
     })

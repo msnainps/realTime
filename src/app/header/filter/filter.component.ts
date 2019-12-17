@@ -9,6 +9,7 @@ import {FilterDialog} from './filter.dialog.component';
 })
 export class FilterComponent implements OnInit {
 
+  
   constructor(private dialog: MatDialog) {
   }
 
@@ -20,7 +21,7 @@ export class FilterComponent implements OnInit {
       data:{
         message: 'Are you sure want to delete?',
         buttonText: {
-          ok: 'Save',
+          ok: 'Set Filter',
           cancel: 'No'
         }
       }
