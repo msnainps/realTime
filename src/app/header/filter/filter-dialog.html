@@ -1,6 +1,11 @@
 <div class="meterial-postion">
     <div class="postion-headding">
-        <h2>MAP Filter</h2>
+        <h2>
+            MAP Filter 
+            <div class="text-danger">
+                <div class="filter-error">{{jobStatusMsg}}{{jobTypeMsg}}</div>
+            </div>
+        </h2>
     </div>
 
 
@@ -9,40 +14,46 @@
     </div>
 </div>
 <form [formGroup]="filterFormVal" (ngSubmit)="saveFilter()">
-<mat-dialog-content class="meterial-box-width">
+    <mat-dialog-content class="meterial-box-width">
 
 
 
-    <mat-card-content>
+        <mat-card-content>
 
-        <div class="row-design">
-            <div class="col-row-page2">
-                <mat-checkbox class="example-margin" formControlName="drops" [(ngModel)]="filterFormModel.drops">Drops</mat-checkbox>
+            <div class="row-design">
+                <div class="col-row-page2">
+                    <mat-checkbox class="example-margin" formControlName="drops" [(ngModel)]="filterFormModel.drops"
+                        (change)="checkedFiterStatus()">Drops</mat-checkbox>
+                </div>
             </div>
-        </div>
 
-        <div class="row-design">
-            <div class="col-row-page">
-                <h2 class="example-h2">Job Status</h2>
+            <div class="row-design">
+                <div class="col-row-page">
+                    <h2 class="example-h2">Job Status</h2>
+                </div>
+                <div class="col-row-page2">
+                    <mat-checkbox class="example-margin" [disabled]="!filterFormModel.drops"
+                        formControlName="unassigned" [(ngModel)]="filterFormModel.unassigned">Unassigned</mat-checkbox>
+                    <mat-checkbox class="example-margin" [disabled]="!filterFormModel.drops" formControlName="assign"
+                        [(ngModel)]="filterFormModel.assign">Assign </mat-checkbox>
+                    <mat-checkbox class="example-margin" [disabled]="!filterFormModel.drops" formControlName="completed"
+                        [(ngModel)]="filterFormModel.completed">Completed</mat-checkbox>
+                </div>
             </div>
-            <div class="col-row-page2">
-                    <mat-checkbox class="example-margin" [disabled]="!filterFormModel.drops" formControlName="unassigned" [(ngModel)]="filterFormModel.unassigned">Unassigned</mat-checkbox>
-                    <mat-checkbox class="example-margin" [disabled]="!filterFormModel.drops" formControlName="assign" [(ngModel)]="filterFormModel.assign">Assign </mat-checkbox>
-                    <mat-checkbox class="example-margin" [disabled]="!filterFormModel.drops" formControlName="completed" [(ngModel)]="filterFormModel.completed">Completed</mat-checkbox>
-            </div>
-        </div>
 
-        <div class="row-design">
-            <div class="col-row-page">
-                <h2 class="example-h2">Job Type</h2>
+            <div class="row-design">
+                <div class="col-row-page">
+                    <h2 class="example-h2">Job Type</h2>
+                </div>
+                <div class="col-row-page2">
+                    <mat-checkbox class="example-margin" [disabled]="!filterFormModel.drops"
+                        formControlName="collection" [(ngModel)]="filterFormModel.collection">Collection</mat-checkbox>
+                    <mat-checkbox class="example-margin" [disabled]="!filterFormModel.drops" formControlName="delivery"
+                        [(ngModel)]="filterFormModel.delivery">Delivery</mat-checkbox>
+                </div>
             </div>
-            <div class="col-row-page2">
-                    <mat-checkbox class="example-margin" [disabled]="!filterFormModel.drops" formControlName="collection" [(ngModel)]="filterFormModel.collection">Collection</mat-checkbox>
-                    <mat-checkbox class="example-margin" [disabled]="!filterFormModel.drops" formControlName="delivery" [(ngModel)]="filterFormModel.delivery">Delivery</mat-checkbox>
-            </div>
-        </div>
 
-        <!-- <div class="row-design">
+            <!-- <div class="row-design">
             <div class="col-row-page2">
                     <mat-checkbox class="example-margin" formControlName="driver" [(ngModel)]="filterFormModel.driver">Driver</mat-checkbox>
             </div>
@@ -62,14 +73,16 @@
         </div>    -->
 
 
-    </mat-card-content>
+        </mat-card-content>
 
 
 
 
-</mat-dialog-content>
-<mat-dialog-actions align="center">
-    <button mat-raised-button color="primary" tabindex="1">{{filterBtnTxt}}</button>
-    <a mat-raised-button color="primary" [disabled]="deleteBtnStatus" tabindex="1" (click) = "deleteFilter()">{{deleteFilterBtnText}}</a>
-</mat-dialog-actions>
+    </mat-dialog-content>
+    <mat-dialog-actions align="center">
+        <button mat-raised-button color="primary" [disabled]="!filterFormModel.drops"
+            tabindex="1">{{filterBtnTxt}}</button>
+        <a mat-raised-button color="primary" [disabled]="deleteBtnStatus" tabindex="1"
+            (click)="deleteFilter()">{{deleteFilterBtnText}}</a>
+    </mat-dialog-actions>
 </form>

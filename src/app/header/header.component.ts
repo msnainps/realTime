@@ -2,6 +2,9 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
 import { HeaderService } from './header.service';
 import { Header } from './header.model';
+import { config } from 'src/config/config';
+
+
 
 
 
@@ -16,7 +19,7 @@ import { Header } from './header.model';
 })
 export class HeaderComponent implements OnInit {
 
-
+  configSettings = new config();
   //SHow default date in angular
   shipmentCurrentDate = new Date((new Date()));
   header:Header= new Header();
@@ -28,13 +31,17 @@ export class HeaderComponent implements OnInit {
 
   
   ngOnInit() {
-    this.headerService.getHeaderDataListen(this);
+    //this.headerService.getHeaderDataListen(this);
   }
   isShown:Boolean=false;
   toggleShow() {
 
   //this.isShown = ! this.isShown;
     
+  }
+
+  redirectTOHome(){
+    window.open(this.configSettings.env.icargo_url, "_blank");
   }
 
   

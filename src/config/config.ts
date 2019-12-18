@@ -1,5 +1,6 @@
 export class config {
-    // env = {
+    // Dev 
+    //env = {
     //     socket_api_url: 'wss://socketapi.instadispatch.com:3001',
     //     driver_socket_api_url: 'wss://gps.app-tree.co.uk:3000',
     //     name: 'dev',
@@ -14,6 +15,7 @@ export class config {
     //     icargo_access_token :localStorage.getItem('access_token'),
     //     icargo_api_url:'https://api.instadispatch.com/dev/v1/'.
     //     socket_rest_api_url: 'https://socketapi.instadispatch.com:3001/',
+    //     icargo_url:'http://route.instadispatch.com/'
     // }
     //Live
     // env = {
@@ -30,7 +32,8 @@ export class config {
     //     mapbox_api_key:'pk.eyJ1IjoiaW5zdGFkaXNwYXRjaCIsImEiOiJjazJvajJueWwwNjlmM2dwcHMxbTFiMHl0In0.9eyVqMCN3WIodGdslgQ1hA',
     //     icargo_access_token :localStorage.getItem('access_token'),
     //     icargo_api_url:'https://api.instadispatch.com/live/v1/',
-    //       socket_rest_api_url: 'https://socketapi.instadispatch.com:3001/',
+    //     socket_rest_api_url: 'https://socketapi.instadispatch.com:3001/',
+    //     icargo_url:'idtest.uk'
     // }
 
     //Local
@@ -49,5 +52,6 @@ export class config {
         icargo_access_token: 'OTg5NDEwMTU1LTVkZWUzYWIxZDZjYjgtMTA=',
         icargo_api_url: 'http://localhost/parcel-api/v1/',
         socket_rest_api_url: 'http://localhost:3000/',
+        icargo_url:'http://localhost/icargo'
     }
 }

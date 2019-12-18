@@ -2,7 +2,7 @@
   <mat-toolbar-row class="header">
     <div class="logo"><img src="./assets/iCargo-Logo.png"></div>
 
-    <button mat-button>
+    <button mat-button (click)="redirectTOHome()">
       <mat-icon class="example-icon" aria-hidden="false"><i class="material-icons">home</i></mat-icon>
     </button>
     <button mat-button>   
@@ -22,7 +22,7 @@
     </div>
     <span class="example-spacer"></span>
 
-    <div class="user-menu-2" [matMenuTriggerFor]="usernotification">
+    <!-- <div class="user-menu-2" [matMenuTriggerFor]="usernotification">
       <button mat-mini-fab>
         <mat-icon class="example-icon" aria-hidden="false"><i class="material-icons">notifications</i></mat-icon>
       </button>
@@ -39,16 +39,13 @@
         <button mat-menu-item><i class="material-icons"> keyboard_arrow_right </i>
           <span matBadge="{{header.disputed}}" matBadgeColor="accent" matBadgeOverlap="false">Disputed</span></button>
       </mat-menu>
-    </div>
+    </div> -->
 
 
-    <div class="user-menu" [matMenuTriggerFor]="userprofile">
+    <!-- <div class="user-menu" [matMenuTriggerFor]="userprofile">
       <button mat-button>
         <mat-icon class="example-icon" aria-hidden="false"> <img src="./assets/1.jpg"></mat-icon>
       </button>
-      <!-- <button mat-mini-fab>
-    <mat-icon class="example-icon" aria-hidden="false"><i class="material-icons">person</i></mat-icon>
-  </button> -->
       <mat-menu #userprofile="matMenu" class="user-mat-menu">
         <div class="user-info">
           <img src="{{header.profileImage}}">
@@ -59,7 +56,7 @@
         <button mat-menu-item><i class="material-icons">lock</i>Change Password</button>
         <button mat-menu-item><i class="material-icons"> power_settings_new</i>Logout</button>
       </mat-menu>
-    </div>
+    </div> -->
   </mat-toolbar-row>
   <div class="search-row" *ngIf="isShown">
     <input type="text" placeholder="Search & Enter"><a class="close-icon" (click)="toggleShow()"><i

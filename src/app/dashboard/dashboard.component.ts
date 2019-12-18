@@ -24,7 +24,7 @@ export class shipmentInfo {
   driverName: string;
   driverList: Array<any>;
   assigned_driver: any;
-  shipment_route_id:any
+  shipment_route_id: any
 }
 
 @Component({
@@ -129,10 +129,6 @@ export class DashboardComponent implements OnInit {
         for (var index1 in this.dashboardService.formatedData.data.features) {
           allCordinates.push(this.dashboardService.formatedData.data.features[index1].geometry.coordinates)
         }
-      }
-
-      //Show All drops by zoom on button click
-      document.getElementById('zoomto').addEventListener('click', function () {
 
         var coordinates = allCordinates;
 
@@ -143,6 +139,12 @@ export class DashboardComponent implements OnInit {
         document.mapCom.mapbox.map.fitBounds(bounds, {
           padding: 50
         });
+      }
+      //Points to map by click zoom on button click
+      document.getElementById('zoomto').addEventListener('click', function () {
+
+        document.mapCom.showAllDropToMap();
+
       });
 
 
@@ -173,7 +175,7 @@ export class DashboardComponent implements OnInit {
         document.mapCom.driverInfoPopup['last_sync_time'] = document.mapCom.getFullDateTime(e.features[0].properties.last_sync_time);
         document.mapCom.driverInfoPopup['battery_charge'] = e.features[0].properties.battery_status;
 
-        document.mapCom.driverInfoPopup['parcelData'] = [ {active_route: '',no_of_shipment:'',driver_data:{}} ];
+        document.mapCom.driverInfoPopup['parcelData'] = [{ active_route: '', no_of_shipment: '', driver_data: {} }];
         //document.mapCom.driverInfoPopup['parcelData'] = document.mapCom.dashboardService.getDriverParcelInfo(driver_id);
         document.mapCom.sub = document.mapCom.dashboardService.getDriverParcelInfo(driver_id).subscribe(quote => {
           document.mapCom.driverInfoPopup['parcelData'] = quote;
@@ -216,16 +218,16 @@ export class DashboardComponent implements OnInit {
   assignDriver(driverid: number) {
 
     document.mapCom.assignRouteToDriverData =
-      {
-        'endPointUrl': 'assignUnassignRoute',
-        'route_id': '' + document.mapCom.shipment_route_id,
-        'driver_id': '' + driverid,
-        'company_id': '' + document.mapCom.companyId,
-        'warehouse_id': '' + document.mapCom.wairehouseId,
-        'email': document.mapCom.email,
-        'access_token': document.mapCom.access_token,
-        'start_time': formatDate(new Date(), 'dd-MM-yyyy hh:mm:ss a', 'en-US', '+0530')
-      }
+    {
+      'endPointUrl': 'assignUnassignRoute',
+      'route_id': '' + document.mapCom.shipment_route_id,
+      'driver_id': '' + driverid,
+      'company_id': '' + document.mapCom.companyId,
+      'warehouse_id': '' + document.mapCom.wairehouseId,
+      'email': document.mapCom.email,
+      'access_token': document.mapCom.access_token,
+      'start_time': formatDate(new Date(), 'dd-MM-yyyy hh:mm:ss a', 'en-US', '+0530')
+    }
 
     //Load Spinner
     document.mapCom.spinnerService.show("driverAssign", {
@@ -264,7 +266,7 @@ export class DashboardComponent implements OnInit {
    * @param tkt 
    */
   getTktInfo(tkt: string) {
-      document.mapCom.dashboardService.getSameCorrdinateTktInfo(tkt).subscribe((res) => {
+    document.mapCom.dashboardService.getSameCorrdinateTktInfo(tkt).subscribe((res) => {
       document.mapCom.shipmentInfo.ticket = res.tktInfo[0].shipment_ticket;
       document.mapCom.shipmentInfo.customerName = res.tktInfo[0].customer_name;
       document.mapCom.shipmentInfo.address = res.tktInfo[0].fulladdress;
@@ -287,16 +289,16 @@ export class DashboardComponent implements OnInit {
   assignDriverSameCordinate(driverId) {
 
     document.mapCom.assignRouteSameCord =
-      {
-        'endPointUrl': 'assignUnassignRoute',
-        'route_id': '' + document.mapCom.shipmentInfo.shipment_route_id,
-        'driver_id': '' + driverId,
-        'company_id': '' + document.mapCom.companyId,
-        'warehouse_id': '' + document.mapCom.wairehouseId,
-        'email': document.mapCom.email,
-        'access_token': document.mapCom.access_token,
-        'start_time': formatDate(new Date(), 'dd-MM-yyyy hh:mm:ss a', 'en-US', '+0530')
-      }
+    {
+      'endPointUrl': 'assignUnassignRoute',
+      'route_id': '' + document.mapCom.shipmentInfo.shipment_route_id,
+      'driver_id': '' + driverId,
+      'company_id': '' + document.mapCom.companyId,
+      'warehouse_id': '' + document.mapCom.wairehouseId,
+      'email': document.mapCom.email,
+      'access_token': document.mapCom.access_token,
+      'start_time': formatDate(new Date(), 'dd-MM-yyyy hh:mm:ss a', 'en-US', '+0530')
+    }
 
     //Load Spinner
     document.mapCom.spinnerService.show("driverAssign", {
@@ -331,6 +333,25 @@ export class DashboardComponent implements OnInit {
     }, error => {
       console.log(error);
     })
+  }
+
+  //Show All Drop to fit when click in show all button
+  showAllDropToMap() {
+
+    var allCordinates = [];
+    for (var index1 in this.dashboardService.formatedData.data.features) {
+      allCordinates.push(this.dashboardService.formatedData.data.features[index1].geometry.coordinates)
+    }
+
+    var coordinates = allCordinates;
+
+    var bounds = coordinates.reduce(function (bounds, coord) {
+      return bounds.extend(coord);
+    }, new mapboxgl.LngLatBounds(coordinates[0], coordinates[0]));
+
+    document.mapCom.mapbox.map.fitBounds(bounds, {
+      padding: 50
+    });
   }
 
 }
