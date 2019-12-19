@@ -15,7 +15,8 @@ export class config {
     //     icargo_access_token :localStorage.getItem('access_token'),
     //     icargo_api_url:'https://api.instadispatch.com/dev/v1/'.
     //     socket_rest_api_url: 'https://socketapi.instadispatch.com:3001/',
-    //     icargo_url:'http://route.instadispatch.com/'
+    //     icargo_url:'idtest.uk',
+    //     country_code:localStorage.getItem('country_code')
     // }
     //Live
     // env = {
@@ -33,7 +34,8 @@ export class config {
     //     icargo_access_token :localStorage.getItem('access_token'),
     //     icargo_api_url:'https://api.instadispatch.com/live/v1/',
     //     socket_rest_api_url: 'https://socketapi.instadispatch.com:3001/',
-    //     icargo_url:'idtest.uk'
+    //     icargo_url:'http://route.instadispatch.com'
+    //     country_code:localStorage.getItem('country_code')
     // }
 
     //Local
@@ -49,9 +51,10 @@ export class config {
         user_level: 2,
         google_api_key: 'AIzaSyD-X5xWDTa9L15dUYkWUjRExGRHznOfFsQ',
         mapbox_api_key: 'pk.eyJ1IjoiaW5zdGFkaXNwYXRjaCIsImEiOiJjazJvajJueWwwNjlmM2dwcHMxbTFiMHl0In0.9eyVqMCN3WIodGdslgQ1hA',
-        icargo_access_token: 'OTg5NDEwMTU1LTVkZWUzYWIxZDZjYjgtMTA=',
+        icargo_access_token: 'MTU2MTE0ODEzNC01ZGZiMDk2MmFhYzc3LTEw',
         icargo_api_url: 'http://localhost/parcel-api/v1/',
         socket_rest_api_url: 'http://localhost:3000/',
-        icargo_url:'http://localhost/icargo'
+        icargo_url:'http://localhost/icargo',
+        country_code:'GB'
     }
 }

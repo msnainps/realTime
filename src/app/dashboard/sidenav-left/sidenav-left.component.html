@@ -14,7 +14,7 @@
                     <ng-container *ngIf="unassignData.drop_type == 'unassinged'">
                         <div class="main-left-panel unassigned">
                             <div class="panel first">
-                                <h6><i class="material-icons"> fiber_manual_record </i>{{unassignData.customer_name}}</h6>
+                                <h6><span class="material-icons" style="background:orange;border: 1px solid orange"></span>{{unassignData.customer_name}}</h6>
                             </div>
                             <!-- <div class="panel second">
                         <h5> Paused</h5>
@@ -35,7 +35,7 @@
         
                                 <mat-menu #menu="matMenu">
                                     <ul class="set-list">
-                                        <li><a href="" (click)="assignJob(unassignData.shipment_ticket,unassignData.shipment_routed_id)" data-toggle="modal" data-target="#Modal1">
+                                        <li><a href="" (click)="assignJob(unassignData.shipment_ticket,unassignData.shipment_routed_id,unassignData.route_name)" data-toggle="modal" data-target="#Modal1">
                                                 <mat-icon>how_to_reg</mat-icon> <span>Assign Job</span>
                                             </a></li>
                                         <li><a href="" (click)="cancelShipment(unassignData.shipment_ticket)" data-toggle="modal" data-target="#Modal2">
@@ -67,7 +67,7 @@
             <ng-container *ngIf="assignData.drop_type == 'assinged'">
                 <div class="main-left-panel assigned">
                     <div class="panel first">
-                        <h6><i class="material-icons"> fiber_manual_record </i>{{assignData.customer_name}}</h6>
+                        <h6><span [ngStyle]="{ background: assignData.color_code_driver }" ></span>{{assignData.customer_name}}</h6>
                     </div>
                     <div class="panel second {{assignData.route_label | lowercase}}">
                         <h5>{{assignData.route_label}}</h5>
@@ -124,7 +124,7 @@
             <ng-container *ngIf="completed.drop_type == 'completed'">
                 <div class="main-left-panel completed">
                     <div class="panel first">
-                        <h6><i class="material-icons"> fiber_manual_record </i>{{completed.customer_name}}</h6>
+                        <h6><span [ngStyle]="{ background: completed.color_code_driver }"></span>{{completed.customer_name}}</h6>
                     </div>
                     <div class="panel second completed">
                         <h5> {{completed.route_label}}</h5>

@@ -10,6 +10,8 @@ import pdfFonts from 'pdfmake/build/vfs_fonts';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 import { Observable, Observer, throwError, observable } from 'rxjs';
 import { DateTimeAdapter } from 'ng-pick-datetime';
+import { config } from 'src/config/config';
+
 
 
 @Component({
@@ -18,6 +20,8 @@ import { DateTimeAdapter } from 'ng-pick-datetime';
   styleUrls: ['./sidenav-left-operation.component.css']
 })
 export class SidenavLeftOperationComponent implements OnInit {
+
+  getCountrtTime = new config();
 
   assignDriverFormModel: any = {};
   shipment_ticket: any;
@@ -45,26 +49,30 @@ export class SidenavLeftOperationComponent implements OnInit {
   assignDriverFormVal: FormGroup;
   submittedAssign = false;
   showHideModal = 'block';
+  //Resize grid column
+  private defaultColDef;
   
+
 
   //Grid headers
   columnDefs = [
-    { headerName: 'Docket No', field: 'docket_no', sortable: true, filter: true, checkboxSelection: true, headerCheckboxSelection: true },
-    { headerName: 'Service', field: 'service_type', sortable: true, filter: true },
-    { headerName: 'Service Date', field: 'service_date', sortable: true, filter: true },
-    { headerName: 'Service Time', field: 'service_time', sortable: true, filter: true },
-    { headerName: 'Weight', field: 'weight', sortable: true, filter: true },
-    { headerName: 'Postcode', field: 'postcode', sortable: true, filter: true },
-    { headerName: 'Consignee Name', field: 'consignee_name', sortable: true, filter: true },
-    { headerName: 'Address1', field: 'address1', sortable: true, filter: true },
-    { headerName: 'Phone', field: 'phone', sortable: true, filter: true },
-    { headerName: 'Execution Order', field: 'execution_order', sortable: true, filter: true },
-    { headerName: 'Attempt', field: 'attempt', sortable: true, filter: true },
-    { headerName: 'Estimated Time', field: 'estimatedtime', sortable: true, filter: true },
-    { headerName: 'Status', field: 'current_status', sortable: true, filter: true },
+    { headerName: 'Docket No', field: 'docket_no',width: 200, sortable: true, filter: true, checkboxSelection: true, headerCheckboxSelection: true },
+    { headerName: 'Service', field: 'service_type',width: 100, sortable: true, filter: true },
+    { headerName: 'Service Date', field: 'service_date',width: 100, sortable: true, filter: true },
+    { headerName: 'Service Time', field: 'service_time',width: 100, sortable: true, filter: true },
+    { headerName: 'Weight', field: 'weight',width: 7, sortable: true, filter: true },
+    { headerName: 'Postcode', field: 'postcode',width: 120, sortable: true, filter: true },
+    { headerName: 'Consignee Name', field: 'consignee_name',width: 250, sortable: true, filter: true },
+    { headerName: 'Address1', field: 'address1',width: 150, sortable: true, filter: true },
+    { headerName: 'Phone', field: 'phone',width: 150, sortable: true, filter: true },
+    { headerName: 'Execution Order', field: 'execution_order', width: 100,sortable: true, filter: true },
+    { headerName: 'Attempt', field: 'attempt', width: 100,sortable: true, filter: true },
+    { headerName: 'Estimated Time', field: 'estimatedtime', width: 100,sortable: true, filter: true },
+    { headerName: 'Status', field: 'current_status',width: 100, sortable: true, filter: true },
     { headerName: 'Action', field: 'action' },
   ];
 
+  
 
 
   modules = AllCommunityModules;
@@ -77,7 +85,12 @@ export class SidenavLeftOperationComponent implements OnInit {
     private formBuilder: FormBuilder,
     dateTimeAdapter: DateTimeAdapter<any>
   ) {
-    dateTimeAdapter.setLocale('it'); //For date format 10/12/2019
+    if (this.getCountrtTime.env.country_code.toLowerCase() == 'us' || this.getCountrtTime.env.country_code.toLowerCase() == 'usa') {
+      dateTimeAdapter.setLocale('us');
+    } else {
+      dateTimeAdapter.setLocale('en-IN');
+    }
+    this.defaultColDef = { resizable: true };
   }
 
   ngOnInit() {
@@ -85,21 +98,21 @@ export class SidenavLeftOperationComponent implements OnInit {
     this.deliverFormVal = this.formBuilder.group({
       contact_person: ['', Validators.required],
       deliver_comment: ['', Validators.required],
-      deliver_date_time:['', Validators.required]
+      deliver_date_time: ['', Validators.required]
     });
 
     //Carded Form Validation
     this.cardedFormVal = this.formBuilder.group({
       carded_status: ['', Validators.required],
       driver_comment: ['', Validators.required],
-      carded_date_time:['', Validators.required]
+      carded_date_time: ['', Validators.required]
     });
 
     //Driver Assign Form Validation
     this.assignDriverFormVal = this.formBuilder.group({
       route_name: ['', Validators.required],
       driver_id: ['', Validators.required],
-      assign_date_time : ['', Validators.required]
+      assign_date_time: ['', Validators.required]
     });
   }
 
@@ -138,9 +151,15 @@ export class SidenavLeftOperationComponent implements OnInit {
           var strArray = res.split(".");
           var decodeBAse64 = JSON.parse(atob(strArray[1]));
 
-          this.toastr.success('Job Cancelled Sucessfully', '', {
-            closeButton: true, positionClass: 'toast-top-right', timeOut: 4000
-          });
+          if (decodeBAse64.status == 'error') {
+            this.toastr.error(decodeBAse64.message, '', {
+              closeButton: true, positionClass: 'toast-top-right', timeOut: 4000
+            });
+          } else {
+            this.toastr.success('Job Cancelled Sucessfully', '', {
+              closeButton: true, positionClass: 'toast-top-right', timeOut: 4000
+            });
+          }
 
           this.spinerService.hide("cancelJob");
         })
@@ -168,8 +187,8 @@ export class SidenavLeftOperationComponent implements OnInit {
       var myStr = val;
       var strArray = myStr.split(".");
       var decodeBAse64 = JSON.parse(atob(strArray[1]));
-      if (decodeBAse64.status == 'fail') {
-        this.toastr.info(decodeBAse64.message, '', {
+      if (decodeBAse64.status == 'error') {
+        this.toastr.error(decodeBAse64.message, '', {
           closeButton: true, positionClass: 'toast-top-right', timeOut: 4000
         });
         this.spinerService.hide("withdrawJob");
@@ -186,7 +205,7 @@ export class SidenavLeftOperationComponent implements OnInit {
    * Assign Driver To Route
    */
   onClickAssignDriver = () => {
-    
+
     this.submittedAssign = true;
     if (this.assignDriverFormVal.invalid) {
       return;
@@ -243,10 +262,10 @@ export class SidenavLeftOperationComponent implements OnInit {
       this.shipRouteId = '' + this.releaseShipmentTkt[0].shipment_routed_id;
       //releaselJob
       this.sidenavleftservice.releaselJob(this.rlsTktList, this.shipRouteId).subscribe(res => {
-        
+
         this.showHideModal = 'none';
         document.querySelector(".modal-backdrop").remove();
-        
+
 
         this.dashboardService.loadDropOnMapsEmit();////For Realtime Data
         var strArray = res.split(".");

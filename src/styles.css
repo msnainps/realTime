@@ -4,6 +4,7 @@
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
 @import "../node_modules/ngx-toastr/toastr.css";
 @import "~ng-pick-datetime/assets/style/picker.min.css";
+@import "./driver-color.css";
 html, body { height: 100%; }
 body { margin: 0; font-family: 'Lato', sans-serif;}
 .user-mat-menu i.material-icons {
@@ -776,3 +777,12 @@ margin: 6px;
 .modal-content.modal-content-shipment .drops-min span {
   margin-bottom: 6px;
 }
+
+.panel h6 span{
+  width: 12px;
+  margin-right: 5px;
+  line-height: 20px;
+  white-space: pre;
+  display: inline-block;
+  height: 12px;
+} 

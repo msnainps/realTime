@@ -15,6 +15,7 @@ import { $ } from 'protractor';
 import { ToastrService } from 'ngx-toastr';
 
 
+
 export class shipmentInfo {
   ticket: string;
   customerName: string;
@@ -77,121 +78,7 @@ export class DashboardComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-
-    this.mapbox.initMap();
-    this.mapbox.map.on("load", () => {
-
-      //Drops
-      this.mapbox.map.addSource("points", this.dashboardService.formatedData);
-      this.mapbox.map.addLayer({
-        "id": "points",
-        "type": "symbol",
-        "source": "points",
-        "layout": {
-          'icon-image': '{icon}',
-          'icon-allow-overlap': true,
-          "text-field": '{execution_order}',
-          "icon-ignore-placement": true,
-          "symbol-avoid-edges": true,
-          "text-allow-overlap": true
-        },
-        paint: {
-          'text-color': '#00ff00'
-        }
-      });
-
-      //Driver
-      this.mapbox.map.addSource("drivers", this.dashboardService.formatedDataDriver);
-      this.mapbox.map.addLayer({
-        "id": "drivers",
-        "type": "symbol",
-        "source": "drivers",
-        "layout": {
-          'icon-image': '{icon}',
-          'icon-allow-overlap': true,
-          "text-field": '{name}',
-          'text-offset': [0, 1.5],
-          "text-allow-overlap": true,
-          "icon-ignore-placement": true
-        },
-        paint: {
-          'text-color': '#00ff00',
-          'text-halo-color': '#fff',
-          'text-halo-width': 2
-        }
-      });
-
-
-
-      //Fit All Points to map
-      var allCordinates = [];
-      if (this.dashboardService.formatedData.data.features.length > 0 || this.dashboardService.formatedData.data.features.length != 'undefined') {
-        for (var index1 in this.dashboardService.formatedData.data.features) {
-          allCordinates.push(this.dashboardService.formatedData.data.features[index1].geometry.coordinates)
-        }
-
-        var coordinates = allCordinates;
-
-        var bounds = coordinates.reduce(function (bounds, coord) {
-          return bounds.extend(coord);
-        }, new mapboxgl.LngLatBounds(coordinates[0], coordinates[0]));
-
-        document.mapCom.mapbox.map.fitBounds(bounds, {
-          padding: 50
-        });
-      }
-      //Points to map by click zoom on button click
-      document.getElementById('zoomto').addEventListener('click', function () {
-
-        document.mapCom.showAllDropToMap();
-
-      });
-
-
-      //Show POPUP on clicks parcels
-      this.mapbox.map.on('click', 'points', function (e) {
-        var coordinates = e.features[0].geometry.coordinates.slice();
-        var description = e.features[0].properties.description;
-        while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-          coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-        }
-
-        document.mapCom.shipment_id = e.features[0].properties.shipment_id;
-        document.mapCom.shipment_route_id = e.features[0].properties.shipment_route_id;
-
-        new mapboxgl.Popup()
-          .setLngLat(coordinates)
-          .setHTML(description)
-          .addTo(this);
-      });
-
-      //Show POPUP on clicks Drivers
-      this.mapbox.map.on('click', 'drivers', function (e) {
-        var coordinates = e.features[0].geometry.coordinates.slice();
-        var description = e.features[0].properties.description;
-        var driver_id = e.features[0].properties.driver_id;
-
-        document.mapCom.driverInfoPopup['name'] = e.features[0].properties.name;
-        document.mapCom.driverInfoPopup['last_sync_time'] = document.mapCom.getFullDateTime(e.features[0].properties.last_sync_time);
-        document.mapCom.driverInfoPopup['battery_charge'] = e.features[0].properties.battery_status;
-
-        document.mapCom.driverInfoPopup['parcelData'] = [{ active_route: '', no_of_shipment: '', driver_data: {} }];
-        //document.mapCom.driverInfoPopup['parcelData'] = document.mapCom.dashboardService.getDriverParcelInfo(driver_id);
-        document.mapCom.sub = document.mapCom.dashboardService.getDriverParcelInfo(driver_id).subscribe(quote => {
-          document.mapCom.driverInfoPopup['parcelData'] = quote;
-        });
-
-
-        //console.log(document.mapCom.driverInfoPopup);
-
-        document.mapCom.dialog.open(DriverinfoComponent, {
-          data: { 'info': document.mapCom.driverInfoPopup }
-        });
-
-      });
-
-    });
-
+    this.makeMapReady();
   }
 
   getFullDateTime(timeString) {
@@ -339,18 +226,138 @@ export class DashboardComponent implements OnInit {
   showAllDropToMap() {
 
     var allCordinates = [];
-    for (var index1 in this.dashboardService.formatedData.data.features) {
-      allCordinates.push(this.dashboardService.formatedData.data.features[index1].geometry.coordinates)
+    if (this.dashboardService.formatedData.data.features.length > 0 && typeof this.dashboardService.formatedData.data.features != 'undefined') {
+      for (var index1 in this.dashboardService.formatedData.data.features) {
+        allCordinates.push(this.dashboardService.formatedData.data.features[index1].geometry.coordinates)
+      }
+
+      var coordinates = allCordinates;
+
+      var bounds = coordinates.reduce(function (bounds, coord) {
+        return bounds.extend(coord);
+      }, new mapboxgl.LngLatBounds(coordinates[0], coordinates[0]));
+
+      document.mapCom.mapbox.map.fitBounds(bounds, {
+        padding: 50
+      });
     }
+  }
 
-    var coordinates = allCordinates;
+  public async makeMapReady(){
+    
+    await this.mapbox.initMap();
+      
+    this.mapbox.map.on("load", () => {
 
-    var bounds = coordinates.reduce(function (bounds, coord) {
-      return bounds.extend(coord);
-    }, new mapboxgl.LngLatBounds(coordinates[0], coordinates[0]));
+      //Drops
+      this.mapbox.map.addSource("points", this.dashboardService.formatedData);
+      this.mapbox.map.addLayer({
+        "id": "points",
+        "type": "symbol",
+        "source": "points",
+        "layout": {
+          'icon-image': '{icon}',
+          'icon-allow-overlap': true,
+          "text-field": '{execution_order}',
+          "icon-ignore-placement": true,
+          "symbol-avoid-edges": true,
+          "text-allow-overlap": true
+        },
+        paint: {
+          'text-color': '#00ff00'
+        }
+      });
 
-    document.mapCom.mapbox.map.fitBounds(bounds, {
-      padding: 50
+      //Driver
+      this.mapbox.map.addSource("drivers", this.dashboardService.formatedDataDriver);
+      this.mapbox.map.addLayer({
+        "id": "drivers",
+        "type": "symbol",
+        "source": "drivers",
+        "layout": {
+          'icon-image': '{icon}',
+          'icon-allow-overlap': true,
+          "text-field": '{name}',
+          'text-offset': [0, 1.5],
+          "text-allow-overlap": true,
+          "icon-ignore-placement": true
+        },
+        paint: {
+          'text-color': '#00ff00',
+          'text-halo-color': '#fff',
+          'text-halo-width': 2
+        }
+      });
+
+
+
+      //Fit All Points to map
+      var allCordinates = [];
+      if (this.dashboardService.formatedData.data.features.length > 0 && typeof this.dashboardService.formatedData.data.features != 'undefined') {
+        for (var index1 in this.dashboardService.formatedData.data.features) {
+          allCordinates.push(this.dashboardService.formatedData.data.features[index1].geometry.coordinates)
+        }
+
+        var coordinates = allCordinates;
+
+        var bounds = coordinates.reduce(function (bounds, coord) {
+          return bounds.extend(coord);
+        }, new mapboxgl.LngLatBounds(coordinates[0], coordinates[0]));
+
+        document.mapCom.mapbox.map.fitBounds(bounds, {
+          padding: 50
+        });
+      }
+      //Points to map by click zoom on button click
+      document.getElementById('zoomto').addEventListener('click', function () {
+
+        document.mapCom.showAllDropToMap();
+
+      });
+
+
+      //Show POPUP on clicks parcels
+      this.mapbox.map.on('click', 'points', function (e) {
+        var coordinates = e.features[0].geometry.coordinates.slice();
+        var description = e.features[0].properties.description;
+        while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+          coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+        }
+
+        document.mapCom.shipment_id = e.features[0].properties.shipment_id;
+        document.mapCom.shipment_route_id = e.features[0].properties.shipment_route_id;
+
+        new mapboxgl.Popup()
+          .setLngLat(coordinates)
+          .setHTML(description)
+          .addTo(this);
+      });
+
+      //Show POPUP on clicks Drivers
+      this.mapbox.map.on('click', 'drivers', function (e) {
+        var coordinates = e.features[0].geometry.coordinates.slice();
+        var description = e.features[0].properties.description;
+        var driver_id = e.features[0].properties.driver_id;
+
+        document.mapCom.driverInfoPopup['name'] = e.features[0].properties.name;
+        document.mapCom.driverInfoPopup['last_sync_time'] = document.mapCom.getFullDateTime(e.features[0].properties.last_sync_time);
+        document.mapCom.driverInfoPopup['battery_charge'] = e.features[0].properties.battery_status;
+
+        document.mapCom.driverInfoPopup['parcelData'] = [{ active_route: '', no_of_shipment: '', driver_data: {} }];
+        //document.mapCom.driverInfoPopup['parcelData'] = document.mapCom.dashboardService.getDriverParcelInfo(driver_id);
+        document.mapCom.sub = document.mapCom.dashboardService.getDriverParcelInfo(driver_id).subscribe(quote => {
+          document.mapCom.driverInfoPopup['parcelData'] = quote;
+        });
+
+
+        //console.log(document.mapCom.driverInfoPopup);
+
+        document.mapCom.dialog.open(DriverinfoComponent, {
+          data: { 'info': document.mapCom.driverInfoPopup }
+        });
+
+      });
+
     });
   }
 

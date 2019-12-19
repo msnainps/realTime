@@ -40,7 +40,12 @@ export class SidenavLeftComponent implements OnInit {
     this.sidebarLeftNavOp.shipment_route_id = shipmentRouteId;
   }
 
-  assignJob(shipmentTicket,shipmenRouteId){
+  assignJob(shipmentTicket,shipmenRouteId,shipmentRouteName){
+    //Fill RouteName and Todays Date
+    this.sidebarLeftNavOp.assignDriverFormModel.route_name = shipmentRouteName;
+    this.sidebarLeftNavOp.assignDriverFormModel.assign_date_time = new Date();
+    
+
     this.sidebarLeftNavOp.showHideModal = 'block';
     //get Driver List
     this.sidenaveleftService.getDriverList().subscribe(quote => {
@@ -78,5 +83,7 @@ export class SidenavLeftComponent implements OnInit {
     });
 
   }
+
+  
 
 }
