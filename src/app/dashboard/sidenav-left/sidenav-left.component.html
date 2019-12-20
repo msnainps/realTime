@@ -41,7 +41,7 @@
                                         <li><a href="" (click)="cancelShipment(unassignData.shipment_ticket)" data-toggle="modal" data-target="#Modal2">
                                                 <mat-icon>cancel_presentation</mat-icon> <span>Cancel Job</span>
                                             </a></li>
-                                        <li><a href="" (click)="viewDetails(unassignData.shipment_routed_id,'unassign')" data-toggle="modal" data-target="#Modal4">
+                                        <li><a href="" (click)="viewDetails(unassignData.shipment_routed_id,'unassign',unassignData.booking_type)" data-toggle="modal" data-target="#Modal4">
                                                 <mat-icon>remove_red_eye</mat-icon> <span>View Details</span>
                                             </a></li>
                                     </ul>
@@ -97,7 +97,7 @@
                                 <li><a href="" (click)="WithdrawRoute(assignData.route_name,assignData.shipment_routed_id)" data-toggle="modal" data-target="#Modal3">
                                         <mat-icon>credit_card</mat-icon> <span>Withdraw</span>
                                     </a></li>
-                                <li><a href="" (click)="viewDetails(assignData.shipment_routed_id,'assign')" data-toggle="modal" data-target="#Modal4">
+                                <li><a href="" (click)="viewDetails(assignData.shipment_routed_id,'assign',assignData.booking_type)" data-toggle="modal" data-target="#Modal4">
                                         <mat-icon>remove_red_eye</mat-icon> <span>View Details</span>
                                     </a></li>
                             </ul>
@@ -145,7 +145,7 @@
     
                             <mat-menu #menu="matMenu">
                                 <ul class="set-list">
-                                    <li><a href="" (click)="viewDetails(completed.shipment_routed_id,'completed')" data-toggle="modal" data-target="#Modal4">
+                                    <li><a href="" (click)="viewDetails(completed.shipment_routed_id,'completed',completed.booking_type)" data-toggle="modal" data-target="#Modal4">
                                             <mat-icon>remove_red_eye</mat-icon> <span>View Details</span>
                                         </a></li>
                                 </ul>

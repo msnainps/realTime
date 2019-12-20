@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import * as io from 'socket.io-client';
 import { config } from 'src/config/config';
 import { SocketService } from 'src/app/commonServices/socket.service';
-import { Observable, Observer, throwError } from 'rxjs';
+import { Observable, Observer, throwError,EMPTY } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { retry, catchError, map } from 'rxjs/operators';
 import { formatDate } from '@angular/common';
@@ -19,7 +19,7 @@ export class SidenavLeftService {
   iacrgoApiUrl = this.configSettings.env.icargo_api_url;
   email = this.configSettings.env.email;
   access_token = this.configSettings.env.icargo_access_token;
-  
+  socketRestAPI = this.configSettings.env.socket_rest_api_url;
 
   public dataList: any = new Array();
 
@@ -315,5 +315,100 @@ export class SidenavLeftService {
       )
   }
 
+  //get Disputed List  getDispuedList
+  getDispuedList(): Observable<any> {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    this.routeData = {
+      'endPoint': 'getMoveToDisputeAcions',
+    }
+    return this.http.get(this.socketRestAPI + this.routeData.endPoint, {
+      "headers": headers,
+      responseType: 'text' as 'json'
+    }).pipe(
+      map(data => {
+        return data;
+      })
+    );
+  }
+
+  //Moved to disputed
+  disputedJob(tktList,disputed_id,booking_type):Observable<any>{
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    this.routeData = {
+      'endPointUrl': 'movetodispute',
+      'company_id': '' + this.companyId,
+      'warehouse_id': '' + this.wairehouseId,
+      'email': this.email,
+      'access_token': this.access_token,
+      'shipment_ticket':tktList.join(','),
+      "timezone_name":Intl.DateTimeFormat().resolvedOptions().timeZone,
+      "disputeid":disputed_id,
+      "shipment_type":booking_type
+    }
+
+    return this.http.post(this.iacrgoApiUrl + this.routeData.endPointUrl,JSON.stringify(this.routeData),{
+      "headers": headers,
+      responseType: 'text' as 'json'
+    }).pipe(
+      retry(1),
+      map(data => {
+        return data;
+      })
+    );
+  }
+
+   //get Disputed List  getDispuedList
+   getAssignRouteList(): Observable<any> {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    this.routeData = {
+      'endPoint': 'getAssingedRouteList',
+      'company_id':this.companyId
+    }
+    return this.http.get(this.socketRestAPI + this.routeData.endPoint+'/'+this.routeData.company_id, {
+      "headers": headers,
+      responseType: 'text' as 'json'
+    }).pipe(
+      map(data => {
+        return data;
+      })
+    );
+  }
+
+  //ReAssign
+  movetoReAssign(tktList,shipment_route_id):Observable<any>{
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    this.routeData = {
+      'endPointUrl': 'assignToCurrentRoute',
+      'company_id': '' + this.companyId,
+      'warehouse_id': '' + this.wairehouseId,
+      'email': this.email,
+      'access_token': this.access_token,
+      //'shipment_ticket':tktList.join(','),
+      'shipment_ticket':tktList,
+      "timezone_name":Intl.DateTimeFormat().resolvedOptions().timeZone,
+      "shipment_route_id":shipment_route_id,
+    }
+
+    return this.http.post(this.iacrgoApiUrl + this.routeData.endPointUrl,JSON.stringify(this.routeData),{
+      "headers": headers,
+      responseType: 'text' as 'json'
+    }).pipe(
+      retry(1),
+      map(data => {
+        return data;
+      }),
+      catchError((error: HttpErrorResponse) => {
+        if (error.error instanceof Error) {
+          // A client-side or network error occurred. Handle it accordingly.
+          console.error('An error occurred:', error.error.message);
+          
+        } else {
+          console.error(`Backend returned code ${error.status}, body was: ${error.error}`);
+          return `${error.status}`;
+        }
+        return EMPTY;
+      })
+    );
+  }
 
 }

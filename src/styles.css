@@ -786,3 +786,36 @@ margin: 6px;
   display: inline-block;
   height: 12px;
 } 
+.date-picker2{
+  position: relative;
+}
+.date-picker2 input,.search-header{
+  border-top: 1px solid;
+  border-top-color: transparent;
+  border-left: none;
+  border-right: none;
+  border-bottom: 1px solid #fff;
+  font-size: 16px;
+  background-color: transparent;
+  color: #fff;
+  outline: none;
+}
+.date-picker2 input:focus,.search-header:focus{
+  border-top: 1px solid;
+  border-top-color: transparent;
+  border-left: none;
+  border-right: none;
+  border-bottom: 2px solid #fff;
+  background-color: transparent;
+  color: #fff;
+  outline: none;
+}
+.date-picker2 span{
+position: absolute;
+right: 5px;
+color: #fff;
+top: 7px;
+}
+.search-header{
+  margin-left: 27px;
+}

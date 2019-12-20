@@ -8,18 +8,29 @@
     <!-- <button mat-button>   
       <mat-icon class="example-icon" aria-hidden="false"><i class="material-icons">refresh</i></mat-icon>
     </button> -->
-    <button mat-button (click)="toggleShow()">
-      <mat-icon class="example-icon" aria-hidden="false"><i class="material-icons">search</i></mat-icon>
-    </button>
+    
     <div class="date-picker2">
-      <mat-form-field>
+
+      <!-- <mat-form-field>
         <input matInput [matDatepicker]="picker" [(ngModel)]="shipmentCurrentDate" placeholder="Choose a date">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
+      </mat-form-field> -->
       <!--Add Filter-->
-      <app-filter></app-filter>
+      <input type="text" [owlDateTime]="headerDate" [owlDateTimeTrigger]="headerDate" [(ngModel)]="shipmentCurrentDate"
+        required autocomplete="off" placeholder="Choose a date"/>
+      <span class="trigger" [owlDateTimeTrigger]="headerDate">
+        <i class="material-icons">
+          event_note
+          </i>
+      </span>
+      <owl-date-time [pickerType]="'calendar'" #headerDate></owl-date-time>
     </div>
+    <input class="search-header" placeholder="Search">
+    <button mat-button (click)="toggleShow()">
+      <mat-icon class="example-icon" aria-hidden="false"><i class="material-icons">search</i></mat-icon>
+    </button>
+    <app-filter></app-filter>
     <span class="example-spacer"></span>
 
     <!-- <div class="user-menu-2" [matMenuTriggerFor]="usernotification">

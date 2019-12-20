@@ -21,6 +21,7 @@ export class SidenavLeftComponent implements OnInit {
   rowData:any;
   routeName:any;
   driverName:any;
+ 
   
   @Input() sidebarLeftNavOp:SidenavLeftOperationComponent; //Send Data to SidenavLeftOperationComponent
   constructor(private sidenaveleftService:SidenavLeftService,private toastr: ToastrService) { }
@@ -65,13 +66,15 @@ export class SidenavLeftComponent implements OnInit {
     });
   }
 
-  viewDetails(shipment_route_id,type){
+  viewDetails(shipment_route_id,type,booking_type){
+
     this.sidebarLeftNavOp.showHideModal = 'block';
     this.sidebarLeftNavOp.rowData = ''; //Reset Grid Data
 
     this.sidebarLeftNavOp.releaseShipmentTkt = '';//Reset selected checkbox from grid
     this.sidebarLeftNavOp.routeType = type;
     this.sidebarLeftNavOp.shipment_route_id = shipment_route_id; //Used while download PDF
+    this.sidebarLeftNavOp.booking_type = booking_type //Used while diputed and Roteassign
     this.sidenaveleftService.getRouteDetails(shipment_route_id,type).subscribe(resp => {
       if(resp.routeDetailsData.length > 0){
       this.sidebarLeftNavOp.rowData = resp.routeDetailsData;
@@ -81,6 +84,19 @@ export class SidenavLeftComponent implements OnInit {
       this.sidebarLeftNavOp.driverName = resp.routeInfo[0].driver_name;
       }
     });
+
+    //get Disputed List && get Assign Route List 
+    if(type == 'unassign'){
+      this.sidenaveleftService.getDispuedList().subscribe(resp => {
+        this.sidebarLeftNavOp.disputedList = JSON.parse(resp).message;
+      });
+
+      this.sidenaveleftService.getAssignRouteList().subscribe(resp => {
+        this.sidebarLeftNavOp.assignRouteList = JSON.parse(resp).message;
+      });
+    }
+
+    
 
   }
 

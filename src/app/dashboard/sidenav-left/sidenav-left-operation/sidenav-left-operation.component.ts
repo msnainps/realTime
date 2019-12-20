@@ -51,28 +51,33 @@ export class SidenavLeftOperationComponent implements OnInit {
   showHideModal = 'block';
   //Resize grid column
   private defaultColDef;
-  
+  disputedList: any;
+  booking_type: any;
+  resetDisputed:any = {action_id:0};
+  assignRouteList:any;
+  resetAssignRoute:any = {shipment_route_id:0};
+
 
 
   //Grid headers
   columnDefs = [
-    { headerName: 'Docket No', field: 'docket_no',width: 200, sortable: true, filter: true, checkboxSelection: true, headerCheckboxSelection: true },
-    { headerName: 'Service', field: 'service_type',width: 100, sortable: true, filter: true },
-    { headerName: 'Service Date', field: 'service_date',width: 100, sortable: true, filter: true },
-    { headerName: 'Service Time', field: 'service_time',width: 100, sortable: true, filter: true },
-    { headerName: 'Weight', field: 'weight',width: 7, sortable: true, filter: true },
-    { headerName: 'Postcode', field: 'postcode',width: 120, sortable: true, filter: true },
-    { headerName: 'Consignee Name', field: 'consignee_name',width: 250, sortable: true, filter: true },
-    { headerName: 'Address1', field: 'address1',width: 150, sortable: true, filter: true },
-    { headerName: 'Phone', field: 'phone',width: 150, sortable: true, filter: true },
-    { headerName: 'Execution Order', field: 'execution_order', width: 100,sortable: true, filter: true },
-    { headerName: 'Attempt', field: 'attempt', width: 100,sortable: true, filter: true },
-    { headerName: 'Estimated Time', field: 'estimatedtime', width: 100,sortable: true, filter: true },
-    { headerName: 'Status', field: 'current_status',width: 100, sortable: true, filter: true },
+    { headerName: 'Docket No', field: 'docket_no', width: 200, sortable: true, filter: true, checkboxSelection: true, headerCheckboxSelection: true },
+    { headerName: 'Service', field: 'service_type', width: 100, sortable: true, filter: true },
+    { headerName: 'Service Date', field: 'service_date', width: 100, sortable: true, filter: true },
+    { headerName: 'Service Time', field: 'service_time', width: 100, sortable: true, filter: true },
+    { headerName: 'Weight', field: 'weight', width: 7, sortable: true, filter: true },
+    { headerName: 'Postcode', field: 'postcode', width: 120, sortable: true, filter: true },
+    { headerName: 'Consignee Name', field: 'consignee_name', width: 250, sortable: true, filter: true },
+    { headerName: 'Address1', field: 'address1', width: 150, sortable: true, filter: true },
+    { headerName: 'Phone', field: 'phone', width: 150, sortable: true, filter: true },
+    { headerName: 'Execution Order', field: 'execution_order', width: 100, sortable: true, filter: true },
+    { headerName: 'Attempt', field: 'attempt', width: 100, sortable: true, filter: true },
+    { headerName: 'Estimated Time', field: 'estimatedtime', width: 100, sortable: true, filter: true },
+    { headerName: 'Status', field: 'current_status', width: 100, sortable: true, filter: true },
     { headerName: 'Action', field: 'action' },
   ];
 
-  
+
 
 
   modules = AllCommunityModules;
@@ -243,6 +248,8 @@ export class SidenavLeftOperationComponent implements OnInit {
 
   onSelectionChanged(event) { //When select check box from grid
     this.releaseShipmentTkt = event.api.getSelectedRows();
+    this.resetDisputed = {action_id:0}; //Reset Disputed Dropdown
+    this.resetAssignRoute = {shipment_route_id:0};
   }
 
   //Release shipment
@@ -564,6 +571,109 @@ export class SidenavLeftOperationComponent implements OnInit {
       });
     }
   }
+
+  sendToDisputed(disputed_id) {
+    if (!this.releaseShipmentTkt.length) {
+      this.toastr.warning('Please select shipment', '', {
+        closeButton: true, positionClass: 'toast-top-right', timeOut: 2000
+      });
+      return '';
+    } else {
+      if (disputed_id == 0) {
+        this.toastr.info('Invalid Selection', '', {
+          closeButton: true, positionClass: 'toast-top-right', timeOut: 2000
+        });
+        return '';
+      }
+    }
+
+
+    this.submittedDelV = true;
+
+    if (this.releaseShipmentTkt.length > 0) { //If selected
+      this.spinerService.show("disputedjob", {
+        type: "line-scale-party",
+        size: "large",
+        color: "white"
+      });
+
+      for (var i = 0; i < this.releaseShipmentTkt.length; i++) {
+        this.deliverTktList.push(this.releaseShipmentTkt[i].shipment_ticket);
+      }
+      
+      
+      //disputed job
+      this.sidenavleftservice.disputedJob(this.deliverTktList,disputed_id,this.booking_type).subscribe(res => {
+
+        this.showHideModal = 'none';
+        document.querySelector(".modal-backdrop").remove();
+
+        this.deliverFormModel = {}; //Reset Form Model
+
+        this.dashboardService.loadDropOnMapsEmit();////For Realtime Data
+        var strArray = res.split(".");
+        var decodeBAse64 = JSON.parse(atob(strArray[1]));
+
+        this.toastr.success(decodeBAse64.actions.message, '', {
+          closeButton: true, positionClass: 'toast-top-right', timeOut: 4000
+        });
+        this.spinerService.hide("disputedjob");
+      })
+    } 
+  }
+
+
+  moveToAssignRoute(shipmentRouteId){
+    if (!this.releaseShipmentTkt.length) {
+      this.toastr.warning('Please select shipment', '', {
+        closeButton: true, positionClass: 'toast-top-right', timeOut: 2000
+      });
+      return '';
+    } else {
+      if (shipmentRouteId == 0) {
+        this.toastr.info('Invalid Selection', '', {
+          closeButton: true, positionClass: 'toast-top-right', timeOut: 2000
+        });
+        return '';
+      }
+    }
+
+
+    this.submittedDelV = true;
+
+    if (this.releaseShipmentTkt.length > 0) { //If selected
+      this.spinerService.show("assignRoute", {
+        type: "line-scale-party",
+        size: "large",
+        color: "white"
+      });
+
+      for (var i = 0; i < this.releaseShipmentTkt.length; i++) {
+        this.deliverTktList.push(this.releaseShipmentTkt[i].shipment_ticket);
+      }
+      
+      
+      //disputed job
+      this.sidenavleftservice.movetoReAssign(this.deliverTktList,shipmentRouteId).subscribe(res => {
+
+        this.showHideModal = 'none';
+        document.querySelector(".modal-backdrop").remove();
+
+        this.deliverFormModel = {}; //Reset Form Model
+        this.dashboardService.loadDropOnMapsEmit();////For Realtime Data
+        var strArray = res.split(".");
+        var decodeBAse64 = JSON.parse(atob(strArray[1]));
+
+        this.toastr.success(decodeBAse64.actions.message, '', {
+          closeButton: true, positionClass: 'toast-top-right', timeOut: 4000
+        });
+        this.spinerService.hide("assignRoute");
+      },err => {
+        console.log(err);
+      })
+    } 
+  }
+
 
 
 }
