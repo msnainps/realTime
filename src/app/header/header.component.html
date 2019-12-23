@@ -8,7 +8,7 @@
     <!-- <button mat-button>   
       <mat-icon class="example-icon" aria-hidden="false"><i class="material-icons">refresh</i></mat-icon>
     </button> -->
-    
+
     <div class="date-picker2">
 
       <!-- <mat-form-field>
@@ -17,18 +17,21 @@
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field> -->
       <!--Add Filter-->
-      <input type="text" [owlDateTime]="headerDate" [owlDateTimeTrigger]="headerDate" [(ngModel)]="shipmentCurrentDate"
-        required autocomplete="off" placeholder="Choose a date"/>
+      <input type="text" [owlDateTime]="headerDate" [owlDateTimeTrigger]="headerDate"
+        [(ngModel)]="headreSearch.searchdate" required autocomplete="off" placeholder="Choose a date" />
       <span class="trigger" [owlDateTimeTrigger]="headerDate">
         <i class="material-icons">
           event_note
-          </i>
+        </i>
       </span>
       <owl-date-time [pickerType]="'calendar'" #headerDate></owl-date-time>
     </div>
-    <input class="search-header" placeholder="Search">
-    <button mat-button (click)="toggleShow()">
-      <mat-icon class="example-icon" aria-hidden="false"><i class="material-icons">search</i></mat-icon>
+    <input class="search-header" placeholder="Search" [(ngModel)]="headreSearch.searchvalue">
+    <button mat-button>
+      <mat-icon class="example-icon" aria-hidden="false" data-toggle="modal" data-target="#calendar-search"
+        (click)="getSearchRecord()">
+        <i class="material-icons">search</i>
+      </mat-icon>
     </button>
     <app-filter></app-filter>
     <span class="example-spacer"></span>
@@ -68,8 +71,42 @@
         <button mat-menu-item><i class="material-icons"> power_settings_new</i>Logout</button>
       </mat-menu>
     </div> -->
+
   </mat-toolbar-row>
   <div class="search-row" *ngIf="isShown">
     <input type="text" placeholder="Search & Enter"><a class="close-icon" (click)="toggleShow()"><i
         class="material-icons"> close</i></a></div>
+
+
 </mat-toolbar>
+
+<!-- Header search Grid -->
+<div class="modal fade" id="calendar-search" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog md-header-search" role="document">
+    <div class="modal-content">
+      <div class="close-box">
+        <button type="button" data-dismiss="modal">X</button>
+      </div>
+      <div class="modal-body space-bitween">
+      <div style="width: 100%;">
+        <span>
+          <h4>Search Date:</h4>{{searchedDate}}
+        </span>
+      </div>
+      <div style="width: 100%;">
+        <span>
+          <h4>Search Value:</h4>{{searchedValue}}
+        </span>
+      </div>
+      <div class="inner-set-section">
+        <ag-grid-angular style="width: auto; height: 500px;" class="ag-theme-balham" [rowData]="rowData"
+          [columnDefs]="columnDefs" [modules]="modules" [suppressRowClickSelection]="true"
+          [rowSelection]='selectionMode' [enableCellTextSelection]="true" [defaultColDef]="defaultColDef"
+          (selectionChanged)="onSelectionChanged($event)" [paginationPageSize]="paginationPageSize" [pagination]="true">
+        </ag-grid-angular>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

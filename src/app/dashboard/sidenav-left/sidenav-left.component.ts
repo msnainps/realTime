@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ɵCompiler_compileModuleAndAllComponentsAsync__POST_R3__ } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { SidenavLeftService } from './sidenav-left.service';
 import { SidenavLeftOperationComponent } from './sidenav-left-operation/sidenav-left-operation.component';
 import { ToastrService } from 'ngx-toastr';
