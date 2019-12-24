@@ -819,3 +819,7 @@ top: 7px;
 .search-header{
   margin-left: 27px;
 }
+.modal-dialog.md-header-search{
+    max-width: 90% !important;
+    margin: 1.75rem auto;
+}

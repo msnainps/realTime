@@ -74,7 +74,7 @@ export class DashboardService {
       //this.markerList = data.shipment_data;
       //data.shipment_data.push.apply(data.shipment_data, data.unassgn_shipment_data);
       //data.shipment_data.push.apply(data.shipment_data, data.completed_shipment_data)
-
+      console.log("----Filter Data Check---");
       console.log(data);
 
       for (var index1 in data.mapPlotData) {

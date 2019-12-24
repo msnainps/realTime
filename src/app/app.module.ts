@@ -13,7 +13,7 @@ import { SidenavRightComponent } from './dashboard/sidenav-right/sidenav-right.c
 // import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { FilterComponent } from './header/filter/filter.component';
 import { FilterDialog } from './header/filter/filter.dialog.component';
-import { MatDialogModule } from '@angular/material';
+import { MatDialogModule,MatTabsModule  } from '@angular/material';
 import { DriverinfoComponent } from './dashboard/driverinfo/driverinfo.component';
 import { NgxSpinnerModule } from "ngx-spinner"; 
 import { HttpClientModule } from '@angular/common/http';
@@ -53,6 +53,7 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
     AgGridModule.withComponents([]),
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
+    MatTabsModule
   ],
   providers: [],
   bootstrap: [AppComponent],

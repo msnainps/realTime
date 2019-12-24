@@ -153,6 +153,7 @@ export class DashboardComponent implements OnInit {
    * @param tkt 
    */
   getTktInfo(tkt: string) {
+    document.mapCom.showHideModal = 'block';
     document.mapCom.dashboardService.getSameCorrdinateTktInfo(tkt).subscribe((res) => {
       document.mapCom.shipmentInfo.ticket = res.tktInfo[0].shipment_ticket;
       document.mapCom.shipmentInfo.customerName = res.tktInfo[0].customer_name;

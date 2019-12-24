@@ -134,6 +134,9 @@
         <div class="close-box">
           <button type="button" data-dismiss="modal">X</button>
         </div>
+
+        <mat-tab-group animationDuration="0ms">
+          <mat-tab label="View Details">
         <div class="modal-footers modal-footers2">
           <button *ngIf="routeType=='assign' || routeType == 'unassign'" (click)="processReleaseShipment()"
             type="button" class="btn btn-primary">Release Shipment</button>
@@ -183,7 +186,18 @@
               (selectionChanged)="onSelectionChanged($event)">
             </ag-grid-angular>
           </div>
+
+         
         </div>
+        </mat-tab>
+        <mat-tab label="Traking">
+          <ag-grid-angular style="width: auto; height: 500px;" class="ag-theme-balham" [rowData]="rowData"
+              [columnDefs]="columnDefs" [modules]="modules" [suppressRowClickSelection]="true"
+              [rowSelection]='selectionMode' [enableCellTextSelection]="true" [defaultColDef]="defaultColDef"
+              (selectionChanged)="onSelectionChanged($event)">
+            </ag-grid-angular>
+        </mat-tab>
+      </mat-tab-group>
       </div>
     </div>
   </div>
