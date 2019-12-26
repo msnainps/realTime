@@ -130,74 +130,77 @@
   <!--View Details-->
   <div class="modal fade" id="Modal4" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog2" role="document" [ngStyle]="{'display':showHideModal}">
-      <div class="modal-content">
-        <div class="close-box">
+      <div class="modal-content" style="border: none;">
+        <div class="close-box close-box-view-details">
           <button type="button" data-dismiss="modal">X</button>
         </div>
 
         <mat-tab-group animationDuration="0ms">
           <mat-tab label="View Details">
-        <div class="modal-footers modal-footers2">
-          <button *ngIf="routeType=='assign' || routeType == 'unassign'" (click)="processReleaseShipment()"
-            type="button" class="btn btn-primary">Release Shipment</button>
-          <a *ngIf="routeType=='assign'" href="" (click)="validateDeliverShipment()" class="btn btn-primary"
-            data-toggle="modal" data-target="#Modal6" [attr.data-dismiss]="releaseShipmentTkt.length?modal:''">
-            <span>Deliver Shipment</span>
-          </a>
-          <button type="button" class="btn btn-primary" (click)="downloadExportCageSheet()">Export Cagesheet</button>
-          <a *ngIf="routeType=='assign'" href="" (click)="validateCardedShipment()" class="btn btn-primary"
-            data-toggle="modal" data-target="#Modal5" [attr.data-dismiss]="releaseShipmentTkt.length?modal:''">
-            <span>Carded Shipment</span>
-          </a>
+            <div class="modal-footers modal-footers2 modal-footers-view-tab">
+              <button *ngIf="routeType=='assign' || routeType == 'unassign'" (click)="processReleaseShipment()"
+                type="button" class="btn btn-primary">Release Shipment</button>
+              <a *ngIf="routeType=='assign'" href="" (click)="validateDeliverShipment()" class="btn btn-primary"
+                data-toggle="modal" data-target="#Modal6" [attr.data-dismiss]="releaseShipmentTkt.length?modal:''">
+                <span>Deliver Shipment</span>
+              </a>
+              <button *ngIf="booking_type != 'Vendor'" type="button" class="btn btn-primary" (click)="downloadExportCageSheet()">Export
+                Cagesheet</button>
+              <a *ngIf="routeType=='assign'" href="" (click)="validateCardedShipment()" class="btn btn-primary"
+                data-toggle="modal" data-target="#Modal5" [attr.data-dismiss]="releaseShipmentTkt.length?modal:''">
+                <span>Carded Shipment</span>
+              </a>
 
 
-          <select *ngIf="routeType=='unassign'" [(ngModel)]="resetDisputed.action_id" class="btn btn-primary" id="sel1"
-            (change)="sendToDisputed($event.target.value)">
-            <option [value]='0' selected="selected">--Disputed--</option>
-            <option *ngFor="let diputedCode of disputedList; let i = index" [value]="diputedCode.action_id">
-              {{diputedCode.action_name}}
-            </option>
-          </select>
+              <select *ngIf="routeType=='unassign'" [(ngModel)]="resetDisputed.action_id" class="btn btn-primary"
+                id="sel1" (change)="sendToDisputed($event.target.value)">
+                <option [value]='0' selected="selected">--Disputed--</option>
+                <option *ngFor="let diputedCode of disputedList; let i = index" [value]="diputedCode.action_id">
+                  {{diputedCode.action_name}}
+                </option>
+              </select>
 
-          <select *ngIf="routeType=='unassign'" [(ngModel)]="resetAssignRoute.shipment_route_id" class="btn btn-primary" id="sel1"
-            (change)="moveToAssignRoute($event.target.value)">
-            <option [value]='0' selected="selected">--Route Assign--</option>
-            <option *ngFor="let routeList of assignRouteList; let i = index" [value]="routeList.shipment_route_id">
-              {{routeList.route_name}}
-            </option>
-          </select>
-        </div>
-        <div class="modal-body space-bitween">
-          <div style="width: 100%;">
-            <span>
-              <h4>Route:</h4>{{routeName}}
-            </span>
-          </div>
-          <div style="width: 100%;">
-            <span>
-              <h4>Driver:</h4>{{driverName}}
-            </span>
-          </div>
+              <select *ngIf="routeType=='unassign'" [(ngModel)]="resetAssignRoute.shipment_route_id"
+                class="btn btn-primary" id="sel1" (change)="moveToAssignRoute($event.target.value)">
+                <option [value]='0' selected="selected">--Route Assign--</option>
+                <option *ngFor="let routeList of assignRouteList; let i = index" [value]="routeList.shipment_route_id">
+                  {{routeList.route_name}}
+                </option>
+              </select>
+            </div>
+            <div class="modal-body space-bitween ">
+              <div style="width: 100%;">
+                <span>
+                  <h4>Route:</h4>{{routeName}}
+                </span>
+              </div>
+              <div style="width: 100%;">
+                <span>
+                  <h4>Driver:</h4>{{driverName}}
+                </span>
+              </div>
 
-          <div class="inner-set-section">
-            <ag-grid-angular style="width: auto; height: 500px;" class="ag-theme-balham" [rowData]="rowData"
-              [columnDefs]="columnDefs" [modules]="modules" [suppressRowClickSelection]="true"
-              [rowSelection]='selectionMode' [enableCellTextSelection]="true" [defaultColDef]="defaultColDef"
-              (selectionChanged)="onSelectionChanged($event)">
+              <div class="inner-set-section">
+                <ag-grid-angular style="width: auto; height: 500px;" class="ag-theme-balham" [rowData]="rowData"
+                  [columnDefs]="columnDefs" [modules]="modules" [suppressRowClickSelection]="true"
+                  [rowSelection]='selectionMode' [enableCellTextSelection]="true" [defaultColDef]="defaultColDef"
+                  (selectionChanged)="onSelectionChanged($event)">
+                </ag-grid-angular>
+              </div>
+
+
+            </div>
+          </mat-tab>
+          <!--Show Traking Info-->
+          <mat-tab label="Traking" *ngIf="booking_type != 'Vendor'">
+            <div class="modal-body">
+            <ag-grid-angular style="width: auto; height: 500px;" class="ag-theme-balham" [rowData]="rowDataTrakingInfo"
+              [columnDefs]="columnDefsTrakingInfo" [modules]="modules" [suppressRowClickSelection]="true"
+              [rowSelection]='selectionMode' [defaultColDef]="defaultColDef" [enableCellTextSelection]="true">
             </ag-grid-angular>
           </div>
-
-         
-        </div>
-        </mat-tab>
-        <mat-tab label="Traking">
-          <ag-grid-angular style="width: auto; height: 500px;" class="ag-theme-balham" [rowData]="rowData"
-              [columnDefs]="columnDefs" [modules]="modules" [suppressRowClickSelection]="true"
-              [rowSelection]='selectionMode' [enableCellTextSelection]="true" [defaultColDef]="defaultColDef"
-              (selectionChanged)="onSelectionChanged($event)">
-            </ag-grid-angular>
-        </mat-tab>
-      </mat-tab-group>
+          </mat-tab>
+        </mat-tab-group>
       </div>
     </div>
   </div>
@@ -321,7 +324,7 @@
 
               <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="form-group">
-                  <label for="date" class="col-form-label">Next Schedule Date and Time</label>
+                  <label for="date" class="col-form-label">Date and Time</label>
                   <input type="text" class="form-control" id="date" [owlDateTime]="dt2" [owlDateTimeTrigger]="dt2"
                     formControlName='deliver_date_time' [(ngModel)]="deliverFormModel.deliver_date_time"
                     [ngClass]="{ 'is-invalid': submittedDelV &amp;&amp; deliverFormVal.controls.deliver_date_time.errors }"

@@ -674,7 +674,7 @@ background-color:#33225a;
 border-color: #33225a;
 }
 .space-bitween{
-  padding: 3em 2em 20px 2em;
+  /* padding: 3em 2em 20px 2em; */
 }
 .close-box{
   position: absolute;
@@ -822,4 +822,13 @@ top: 7px;
 .modal-dialog.md-header-search{
     max-width: 90% !important;
     margin: 1.75rem auto;
+}
+
+.close-box.close-box-view-details{
+  position: absolute;
+  right: 0;
+  z-index: 9;
+}
+.modal-footers-view-tab{
+  width: 95% !important;
 }

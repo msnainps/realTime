@@ -7,6 +7,9 @@ import { DateTimeAdapter } from 'ng-pick-datetime';
 import { AllCommunityModules } from '@ag-grid-community/all-modules';
 import { ToastrService } from 'ngx-toastr';
 import { formatDate } from '@angular/common';
+import { NgxSpinnerService } from 'ngx-spinner';
+ 
+
 
 
 
@@ -51,7 +54,7 @@ export class HeaderComponent implements OnInit {
 
 
   modules = AllCommunityModules;
-  constructor(private headerService: HeaderService, dateTimeAdapter: DateTimeAdapter<any>, private toastr: ToastrService) {
+  constructor(private headerService: HeaderService, dateTimeAdapter: DateTimeAdapter<any>, private toastr: ToastrService,private spinerService: NgxSpinnerService) {
     if (this.configSettings.env.country_code.toLowerCase() == 'us' || this.configSettings.env.country_code.toLowerCase() == 'usa') {
       dateTimeAdapter.setLocale('us');
     } else {
@@ -79,16 +82,22 @@ export class HeaderComponent implements OnInit {
   }
 
   getSearchRecord() {
+    this.spinerService.show("header-search", {
+      type: "line-scale-party",
+      size: "large",
+      color: "white"
+    });
 
+    this.rowData = '';
     var searchFileds = this.headreSearch;
 
     if(!this.headreSearch.searchvalue){
       this.toastr.error('search value is required !', '', {
         closeButton: true, positionClass: 'toast-top-right', timeOut: 4000
       });
-      this.rowData = '';
       //this.searchedDate = '';
       this.searchedValue = '';
+      this.spinerService.hide('header-search');
       return ''
     }
    
@@ -98,7 +107,7 @@ export class HeaderComponent implements OnInit {
     this.searchedValue = searchFileds.searchvalue;
 
     this.headerService.getSearchResult(this.headreSearch).subscribe(val => {
-
+      this.spinerService.hide('header-search');
       var data: any = JSON.parse(val);
       if (Object.keys(data.message).length === 0) {
         this.rowData = '';

@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { SidenavLeftService } from './sidenav-left.service';
 import { SidenavLeftOperationComponent } from './sidenav-left-operation/sidenav-left-operation.component';
 import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 
 
@@ -24,7 +25,7 @@ export class SidenavLeftComponent implements OnInit {
  
   
   @Input() sidebarLeftNavOp:SidenavLeftOperationComponent; //Send Data to SidenavLeftOperationComponent
-  constructor(private sidenaveleftService:SidenavLeftService,private toastr: ToastrService) { }
+  constructor(private sidenaveleftService:SidenavLeftService,private toastr: ToastrService,private spinerService: NgxSpinnerService) { }
 
   ngOnInit() {
     this.sidenaveleftService.getAssignDropData();
@@ -66,16 +67,21 @@ export class SidenavLeftComponent implements OnInit {
     });
   }
 
-  viewDetails(shipment_route_id,type,booking_type){
-
+  viewDetails(data,type){
+    this.spinerService.show("view-details", {
+      type: "line-scale-party",
+      size: "large",
+      color: "white"
+    });
     this.sidebarLeftNavOp.showHideModal = 'block';
     this.sidebarLeftNavOp.rowData = ''; //Reset Grid Data
+    this.sidebarLeftNavOp.rowDataTrakingInfo = '';//Reset Traking Info row data
 
     this.sidebarLeftNavOp.releaseShipmentTkt = '';//Reset selected checkbox from grid
     this.sidebarLeftNavOp.routeType = type;
-    this.sidebarLeftNavOp.shipment_route_id = shipment_route_id; //Used while download PDF
-    this.sidebarLeftNavOp.booking_type = booking_type //Used while diputed and Roteassign
-    this.sidenaveleftService.getRouteDetails(shipment_route_id,type).subscribe(resp => {
+    this.sidebarLeftNavOp.shipment_route_id = data.shipment_routed_id; //Used while download PDF
+    this.sidebarLeftNavOp.booking_type = data.booking_type //Used while diputed and Roteassign
+    this.sidenaveleftService.getRouteDetails(data.shipment_routed_id,type).subscribe(resp => {
       if(resp.routeDetailsData.length > 0){
       this.sidebarLeftNavOp.rowData = resp.routeDetailsData;
       }
@@ -96,6 +102,27 @@ export class SidenavLeftComponent implements OnInit {
       });
     }
 
+
+    //Get Shipment Traking Info
+    var Jtypes = data.booking_type.toLowerCase();
+    if(Jtypes == 'next' || Jtypes == 'same'){
+    this.sidenaveleftService.getShipmentTrakingInfo(data.instaDispatch_loadIdentity,data.is_internal,data.booking_type).subscribe(resp => {
+      var strArray = resp.split(".");
+      var decodeBAse64 = JSON.parse(atob(strArray[1]));
+      if(Jtypes == 'next'){
+        this.sidebarLeftNavOp.rowDataTrakingInfo = decodeBAse64.nextday.trackinginfo;
+      }else if(Jtypes == 'same'){
+        this.sidebarLeftNavOp.rowDataTrakingInfo = decodeBAse64.sameday.trackinginfo;
+      }
+      
+      
+      this.spinerService.hide('view-details');
+    });
+  }else{
+    this.spinerService.hide('view-details');
+  }
+
+    
     
 
   }

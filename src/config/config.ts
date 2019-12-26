@@ -2,7 +2,7 @@ export class config {
     // Dev 
     // env = {
     //     socket_api_url: 'wss://socketapi.instadispatch.com:3001',
-    //     driver_socket_api_url: 'wss://gps.app-tree.co.uk:3000',
+    //     driver_socket_api_url: 'wss://gps.app-tree.co.uk:3500',
     //     name: 'dev',
     //     company_id: localStorage.getItem('company'),
     //     user_id: localStorage.getItem('user_id'),

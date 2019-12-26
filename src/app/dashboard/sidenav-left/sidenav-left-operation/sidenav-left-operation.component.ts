@@ -14,6 +14,8 @@ import { config } from 'src/config/config';
 
 
 
+
+
 @Component({
   selector: 'app-sidenav-left-operation', //This component is added in dashboard.component.html
   templateUrl: './sidenav-left-operation.component.html',
@@ -53,10 +55,11 @@ export class SidenavLeftOperationComponent implements OnInit {
   private defaultColDef;
   disputedList: any;
   booking_type: any;
-  resetDisputed:any = {action_id:0};
-  assignRouteList:any;
-  resetAssignRoute:any = {shipment_route_id:0};
-
+  resetDisputed: any = { action_id: 0 };
+  assignRouteList: any;
+  resetAssignRoute: any = { shipment_route_id: 0 };
+  rowDataTrakingInfo: any;
+  frameworkComponents;
 
 
   //Grid headers
@@ -78,6 +81,25 @@ export class SidenavLeftOperationComponent implements OnInit {
   ];
 
 
+  //Traking Info Header
+  //Grid headers
+  columnDefsTrakingInfo = [
+    { headerName: 'Ticket', field: 'shipment_ticket', width: 200, sortable: true, filter: true },
+    { headerName: 'Type', field: 'shipment_service_type', width: 100, sortable: true },
+    { headerName: 'Date', field: 'create_date', width: 100, sortable: true },
+    { headerName: 'Time', field: 'create_time', width: 100, sortable: true },
+    { headerName: 'Tracking event', field: 'code_text', width: 100, sortable: true },
+    {
+      headerName: 'Signature',
+      cellRenderer: this.customCellSignatureFunc,
+      width: 150
+    },
+    {
+      headerName: 'Picture',
+      cellRenderer: this.customCellPictureFunc,
+      width: 250
+    }
+  ];
 
 
   modules = AllCommunityModules;
@@ -96,6 +118,8 @@ export class SidenavLeftOperationComponent implements OnInit {
       dateTimeAdapter.setLocale('en-IN');
     }
     this.defaultColDef = { resizable: true };
+
+    
   }
 
   ngOnInit() {
@@ -212,9 +236,18 @@ export class SidenavLeftOperationComponent implements OnInit {
   onClickAssignDriver = () => {
 
     this.submittedAssign = true;
+   
     if (this.assignDriverFormVal.invalid) {
       return;
     }
+
+    if(this.assignDriverFormModel.driver_id == 0){
+      this.toastr.info('Invalid Driver', '', {
+        closeButton: true, positionClass: 'toast-top-right', timeOut: 4000
+      });
+      return;
+    }
+
     this.spinerService.show("driverAssign", {
       type: "line-scale-party",
       size: "large",
@@ -248,8 +281,8 @@ export class SidenavLeftOperationComponent implements OnInit {
 
   onSelectionChanged(event) { //When select check box from grid
     this.releaseShipmentTkt = event.api.getSelectedRows();
-    this.resetDisputed = {action_id:0}; //Reset Disputed Dropdown
-    this.resetAssignRoute = {shipment_route_id:0};
+    this.resetDisputed = { action_id: 0 }; //Reset Disputed Dropdown
+    this.resetAssignRoute = { shipment_route_id: 0 };
   }
 
   //Release shipment
@@ -600,10 +633,10 @@ export class SidenavLeftOperationComponent implements OnInit {
       for (var i = 0; i < this.releaseShipmentTkt.length; i++) {
         this.deliverTktList.push(this.releaseShipmentTkt[i].shipment_ticket);
       }
-      
-      
+
+
       //disputed job
-      this.sidenavleftservice.disputedJob(this.deliverTktList,disputed_id,this.booking_type).subscribe(res => {
+      this.sidenavleftservice.disputedJob(this.deliverTktList, disputed_id, this.booking_type).subscribe(res => {
 
         this.showHideModal = 'none';
         document.querySelector(".modal-backdrop").remove();
@@ -619,11 +652,11 @@ export class SidenavLeftOperationComponent implements OnInit {
         });
         this.spinerService.hide("disputedjob");
       })
-    } 
+    }
   }
 
 
-  moveToAssignRoute(shipmentRouteId){
+  moveToAssignRoute(shipmentRouteId) {
     if (!this.releaseShipmentTkt.length) {
       this.toastr.warning('Please select shipment', '', {
         closeButton: true, positionClass: 'toast-top-right', timeOut: 2000
@@ -651,10 +684,10 @@ export class SidenavLeftOperationComponent implements OnInit {
       for (var i = 0; i < this.releaseShipmentTkt.length; i++) {
         this.deliverTktList.push(this.releaseShipmentTkt[i].shipment_ticket);
       }
-      
-      
+
+
       //disputed job
-      this.sidenavleftservice.movetoReAssign(this.deliverTktList,shipmentRouteId).subscribe(res => {
+      this.sidenavleftservice.movetoReAssign(this.deliverTktList, shipmentRouteId).subscribe(res => {
 
         this.showHideModal = 'none';
         document.querySelector(".modal-backdrop").remove();
@@ -668,10 +701,44 @@ export class SidenavLeftOperationComponent implements OnInit {
           closeButton: true, positionClass: 'toast-top-right', timeOut: 4000
         });
         this.spinerService.hide("assignRoute");
-      },err => {
+      }, err => {
         console.log(err);
       })
-    } 
+    }
+  }
+
+  //Return signature
+  customCellSignatureFunc(param){
+    if (param.data.podPath.length > 0) {
+          for (var i = 0; i < param.data.podPath.length; i++) {
+            if (param.data.podPath[i].pod_name == 'signature') {
+              if (param.data.podPath[i].pod_path) {
+                return '<a href="'+param.data.podPath[i].pod_path+'" target="_blank"><img src="'+param.data.podPath[i].pod_path+'" height="50" width="50"></a>';
+              } else {
+                return '';
+              }
+            }
+          }
+        }else{
+          return '';
+        }
+  }
+
+  //Return Picture
+  customCellPictureFunc(param){
+    if (param.data.podPath.length > 0) {
+          for (var i = 0; i < param.data.podPath.length; i++) {
+            if (param.data.podPath[i].pod_name == 'picture') {
+              if (param.data.podPath[i].pod_path) {
+                return '<a href="'+param.data.podPath[i].pod_path+'" target="_blank"><img src="'+param.data.podPath[i].pod_path+'" height="50" width="50"></a>';
+              } else {
+                return '';
+              }
+            }
+          }
+        }else{
+          return '';
+        }
   }
 
 

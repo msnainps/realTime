@@ -63,7 +63,7 @@ export class DashboardService {
       if (this.notiFicationResponce.company_id == this.companyId) { //if responce is same as session user
         setTimeout(() => {
           this.loadDropOnMapsEmit();
-        }, 15000);
+        }, 2000);
       }
 
     })
@@ -74,9 +74,8 @@ export class DashboardService {
       //this.markerList = data.shipment_data;
       //data.shipment_data.push.apply(data.shipment_data, data.unassgn_shipment_data);
       //data.shipment_data.push.apply(data.shipment_data, data.completed_shipment_data)
-      console.log("----Filter Data Check---");
       console.log(data);
-
+      this.points.features=[];
       for (var index1 in data.mapPlotData) {
         this.points.features[index1] = {
           'type': 'Feature',

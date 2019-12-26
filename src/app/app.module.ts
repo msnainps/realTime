@@ -24,6 +24,7 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 
 
 
+
 @NgModule({
   
   declarations: [
@@ -36,7 +37,6 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
     FilterDialog,
     DriverinfoComponent,
     SidenavLeftOperationComponent,
-    
   ],
   imports: [
     AppRoutingModule,

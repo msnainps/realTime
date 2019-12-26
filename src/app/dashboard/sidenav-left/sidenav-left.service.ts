@@ -411,4 +411,58 @@ export class SidenavLeftService {
     );
   }
 
+  //get Shipment Traking Details
+  getShipmentTrakingInfo(load_identity,is_internal,job_type):Observable<any>{
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+
+    if(job_type.toLowerCase() == 'same'){
+    this.routeData = {
+      'endPointUrl': 'sameday',
+      'company_id': '' + this.companyId,
+      'warehouse_id': '' + this.wairehouseId,
+      'email': this.email,
+      'access_token': this.access_token,
+      'job_type':job_type,
+      "timezone_name":Intl.DateTimeFormat().resolvedOptions().timeZone,
+      "identity":load_identity,
+      "is_internal":is_internal
+    }
+  }else if(job_type.toLowerCase() == 'next'){
+    this.routeData = {
+      'endPointUrl': 'nextday',
+      'company_id': '' + this.companyId,
+      'warehouse_id': '' + this.wairehouseId,
+      'email': this.email,
+      'access_token': this.access_token,
+      'job_type':job_type,
+      "timezone_name":Intl.DateTimeFormat().resolvedOptions().timeZone,
+      "identity":load_identity,
+      "is_internal":is_internal,
+      "isCopyShipment":'',
+      "isRepriceCase": "Y"
+    }
+  }
+
+    return this.http.post(this.iacrgoApiUrl + this.routeData.endPointUrl,JSON.stringify(this.routeData),{
+      "headers": headers,
+      responseType: 'text' as 'json'
+    }).pipe(
+      retry(1),
+      map(data => {
+        return data;
+      }),
+      catchError((error: HttpErrorResponse) => {
+        if (error.error instanceof Error) {
+          // A client-side or network error occurred. Handle it accordingly.
+          console.error('An error occurred:', error.error.message);
+          
+        } else {
+          console.error(`Backend returned code ${error.status}, body was: ${error.error}`);
+          return `${error.status}`;
+        }
+        return EMPTY;
+      })
+    );
+  }
+
 }
