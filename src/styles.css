@@ -820,8 +820,10 @@ top: 7px;
   margin-left: 27px;
 }
 .modal-dialog.md-header-search{
-    max-width: 90% !important;
-    margin: 1.75rem auto;
+    /* max-width: 90% !important;
+    margin: 1.75rem auto; */
+    max-width: 1402px !important;
+    margin: 1.75rem 20%;
 }
 
 .close-box.close-box-view-details{

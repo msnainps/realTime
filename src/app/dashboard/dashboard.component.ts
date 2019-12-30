@@ -227,12 +227,15 @@ export class DashboardComponent implements OnInit {
   showAllDropToMap() {
 
     var allCordinates = [];
+    console.log(this.dashboardService.formatedData.data.features);
     if (this.dashboardService.formatedData.data.features.length > 0 && typeof this.dashboardService.formatedData.data.features != 'undefined') {
       for (var index1 in this.dashboardService.formatedData.data.features) {
         allCordinates.push(this.dashboardService.formatedData.data.features[index1].geometry.coordinates)
       }
 
       var coordinates = allCordinates;
+
+      console.log(coordinates);
 
       var bounds = coordinates.reduce(function (bounds, coord) {
         return bounds.extend(coord);
@@ -360,6 +363,30 @@ export class DashboardComponent implements OnInit {
       });
 
     });
+  }
+
+  //Show All Drop to fit when click in show all button
+  showFocusToDrop(res) {
+
+    var allCordinatesLatLng = [];
+    if (res) {
+      for (var index2 in res.routeLatLng) {
+        allCordinatesLatLng.push([res.routeLatLng[index2].shipment_longitude,res.routeLatLng[index2].shipment_latitude]);
+      }
+
+      console.log(allCordinatesLatLng);
+      
+     
+      var coordinates = allCordinatesLatLng;
+
+      var bounds = coordinates.reduce(function (bounds, coord) {
+        return bounds.extend(coord);
+      }, new mapboxgl.LngLatBounds(coordinates[0], coordinates[0]));
+
+      document.mapCom.mapbox.map.fitBounds(bounds, {
+        padding: 50
+      });
+    }
   }
 
 }

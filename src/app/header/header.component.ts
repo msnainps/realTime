@@ -44,7 +44,7 @@ export class HeaderComponent implements OnInit {
     { headerName: 'Reference No', field: 'reference_no', width: 100, sortable: true, filter: true },
     { headerName: 'Service', field: 'service_type', width: 100, sortable: true, filter: true },
     { headerName: 'Service Date', field: 'service_date', width: 100, sortable: true, filter: true },
-    { headerName: 'Address1', field: 'address1', width: 150, sortable: true, filter: true },
+    { headerName: 'Address1', field: 'address_1', width: 150, sortable: true, filter: true },
     { headerName: 'Postcode', field: 'postcode', width: 120, sortable: true, filter: true },
     { headerName: 'Shipment Ticket', field: 'shipment_ticket', width: 150, sortable: true, filter: true },
     { headerName: 'Route Name', field: 'route_name', width: 100, sortable: true, filter: true },

@@ -108,7 +108,7 @@ export class SidenavLeftService {
         headers, responseType: 'text' as 'json'
       })
       .pipe(
-        retry(),
+        retry(1),
         catchError(this.handleError)
       )
   }
@@ -138,7 +138,7 @@ export class SidenavLeftService {
         headers, responseType: 'text' as 'json'
       })
       .pipe(
-        retry(),
+        retry(1),
         catchError(this.handleError)
       )
   }
@@ -222,7 +222,7 @@ export class SidenavLeftService {
         headers, responseType: 'text' as 'json'
       })
       .pipe(
-        retry(),
+        retry(1),
         catchError(this.handleError)
       )
   }
@@ -255,7 +255,7 @@ export class SidenavLeftService {
         headers, responseType: 'text' as 'json'
       })
       .pipe(
-        retry(),
+        retry(1),
         catchError(this.handleError)
       )
   }
@@ -288,7 +288,7 @@ export class SidenavLeftService {
         headers, responseType: 'text' as 'json'
       })
       .pipe(
-        retry(),
+        retry(1),
         catchError(this.handleError)
       )
   }
@@ -455,7 +455,6 @@ export class SidenavLeftService {
         if (error.error instanceof Error) {
           // A client-side or network error occurred. Handle it accordingly.
           console.error('An error occurred:', error.error.message);
-          
         } else {
           console.error(`Backend returned code ${error.status}, body was: ${error.error}`);
           return `${error.status}`;
@@ -463,6 +462,21 @@ export class SidenavLeftService {
         return EMPTY;
       })
     );
+  }
+
+  getLatLng(routeId){
+    this.socket.websocket.emit('req-lat-lng', 
+      {
+       company_id: this.companyId,
+       routedId:routeId
+      }
+    );
+
+    return Observable.create(observer => {
+      this.socket.websocket.on('get-lat-lng', data => {
+        observer.next(data);
+      });
+    });
   }
 
 }

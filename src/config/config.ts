@@ -42,7 +42,7 @@ export class config {
     env = {
         name: 'local',
         socket_api_url: 'http://localhost:3000/',
-        driver_socket_api_url: 'wss://gps.app-tree.co.uk:3000',
+        driver_socket_api_url: 'wss://gps.app-tree.co.uk:3500',
         company_id: 10,
         user_id: 10,
         wairehouse_id: 1,
@@ -51,7 +51,7 @@ export class config {
         user_level: 2,
         google_api_key: 'AIzaSyD-X5xWDTa9L15dUYkWUjRExGRHznOfFsQ',
         mapbox_api_key: 'pk.eyJ1IjoiaW5zdGFkaXNwYXRjaCIsImEiOiJjazJvajJueWwwNjlmM2dwcHMxbTFiMHl0In0.9eyVqMCN3WIodGdslgQ1hA',
-        icargo_access_token: 'MTM3MTg5Njk1Mi01ZTAxZDY1OGU0NDM0LTEw',
+        icargo_access_token: 'OTI0NzM2MzE2LTVlMDk5ZTM2M2Q4ZmUtMTA=',
         icargo_api_url: 'http://localhost/parcel-api/v1/',
         socket_rest_api_url: 'http://localhost:3000/',
         icargo_url:'http://localhost/icargo',

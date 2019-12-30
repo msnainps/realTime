@@ -3,6 +3,8 @@ import { SidenavLeftService } from './sidenav-left.service';
 import { SidenavLeftOperationComponent } from './sidenav-left-operation/sidenav-left-operation.component';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { DashboardComponent } from '../dashboard.component';
+
 
 
 
@@ -25,7 +27,7 @@ export class SidenavLeftComponent implements OnInit {
  
   
   @Input() sidebarLeftNavOp:SidenavLeftOperationComponent; //Send Data to SidenavLeftOperationComponent
-  constructor(private sidenaveleftService:SidenavLeftService,private toastr: ToastrService,private spinerService: NgxSpinnerService) { }
+  constructor(private sidenaveleftService:SidenavLeftService,private toastr: ToastrService,private spinerService: NgxSpinnerService,private dashboradCmp:DashboardComponent) { }
 
   ngOnInit() {
     this.sidenaveleftService.getAssignDropData();
@@ -107,6 +109,7 @@ export class SidenavLeftComponent implements OnInit {
     var Jtypes = data.booking_type.toLowerCase();
     if(Jtypes == 'next' || Jtypes == 'same'){
     this.sidenaveleftService.getShipmentTrakingInfo(data.instaDispatch_loadIdentity,data.is_internal,data.booking_type).subscribe(resp => {
+      this.spinerService.hide('view-details');
       var strArray = resp.split(".");
       var decodeBAse64 = JSON.parse(atob(strArray[1]));
       if(Jtypes == 'next'){
@@ -114,9 +117,6 @@ export class SidenavLeftComponent implements OnInit {
       }else if(Jtypes == 'same'){
         this.sidebarLeftNavOp.rowDataTrakingInfo = decodeBAse64.sameday.trackinginfo;
       }
-      
-      
-      this.spinerService.hide('view-details');
     });
   }else{
     this.spinerService.hide('view-details');
@@ -125,6 +125,13 @@ export class SidenavLeftComponent implements OnInit {
     
     
 
+  }
+
+  focusOnDrops(routId){
+   //get Latlng for this route
+   this.sidenaveleftService.getLatLng(routId).subscribe(res => {
+      this.dashboradCmp.showFocusToDrop(res);
+   });
   }
 
   

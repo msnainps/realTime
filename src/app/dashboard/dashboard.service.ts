@@ -125,12 +125,11 @@ export class DashboardService {
         console.log("-----Driver GPS Data---");
         console.log(driverDataGps);
         console.log("!-----Driver GPS Data---");
-        if (driverDataGps.payload.companyId == this.companyId) {
+        //if (driverDataGps.payload.companyId == this.companyId) {
           //if(driverDataGps.payload.companyId == 194){ 
           this.plotDriverOnMap(driverDataGps);
-        }
+        //}
       }
-
     })
   }
 
@@ -212,9 +211,9 @@ export class DashboardService {
     if (vechileType) {
       if (vechileType.toLowerCase() == 'van' || vechileType.toLowerCase() == 'car') {
         return 'mini-van'
-      } else if (vechileType.toLowerCase() == 'bike') {
+      } else if (vechileType.toLowerCase() == 'bike' || vechileType.toLowerCase() == 'motorbike') {
         return 'motorbike';
-      } else if (vechileType.toLowerCase() == 'cycle') {
+      } else if (vechileType.toLowerCase() == 'cycle' || vechileType.toLowerCase() =='pushbike' || vechileType.toLowerCase() == 'bycycle') {
         return 'cycle'
       } else {
         return 'mini-van'

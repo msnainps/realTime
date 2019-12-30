@@ -12,7 +12,9 @@
                 </mat-expansion-panel-header>
                 <ng-container *ngFor="let unassignData of sidenaveleftService.dataList.unassingedData">
                     <ng-container *ngIf="unassignData.drop_type == 'unassinged'">
+                        
                         <div class="main-left-panel unassigned">
+                            <button (click)="focusOnDrops(unassignData.shipment_routed_id)">
                             <div class="panel first">
                                 <h6><span class="material-icons" style="background:orange;border: 1px solid orange"></span>{{unassignData.customer_name}}</h6>
                             </div>
@@ -29,6 +31,7 @@
                             <div class="panel fifth">
                                 <!-- <h6><i class="material-icons"> directions_car </i>Meena</h6> -->
                             </div>
+                        </button>
                             <div class="panel sixth">
                                 <a mat-button routerLink="." [matMenuTriggerFor]="menu"><i class="material-icons"> more_vert
                                     </i></a>
@@ -48,6 +51,7 @@
                                 </mat-menu>
                             </div>
                         </div>
+                   
                     </ng-container>
                 </ng-container>
             </mat-expansion-panel>
@@ -65,6 +69,7 @@
 
         <ng-container *ngFor="let assignData of sidenaveleftService.dataList.assingedData">
             <ng-container *ngIf="assignData.drop_type == 'assinged'">
+                <!-- <button (click)="focusOnDrops(assignData.shipment_routed_id)"> -->
                 <div class="main-left-panel assigned">
                     <div class="panel first">
                         <h6><span [ngStyle]="{ background: assignData.color_code_driver }" ></span>{{assignData.customer_name}}</h6>
@@ -104,6 +109,7 @@
                         </mat-menu>
                     </div>
                 </div>
+            <!-- </button> -->
             </ng-container>
         </ng-container>
     </mat-expansion-panel>
@@ -122,6 +128,7 @@
 
         <ng-container *ngFor="let completed of sidenaveleftService.dataList.completedData">
             <ng-container *ngIf="completed.drop_type == 'completed'">
+                <button (click)="focusOnDrops(completed.shipment_routed_id)">
                 <div class="main-left-panel completed">
                     <div class="panel first">
                         <h6><span [ngStyle]="{ background: completed.color_code_driver }"></span>{{completed.customer_name}}</h6>
@@ -152,6 +159,7 @@
                             </mat-menu>
                         </div>
                 </div>
+            </button>
             </ng-container>
         </ng-container>
     </mat-expansion-panel>
