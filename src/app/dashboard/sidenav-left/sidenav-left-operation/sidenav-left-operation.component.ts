@@ -88,7 +88,7 @@ export class SidenavLeftOperationComponent implements OnInit {
     { headerName: 'Type', field: 'shipment_service_type', width: 100, sortable: true },
     { headerName: 'Date', field: 'create_date', width: 100, sortable: true },
     { headerName: 'Time', field: 'create_time', width: 100, sortable: true },
-    { headerName: 'Tracking event', field: 'code_text', width: 100, sortable: true },
+    { headerName: 'Tracking event', field: 'code_text', width: 250, sortable: true },
     {
       headerName: 'Signature',
       cellRenderer: this.customCellSignatureFunc,

@@ -82,9 +82,9 @@ export class DashboardService {
           'properties': {
             'description':
               (data.mapPlotData[index1].drop_type == 'same-coord' ? data.mapPlotData[index1].shipmentTicketList : 
-              '<div class="drops-headding">' + data.mapPlotData[index1].shipment_ticket + '</div>\
+              '<div class="drops-headding">' + data.mapPlotData[index1].route_name + '</div>\
               <div class="drops-min"><i class="material-icons drops-min-color1">home</i> <span>'+ data.mapPlotData[index1].customer_name + '</span><div>' + data.mapPlotData[index1].fulladdress + '</div></div>\
-              <div class="drops-min"><i class="material-icons drops-min-color2">help_outline</i> <span>Ref:'+ data.mapPlotData[index1].cr + '</span><div>  <span>Job:</span> ' + data.mapPlotData[index1].job_type + '</div></div>\
+              <div class="drops-min"><i class="material-icons drops-min-color2">help_outline</i> <span>Ref:'+ data.mapPlotData[index1].cr + '</span><div>  <span>Job:</span> ' + data.mapPlotData[index1].job_type + '</div><div>  <span>Ticket:</span> ' + data.mapPlotData[index1].shipment_ticket + '</div></div>\
               <div class="drops-line"></div>\
               <div class="drops-min"><i class="material-icons drops-min-color3">local_car_wash</i> <span>'+ data.mapPlotData[index1].driver_name + '</span><div>\
               <div class="postion-set">\
@@ -125,10 +125,10 @@ export class DashboardService {
         console.log("-----Driver GPS Data---");
         console.log(driverDataGps);
         console.log("!-----Driver GPS Data---");
-        //if (driverDataGps.payload.companyId == this.companyId) {
+        if (driverDataGps.payload.companyId == this.companyId) {
           //if(driverDataGps.payload.companyId == 194){ 
           this.plotDriverOnMap(driverDataGps);
-        //}
+        }
       }
     })
   }

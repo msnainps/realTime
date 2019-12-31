@@ -152,7 +152,7 @@
               </a>
 
 
-              <select *ngIf="routeType=='unassign'" [(ngModel)]="resetDisputed.action_id" class="btn btn-primary"
+              <select *ngIf="routeType=='unassign'" [(ngModel)]="resetDisputed.action_id" class="btn btn-primary selection"
                 id="sel1" (change)="sendToDisputed($event.target.value)">
                 <option [value]='0' selected="selected">--Disputed--</option>
                 <option *ngFor="let diputedCode of disputedList; let i = index" [value]="diputedCode.action_id">
@@ -161,7 +161,7 @@
               </select>
 
               <select *ngIf="routeType=='unassign'" [(ngModel)]="resetAssignRoute.shipment_route_id"
-                class="btn btn-primary" id="sel1" (change)="moveToAssignRoute($event.target.value)">
+                class="btn btn-primary selection" id="sel1" (change)="moveToAssignRoute($event.target.value)">
                 <option [value]='0' selected="selected">--Route Assign--</option>
                 <option *ngFor="let routeList of assignRouteList; let i = index" [value]="routeList.shipment_route_id">
                   {{routeList.route_name}}
@@ -169,16 +169,16 @@
               </select>
             </div>
             <div class="modal-body space-bitween ">
-              <div style="width: 100%;">
+              <div style="width: 100%;" class="space-block">
                 <span>
                   <h4>Route:</h4>{{routeName}}
                 </span>
-              </div>
-              <div style="width: 100%;">
+
                 <span>
                   <h4>Driver:</h4>{{driverName}}
                 </span>
               </div>
+              
 
               <div class="inner-set-section">
                 <ag-grid-angular style="width: auto; height: 500px;" class="ag-theme-balham" [rowData]="rowData"
@@ -193,7 +193,7 @@
           </mat-tab>
           <!--Show Traking Info-->
           <mat-tab label="Tracking" *ngIf="booking_type != 'Vendor'">
-            <div class="modal-body">
+            <div class="modal-body traking-details-grid">
             <ag-grid-angular style="width: auto; height: 500px;" class="ag-theme-balham" [rowData]="rowDataTrakingInfo"
               [columnDefs]="columnDefsTrakingInfo" [modules]="modules" [suppressRowClickSelection]="true"
               [rowSelection]='selectionMode' [defaultColDef]="defaultColDef" [enableCellTextSelection]="true">

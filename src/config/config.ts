@@ -20,7 +20,7 @@ export class config {
     // }
     //Live
     // env = {
-    //     socket_api_url: 'wss://socketapi.instadispatch.com:3001',
+    //     socket_api_url: 'wss://socketapi.instadispatch.com:3002',
     //     driver_socket_api_url: 'wss://gps.app-tree.co.uk:3000',
     //     name: 'live',
     //     company_id: localStorage.getItem('company'),
@@ -33,8 +33,8 @@ export class config {
     //     mapbox_api_key:'pk.eyJ1IjoiaW5zdGFkaXNwYXRjaCIsImEiOiJjazJvajJueWwwNjlmM2dwcHMxbTFiMHl0In0.9eyVqMCN3WIodGdslgQ1hA',
     //     icargo_access_token :localStorage.getItem('access_token'),
     //     icargo_api_url:'https://api.instadispatch.com/live/v1/',
-    //     socket_rest_api_url: 'https://socketapi.instadispatch.com:3001/',
-    //     icargo_url:'https://route.instadispatch.com'
+    //     socket_rest_api_url: 'https://socketapi.instadispatch.com:3002/',
+    //     icargo_url:'https://route.instadispatch.com',
     //     country_code:localStorage.getItem('country_code')
     // }
 

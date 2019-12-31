@@ -15,7 +15,7 @@ export class FilterDialog implements OnInit {
   message: string = "Are you sure?"
   confirmButtonText = "Yes"
   cancelButtonText = "Cancel"
-  deleteFilterBtnText = 'delete FIlter';
+  deleteFilterBtnText = 'Delete Filter';
   filterBtnTxt = "Set Filter";
 
   filterFormVal: FormGroup;
@@ -104,8 +104,14 @@ export class FilterDialog implements OnInit {
 
 
   getFilterData() {
+    this.spinerService.show("get-filter", {
+      type: "line-scale-party",
+      size: "large",
+      color: "white"
+    });
     this.filterService.getFilterRecord().subscribe(val => {
       var re = JSON.parse(val);
+      this.spinerService.hide("get-filter");
       if (re.data.length > 0) {
         if (re.data[0].drop_filter) {
           var object = JSON.parse(re.data[0].drop_filter);

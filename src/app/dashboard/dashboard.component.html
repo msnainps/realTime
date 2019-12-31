@@ -65,6 +65,14 @@
 <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" type="ball-spin-clockwise" name='header-search'>
   <p style="color: white">Searching ....</p>
 </ngx-spinner>
+<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" type="ball-spin-clockwise" name='get-filter'>
+  <p style="color: white">Filter Data ....</p>
+</ngx-spinner>
+<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" type="ball-spin-clockwise" name='loadMap'>
+  <p style="color: white">Loading Map Data ....</p>
+</ngx-spinner>
+
+
 
 <app-sidenav-left-operation #sidebarLeftNavOp></app-sidenav-left-operation>
 
@@ -76,12 +84,13 @@
         <button type="button" data-dismiss="modal">X</button>
       </div>
       <div class="mapboxgl-popup-content">
-        <div class="drops-headding">{{shipmentInfo.ticket}}</div>
+        <div class="drops-headding">{{shipmentInfo.route_name}}</div>
         <div class="drops-min"><i class="material-icons drops-min-color1">home</i> <span>{{shipmentInfo.customerName}}</span>
           <div>{{shipmentInfo.address}}</div>
         </div>
         <div class="drops-min"><i class="material-icons drops-min-color2">help_outline</i> <span>Ref:{{shipmentInfo.customerReference}}</span>
           <div><span>Job:</span> {{shipmentInfo.jobType}}</div>
+          <div><span>Ticket:</span> {{shipmentInfo.ticket}}</div>
         </div>
         <div class="drops-line"></div>
         <div class="drops-min"><i class="material-icons drops-min-color3">local_car_wash</i><span>{{shipmentInfo.driverName}}</span>
