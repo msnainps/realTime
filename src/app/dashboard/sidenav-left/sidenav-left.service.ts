@@ -114,7 +114,7 @@ export class SidenavLeftService {
   }
 
   /**
-   * Withdraw Assigned Route
+   * Assigned Route
    * @param shipmentRouteId
    */
   sameDayAssignedRoute(assignFormData): Observable<any> {
@@ -133,6 +133,7 @@ export class SidenavLeftService {
       "timezone_name":Intl.DateTimeFormat().resolvedOptions().timeZone
     }
 
+   
     return this.http.post<any>(this.iacrgoApiUrl + this.routeData.endPointUrl, JSON.stringify(this.routeData),
       {
         headers, responseType: 'text' as 'json'
@@ -169,13 +170,13 @@ export class SidenavLeftService {
   }
 
   //Get All Tickets
-  getAllTickets(tkt,routeId){
+  getAllTickets(tkt,laodIdentity){
     this.socket.websocket.emit('req-ticket-list', 
       {
        warehouse_id: this.wairehouseId,
        company_id: this.companyId,
-       loadIdentity:tkt,
-       routedId:routeId
+       loadIdentity:laodIdentity,
+       //routedId:laodIdentity
       }
     );
     return Observable.create(observer => {
@@ -464,11 +465,11 @@ export class SidenavLeftService {
     );
   }
 
-  getLatLng(routeId){
+  getLatLng(param){
     this.socket.websocket.emit('req-lat-lng', 
       {
        company_id: this.companyId,
-       routedId:routeId
+       dropData:param
       }
     );
 

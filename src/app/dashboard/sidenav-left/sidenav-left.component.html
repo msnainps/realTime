@@ -14,7 +14,7 @@
                     <ng-container *ngIf="unassignData.drop_type == 'unassinged'">
                         
                         <div class="main-left-panel unassigned">
-                            <div class="side-click" (click)="focusOnDrops(unassignData.shipment_routed_id)">
+                            <div class="side-click" (click)="focusOnDrops(unassignData)">
                             <div class="panel first">
                                 <h6><span class="material-icons" style="background:orange;border: 1px solid orange"></span>{{unassignData.customer_name}}</h6>
                             </div>
@@ -22,10 +22,16 @@
                         <h5> Paused</h5>
                     </div> -->
                             <div class="panel third fixed-width side-click-hand">
-                                <h6><i class="material-icons"> explore </i>{{unassignData.route_name}}</h6>
+                                <h6 *ngIf="unassignData.booking_type != 'Vendor'"><i class="material-icons"> explore </i>{{unassignData.booking_type}} DAY</h6>
+                                <h6 *ngIf="unassignData.booking_type == 'Vendor'"><i class="material-icons"> explore </i>Retail</h6>
                             </div>
+
                             <div class="panel fourth side-click-hand">
-                                <h6><i class="material-icons"> date_range </i>{{unassignData.service_date}}</h6>
+                                <h6><i class="material-icons"> info </i>{{unassignData.total_drops}}</h6>
+                            </div>
+
+                            <div class="panel fourth side-click-hand">
+                                <h6><i class="material-icons"> date_range </i>{{unassignData.collection_date}}</h6>
                             </div>
         
                             <div class="panel fifth side-click-hand">
@@ -38,7 +44,7 @@
         
                                 <mat-menu #menu="matMenu">
                                     <ul class="set-list">
-                                        <li><a href="" (click)="assignJob(unassignData.shipment_ticket,unassignData.shipment_routed_id,unassignData.route_name)" data-toggle="modal" data-target="#Modal1">
+                                        <li><a href="" (click)="assignJob(unassignData.shipment_ticket,unassignData.instaDispatch_loadIdentity,unassignData.route_name)" data-toggle="modal" data-target="#Modal1">
                                                 <mat-icon>how_to_reg</mat-icon> <span>Assign Job</span>
                                             </a></li>
                                         <li *ngIf="unassignData.booking_type != 'Vendor'"><a href="" (click)="cancelShipment(unassignData.instaDispatch_loadIdentity)" data-toggle="modal" data-target="#Modal2">
@@ -70,7 +76,7 @@
         <ng-container *ngFor="let assignData of sidenaveleftService.dataList.assingedData">
             <ng-container *ngIf="assignData.drop_type == 'assinged'">
                 <div class="main-left-panel assigned">
-                    <div class="side-click" (click)="focusOnDrops(assignData.shipment_routed_id)">
+                    <div class="side-click" (click)="focusOnDrops(assignData)">
                     <div class="panel first side-click-hand">
                         <h6><span [ngStyle]="{ background: assignData.color_code_driver }" ></span>{{assignData.customer_name}}</h6>
                     </div>
@@ -79,6 +85,9 @@
                     </div>
                     <div class="panel third side-click-hand">
                         <h6><i class="material-icons"> explore </i>{{assignData.route_name}}</h6>
+                    </div>
+                    <div class="panel fourth side-click-hand">
+                        <h6><i class="material-icons"> info </i>{{assignData.total_drops}}</h6>
                     </div>
                     <div class="panel fourth side-click-hand">
                         <h6><i class="material-icons"> date_range </i>{{assignData.assign_date_time}}</h6>
@@ -129,7 +138,7 @@
         <ng-container *ngFor="let completed of sidenaveleftService.dataList.completedData">
             <ng-container *ngIf="completed.drop_type == 'completed'">
                 <div class="main-left-panel completed">
-                    <div class="side-click" (click)="focusOnDrops(completed.shipment_routed_id)">
+                    <div class="side-click" (click)="focusOnDrops(completed)">
                     <div class="panel first side-click-hand">
                         <h6><span [ngStyle]="{ background: completed.color_code_driver }"></span>{{completed.customer_name}}</h6>
                     </div>
@@ -138,6 +147,9 @@
                     </div>
                     <div class="panel third side-click-hand">
                         <h6><i class="material-icons"> explore </i>{{completed.route_name}}</h6>
+                    </div>
+                    <div class="panel fourth side-click-hand">
+                        <h6><i class="material-icons"> info </i>{{completed.total_drops}}</h6>
                     </div>
                     <div class="panel fourth side-click-hand">
                         <h6><i class="material-icons"> date_range </i>{{completed.completed_date}}</h6>

@@ -19,7 +19,7 @@ body { margin: 0; font-family: 'Lato', sans-serif;}
 height: calc(100vh - 64px);
 }
 mat-drawer.example-sidenav {
-    width: 650px;
+    width: 782px;
 }
 mat-drawer.example-sidenav2 {
 width: 650px;
@@ -919,6 +919,18 @@ top: 7px;
   margin: auto;
 }
 
-.cdk-overlay-pane {
-  width: 540px;
+.date-picker2 input{
+  cursor: pointer;
 }
+.header button.restor-btn{
+  background: none;
+    border: none;
+    color: #fff;
+    padding: 21px 10px;
+    cursor: pointer;
+    display: inline-block;
+    outline: none;
+}
+/* .cdk-overlay-pane {
+  width: 540px;
+} */

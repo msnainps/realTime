@@ -8,6 +8,8 @@ import { AllCommunityModules } from '@ag-grid-community/all-modules';
 import { ToastrService } from 'ngx-toastr';
 import { formatDate } from '@angular/common';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { DashboardService } from '../dashboard/dashboard.service';
+
  
 
 
@@ -34,6 +36,7 @@ export class HeaderComponent implements OnInit {
   paginationPageSize: any;
   searchedDate;
   searchedValue;
+  selectedDateRange = {}
  
 
 
@@ -54,7 +57,13 @@ export class HeaderComponent implements OnInit {
 
 
   modules = AllCommunityModules;
-  constructor(private headerService: HeaderService, dateTimeAdapter: DateTimeAdapter<any>, private toastr: ToastrService,private spinerService: NgxSpinnerService) {
+  constructor(
+    private headerService: HeaderService, 
+    dateTimeAdapter: DateTimeAdapter<any>, 
+    private toastr: ToastrService,
+    private spinerService: NgxSpinnerService,
+    private dashboardService:DashboardService
+    ) {
     if (this.configSettings.env.country_code.toLowerCase() == 'us' || this.configSettings.env.country_code.toLowerCase() == 'usa') {
       dateTimeAdapter.setLocale('us');
     } else {
@@ -69,6 +78,8 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     //this.headerService.getHeaderDataListen(this);
+    //var x  = this.headerService.getHeaderSavedDate();
+    //console.log(x);
   }
   isShown: Boolean = false;
   toggleShow() {
@@ -117,9 +128,43 @@ export class HeaderComponent implements OnInit {
     });
     this.headreSearch.searchvalue = '';
     this.headreSearch.searchdate = new Date();
-    
+  }
+
+  /**
+   * Save header Date
+   */
+  getMapDataOnDateSelect(){
+    this.selectedDateRange['start_date'] = formatDate(new Date(this.headreSearch.searchdate[0]), 'yyyy-MM-dd', 'en-US', '+0530');
+    this.selectedDateRange['end_date'] = formatDate(new Date(this.headreSearch.searchdate[1]), 'yyyy-MM-dd', 'en-US', '+0530');
+    //Save Header Data
+
+    this.spinerService.show("header-search", {
+      type: "line-scale-party",
+      size: "large",
+      color: "white"
+    });
+    this.headerService.saveSearchDate(this.selectedDateRange).subscribe(resp => {
+      this.spinerService.hide('header-search');
+      this.dashboardService.loadDropOnMapsEmit();
+    });
+
     
   }
 
 
+  /**
+   * Delete Header Date
+   */
+  deleteHeaderDate(){
+    this.spinerService.show("header-search", {
+      type: "line-scale-party",
+      size: "large",
+      color: "white"
+    });
+    this.headerService.deleteSearchDate().subscribe(resp => {
+      this.spinerService.hide('header-search');
+      this.dashboardService.loadDropOnMapsEmit();
+    });
+  }
+  
 }

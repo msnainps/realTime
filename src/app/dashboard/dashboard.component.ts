@@ -49,6 +49,7 @@ export class DashboardComponent implements OnInit {
   showHideModal = 'block';
 
   shipmentInfo = new shipmentInfo();
+  loadIdentity: any;
 
 
 
@@ -104,47 +105,53 @@ export class DashboardComponent implements OnInit {
 
   assignDriver(driverid: number) {
 
-    document.mapCom.assignRouteToDriverData =
-    {
-      'endPointUrl': 'assignUnassignRoute',
-      'route_id': '' + document.mapCom.shipment_route_id,
-      'driver_id': '' + driverid,
-      'company_id': '' + document.mapCom.companyId,
-      'warehouse_id': '' + document.mapCom.wairehouseId,
-      'email': document.mapCom.email,
-      'access_token': document.mapCom.access_token,
-      'start_time': formatDate(new Date(), 'dd-MM-yyyy hh:mm:ss a', 'en-US', '+0530')
-    }
-
-    //Load Spinner
-    document.mapCom.spinnerService.show("driverAssign", {
-      type: "line-scale-party",
-      size: "large",
-      color: "white"
-    });
-    document.mapCom.dashboardService.assignDriverToRoute(document.mapCom.assignRouteToDriverData).subscribe((response) => {
-      //Remove Map Box pop-up
-      document.querySelector(".mapboxgl-popup").remove();
-      document.mapCom.spinnerService.hide("driverAssign");
-
-      document.mapCom.dashboardService.loadDropOnMapsEmit();//For Realtime Data
-
-      var myStr = response;
-      var strArray = myStr.split(".");
-      var decodeBAse64 = JSON.parse(atob(strArray[1]));
-
-      if (decodeBAse64.status == 'error') {
-        this.toastr.error(decodeBAse64.message, '', {
-          closeButton: true, positionClass: 'toast-top-right', timeOut: 40000
-        });
-      } else if (decodeBAse64.status == 'success') {
-        this.toastr.success(decodeBAse64.message, '', {
-          closeButton: true, positionClass: 'toast-top-right', timeOut: 4000
-        });
+    //if Shipment Route id is zero
+    if (document.mapCom.shipment_route_id == 0) {
+      document.mapCom.assignDriverWithOutRouteId(document.mapCom.loadIdentity, driverid);
+    } else { //If shipment Id is present
+      document.mapCom.assignRouteToDriverData =
+      {
+        'endPointUrl': 'assignUnassignRoute',
+        'route_id': '' + document.mapCom.shipment_route_id,
+        'driver_id': '' + driverid,
+        'company_id': '' + document.mapCom.companyId,
+        'warehouse_id': '' + document.mapCom.wairehouseId,
+        'email': document.mapCom.email,
+        'access_token': document.mapCom.access_token,
+        'start_time': formatDate(new Date(), 'dd-MM-yyyy hh:mm:ss a', 'en-US', '+0530')
       }
-    }, error => {
-      console.log(error);
-    })
+
+      //Load Spinner
+      document.mapCom.spinnerService.show("driverAssign", {
+        type: "line-scale-party",
+        size: "large",
+        color: "white"
+      });
+      document.mapCom.dashboardService.assignDriverToRoute(document.mapCom.assignRouteToDriverData).subscribe((response) => {
+        //Remove Map Box pop-up
+        document.querySelector(".mapboxgl-popup").remove();
+        document.mapCom.spinnerService.hide("driverAssign");
+
+        document.mapCom.dashboardService.loadDropOnMapsEmit();//For Realtime Data
+
+        var myStr = response;
+        var strArray = myStr.split(".");
+        var decodeBAse64 = JSON.parse(atob(strArray[1]));
+
+        if (decodeBAse64.status == 'error') {
+          this.toastr.error(decodeBAse64.message, '', {
+            closeButton: true, positionClass: 'toast-top-right', timeOut: 40000
+          });
+        } else if (decodeBAse64.status == 'success') {
+          this.toastr.success(decodeBAse64.message, '', {
+            closeButton: true, positionClass: 'toast-top-right', timeOut: 4000
+          });
+        }
+      }, error => {
+        console.log(error);
+      })
+
+    }
 
   }
 
@@ -155,7 +162,7 @@ export class DashboardComponent implements OnInit {
   getTktInfo(tkt: string) {
     document.mapCom.showHideModal = 'block';
     document.mapCom.dashboardService.getSameCorrdinateTktInfo(tkt).subscribe((res) => {
-      document.mapCom.shipmentInfo.route_name = res.tktInfo[0].route_name;
+      document.mapCom.shipmentInfo.route_name = (res.tktInfo[0].route_name ? res.tktInfo[0].route_name : 'Drop Info');
       document.mapCom.shipmentInfo.ticket = res.tktInfo[0].shipment_ticket;
       document.mapCom.shipmentInfo.customerName = res.tktInfo[0].customer_name;
       document.mapCom.shipmentInfo.address = res.tktInfo[0].fulladdress;
@@ -165,6 +172,7 @@ export class DashboardComponent implements OnInit {
       document.mapCom.shipmentInfo.driverList = (res.tktInfo[0].assigned_driver ? [] : res.driverList);
       document.mapCom.shipmentInfo.assigned_driver = res.tktInfo[0].assigned_driver;
       document.mapCom.shipmentInfo.shipment_route_id = res.tktInfo[0].shipment_routed_id;
+      document.mapCom.shipmentInfo.loadIdentity = res.tktInfo[0].instaDispatch_loadIdentity;
     }, error => {
       console.log(error);
     })
@@ -177,66 +185,68 @@ export class DashboardComponent implements OnInit {
    */
   assignDriverSameCordinate(driverId) {
 
-    document.mapCom.assignRouteSameCord =
-    {
-      'endPointUrl': 'assignUnassignRoute',
-      'route_id': '' + document.mapCom.shipmentInfo.shipment_route_id,
-      'driver_id': '' + driverId,
-      'company_id': '' + document.mapCom.companyId,
-      'warehouse_id': '' + document.mapCom.wairehouseId,
-      'email': document.mapCom.email,
-      'access_token': document.mapCom.access_token,
-      'start_time': formatDate(new Date(), 'dd-MM-yyyy hh:mm:ss a', 'en-US', '+0530')
-    }
-
-    //Load Spinner
-    document.mapCom.spinnerService.show("driverAssign", {
-      type: "line-scale-party",
-      size: "large",
-      color: "white"
-    });
-    document.mapCom.dashboardService.assignDriverToRoute(document.mapCom.assignRouteSameCord).subscribe((response) => {
-      //Remove Map Box pop-up
-      document.querySelector(".mapboxgl-popup").remove();
-      document.mapCom.spinnerService.hide("driverAssign");
-
-
-      document.mapCom.showHideModal = 'none';//Close modal
-      document.querySelector(".modal-backdrop").remove();
-
-      document.mapCom.dashboardService.loadDropOnMapsEmit();//For Realtime Data
-
-      var myStr = response;
-      var strArray = myStr.split(".");
-      var decodeBAse64 = JSON.parse(atob(strArray[1]));
-
-      if (decodeBAse64.status == 'error') {
-        this.toastr.error(decodeBAse64.message, '', {
-          closeButton: true, positionClass: 'toast-top-right', timeOut: 40000
-        });
-      } else if (decodeBAse64.status == 'success') {
-        this.toastr.success(decodeBAse64.message, '', {
-          closeButton: true, positionClass: 'toast-top-right', timeOut: 4000
-        });
+    //if Shipment Route id is zero
+    if (document.mapCom.shipmentInfo.shipment_route_id == 0) {
+      document.mapCom.assignDriverWithOutRouteId(document.mapCom.shipmentInfo.loadIdentity, driverId);
+    } else { //If shipment Id is present
+      document.mapCom.assignRouteSameCord =
+      {
+        'endPointUrl': 'assignUnassignRoute',
+        'route_id': '' + document.mapCom.shipmentInfo.shipment_route_id,
+        'driver_id': '' + driverId,
+        'company_id': '' + document.mapCom.companyId,
+        'warehouse_id': '' + document.mapCom.wairehouseId,
+        'email': document.mapCom.email,
+        'access_token': document.mapCom.access_token,
+        'start_time': formatDate(new Date(), 'dd-MM-yyyy hh:mm:ss a', 'en-US', '+0530')
       }
-    }, error => {
-      console.log(error);
-    })
+
+      //Load Spinner
+      document.mapCom.spinnerService.show("driverAssign", {
+        type: "line-scale-party",
+        size: "large",
+        color: "white"
+      });
+      document.mapCom.dashboardService.assignDriverToRoute(document.mapCom.assignRouteSameCord).subscribe((response) => {
+        //Remove Map Box pop-up
+        document.querySelector(".mapboxgl-popup").remove();
+        document.mapCom.spinnerService.hide("driverAssign");
+
+
+        document.mapCom.showHideModal = 'none';//Close modal
+        document.querySelector(".modal-backdrop").remove();
+
+        document.mapCom.dashboardService.loadDropOnMapsEmit();//For Realtime Data
+
+        var myStr = response;
+        var strArray = myStr.split(".");
+        var decodeBAse64 = JSON.parse(atob(strArray[1]));
+
+        if (decodeBAse64.status == 'error') {
+          this.toastr.error(decodeBAse64.message, '', {
+            closeButton: true, positionClass: 'toast-top-right', timeOut: 40000
+          });
+        } else if (decodeBAse64.status == 'success') {
+          this.toastr.success(decodeBAse64.message, '', {
+            closeButton: true, positionClass: 'toast-top-right', timeOut: 4000
+          });
+        }
+      }, error => {
+        console.log(error);
+      })
+    }
   }
 
   //Show All Drop to fit when click in show all button
   showAllDropToMap() {
 
     var allCordinates = [];
-    console.log(this.dashboardService.formatedData.data.features);
     if (this.dashboardService.formatedData.data.features.length > 0 && typeof this.dashboardService.formatedData.data.features != 'undefined') {
       for (var index1 in this.dashboardService.formatedData.data.features) {
         allCordinates.push(this.dashboardService.formatedData.data.features[index1].geometry.coordinates)
       }
 
       var coordinates = allCordinates;
-
-      console.log(coordinates);
 
       var bounds = coordinates.reduce(function (bounds, coord) {
         return bounds.extend(coord);
@@ -248,10 +258,10 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  public async makeMapReady(){
-    
+  public async makeMapReady() {
+
     await this.mapbox.initMap();
-      
+
     this.mapbox.map.on("load", () => {
 
       //Drops
@@ -269,7 +279,7 @@ export class DashboardComponent implements OnInit {
           "text-allow-overlap": true
         },
         paint: {
-          'text-color': '#00ff00'
+          'text-color': '#000'
         }
       });
 
@@ -288,9 +298,7 @@ export class DashboardComponent implements OnInit {
           "icon-ignore-placement": true
         },
         paint: {
-          'text-color': '#00ff00',
-          'text-halo-color': '#fff',
-          'text-halo-width': 2
+          'text-color': '#000'
         }
       });
 
@@ -331,6 +339,8 @@ export class DashboardComponent implements OnInit {
 
         document.mapCom.shipment_id = e.features[0].properties.shipment_id;
         document.mapCom.shipment_route_id = e.features[0].properties.shipment_route_id;
+        document.mapCom.loadIdentity = e.features[0].properties.loadIdentity;
+
 
         new mapboxgl.Popup()
           .setLngLat(coordinates)
@@ -372,12 +382,9 @@ export class DashboardComponent implements OnInit {
     var allCordinatesLatLng = [];
     if (res) {
       for (var index2 in res.routeLatLng) {
-        allCordinatesLatLng.push([res.routeLatLng[index2].shipment_longitude,res.routeLatLng[index2].shipment_latitude]);
+        allCordinatesLatLng.push([res.routeLatLng[index2].shipment_longitude, res.routeLatLng[index2].shipment_latitude]);
       }
 
-      console.log(allCordinatesLatLng);
-      
-     
       var coordinates = allCordinatesLatLng;
 
       var bounds = coordinates.reduce(function (bounds, coord) {
@@ -388,6 +395,57 @@ export class DashboardComponent implements OnInit {
         padding: 50
       });
     }
+  }
+
+  /**
+   * Assign Driver without loadIdentity
+   */
+  assignDriverWithOutRouteId(loadIdentity, driverid) {
+    //Load Spinner
+    document.mapCom.spinnerService.show("driverAssign", {
+      type: "line-scale-party",
+      size: "large",
+      color: "white"
+    });
+    //Get tikt and Route name
+    document.mapCom.dashboardService.getDropInfo(loadIdentity).subscribe((response) => {
+      if (response.shipmentKey && response.routeName) {
+        document.mapCom.dashboardService.sameDayAssignedRoute(response, driverid).subscribe((response) => {
+
+          document.querySelector(".mapboxgl-popup").remove();
+          document.mapCom.spinnerService.hide("driverAssign");
+
+
+          document.mapCom.showHideModal = 'none';//Close modal
+          document.querySelector(".modal-backdrop").remove();
+
+          document.mapCom.dashboardService.loadDropOnMapsEmit();//For Realtime Data
+
+          var myStr = response;
+          var strArray = myStr.split(".");
+          var decodeBAse64 = JSON.parse(atob(strArray[1]));
+
+          if (decodeBAse64.status == 'error') {
+            this.toastr.error(decodeBAse64.message, '', {
+              closeButton: true, positionClass: 'toast-top-right', timeOut: 40000
+            });
+          } else if (decodeBAse64.status == 'success') {
+            this.toastr.success(decodeBAse64.message, '', {
+              closeButton: true, positionClass: 'toast-top-right', timeOut: 4000
+            });
+          }
+        })
+      } else {
+        document.mapCom.spinnerService.hide("driverAssign");
+        this.toastr.info('Shipment Tickets Not Available !', '', {
+          closeButton: true, positionClass: 'toast-top-right', timeOut: 40000
+        });
+      }
+    }, error => {
+      console.log(error);
+      document.querySelector(".mapboxgl-popup").remove();
+      document.mapCom.spinnerService.hide("driverAssign");
+    })
   }
 
 }

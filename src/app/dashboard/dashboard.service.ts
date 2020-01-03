@@ -5,7 +5,7 @@ import { MapboxService } from '../mapbox/mapbox.service';
 import { Observable, Observer, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { retry, catchError, map } from 'rxjs/operators';
-
+import { formatDate } from '@angular/common';
 
 
 
@@ -19,8 +19,10 @@ export class DashboardService {
   companyId = this.configSettings.env.company_id;
   wairehouseId = this.configSettings.env.wairehouse_id;
   iacrgoApiUrl = this.configSettings.env.icargo_api_url;
+  email = this.configSettings.env.email;
+  access_token = this.configSettings.env.icargo_access_token;
   public markerList: any = new Array();
-
+  routeData: any;
   //socket;
   notiFicationResponce;
   observer: Observer<any>;
@@ -75,14 +77,14 @@ export class DashboardService {
       //data.shipment_data.push.apply(data.shipment_data, data.unassgn_shipment_data);
       //data.shipment_data.push.apply(data.shipment_data, data.completed_shipment_data)
       console.log(data);
-      this.points.features=[];
+      this.points.features = [];
       for (var index1 in data.mapPlotData) {
         this.points.features[index1] = {
           'type': 'Feature',
           'properties': {
             'description':
-              (data.mapPlotData[index1].drop_type == 'same-coord' ? data.mapPlotData[index1].shipmentTicketList : 
-              '<div class="drops-headding">' + data.mapPlotData[index1].route_name + '</div>\
+              (data.mapPlotData[index1].drop_type == 'same-coord' ? data.mapPlotData[index1].shipmentTicketList :
+                '<div class="drops-headding">' + data.mapPlotData[index1].route_name + '</div>\
               <div class="drops-min"><i class="material-icons drops-min-color1">home</i> <span>'+ data.mapPlotData[index1].customer_name + '</span><div>' + data.mapPlotData[index1].fulladdress + '</div></div>\
               <div class="drops-min"><i class="material-icons drops-min-color2">help_outline</i> <span>Ref:'+ data.mapPlotData[index1].cr + '</span><div>  <span>Job:</span> ' + data.mapPlotData[index1].job_type + '</div><div>  <span>Ticket:</span> ' + data.mapPlotData[index1].shipment_ticket + '</div></div>\
               <div class="drops-line"></div>\
@@ -93,7 +95,8 @@ export class DashboardService {
             'icon': data.mapPlotData[index1].marker_url,
             'execution_order': data.mapPlotData[index1].icargo_execution_order,
             'shipment_id': data.mapPlotData[index1].shipment_ticket,
-            'shipment_route_id': data.mapPlotData[index1].shipment_routed_id
+            'shipment_route_id': data.mapPlotData[index1].shipment_routed_id,
+            'loadIdentity': data.mapPlotData[index1].instaDispatch_loadIdentity
           },
           'geometry': {
             'type': 'Point',
@@ -115,6 +118,7 @@ export class DashboardService {
   }
 
   loadDropOnMapsEmit() {
+   
     this.socket.websocket.emit('req-all-drops', { search_date: '', warehouse_id: this.wairehouseId, company_id: this.companyId });
   }
 
@@ -213,7 +217,7 @@ export class DashboardService {
         return 'mini-van'
       } else if (vechileType.toLowerCase() == 'bike' || vechileType.toLowerCase() == 'motorbike') {
         return 'motorbike';
-      } else if (vechileType.toLowerCase() == 'cycle' || vechileType.toLowerCase() =='pushbike' || vechileType.toLowerCase() == 'bycycle') {
+      } else if (vechileType.toLowerCase() == 'cycle' || vechileType.toLowerCase() == 'pushbike' || vechileType.toLowerCase() == 'bycycle') {
         return 'cycle'
       } else {
         return 'mini-van'
@@ -266,6 +270,45 @@ export class DashboardService {
     return this.createObservable();
   }
 
-  
+  //get Tkt and Route name
+  getDropInfo(loadIdentity): Observable<any> {
+    this.socket.websocket.emit('req-drop-info', { warehouse_id: this.wairehouseId, company_id: this.companyId, loadIdentity: loadIdentity });
+    this.socket.websocket.on('get-drop-info', (data) => {
+      this.observer.next(data);
+    })
+    return this.createObservable();
+  }
+
+  /**
+   * Same Day driver assign
+   * @param data
+   */
+  sameDayAssignedRoute(data, driver_id): Observable<any> {
+    const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
+
+    this.routeData = {
+      'endPointUrl': 'samedaydriverassign',
+      'company_id': '' + this.companyId,
+      'warehouse_id': '' + this.wairehouseId,
+      'email': this.email,
+      'access_token': this.access_token,
+      'shipment_ticket': '' + data.shipmentKey,
+      'route_name': '' + data.routeName,
+      'driver_id': '' + driver_id,
+      'assign_time': formatDate(new Date(), 'dd-MM-yyyy hh:mm:ss a', 'en-US', '+0530'),
+      "timezone_name": Intl.DateTimeFormat().resolvedOptions().timeZone
+    }
+
+
+    return this.http.post<any>(this.iacrgoApiUrl + this.routeData.endPointUrl, JSON.stringify(this.routeData),
+      {
+        headers, responseType: 'text' as 'json'
+      })
+      .pipe(
+        retry(1),
+        catchError(this.handleError)
+      )
+  }
+
 
 }

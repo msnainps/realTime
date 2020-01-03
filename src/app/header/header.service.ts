@@ -20,7 +20,7 @@ export class HeaderService {
   wairehouseId = this.configSettings.env.wairehouse_id;
   socketRestAPI = this.configSettings.env.socket_rest_api_url;
   apiData;
-
+  observer: Observer<any>;
 
   notiFicationResponce;
   constructor(private socket: SocketService, private http: HttpClient) {
@@ -90,4 +90,47 @@ export class HeaderService {
     return throwError(
       'Something bad happened; please try again later.');
   };
+
+  
+  saveSearchDate(dateInfo): Observable<any> {
+    this.socket.websocket.emit('save-header-date', { 
+      warehouse_id: this.wairehouseId,
+      company_id: this.companyId,
+      start_date: dateInfo.start_date,
+      end_date:  dateInfo.end_date
+    });
+    this.socket.websocket.on('get-header-date', (data) => {
+      this.observer.next(data);
+    })
+    return this.createObservable();
+  }
+
+  createObservable(): Observable<any> {
+    return new Observable(observer => {
+      this.observer = observer;
+    });
+  }
+
+  deleteSearchDate():Observable<any> {
+    this.socket.websocket.emit('delete-header-date', { 
+      warehouse_id: this.wairehouseId,
+      company_id: this.companyId
+    });
+    this.socket.websocket.on('get-header-date', (data) => {
+      this.observer.next(data);
+    })
+    return this.createObservable();
+  }
+
+  getHeaderSavedDate():Observable<any> {
+    this.socket.websocket.emit('req-header-date', {
+      warehouse_id: this.wairehouseId,
+      company_id: this.companyId
+    });
+    this.socket.websocket.on('get-header-date', (data) => {
+      console.log(data);
+      this.observer.next(data);
+    })
+    return this.createObservable();
+  }
 }

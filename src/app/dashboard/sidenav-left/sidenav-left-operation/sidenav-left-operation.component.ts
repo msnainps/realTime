@@ -60,6 +60,7 @@ export class SidenavLeftOperationComponent implements OnInit {
   resetAssignRoute: any = { shipment_route_id: 0 };
   rowDataTrakingInfo: any;
   frameworkComponents;
+  drop_type:any;
 
 
   //Grid headers

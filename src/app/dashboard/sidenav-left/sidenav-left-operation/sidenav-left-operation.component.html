@@ -135,16 +135,16 @@
           <button type="button" data-dismiss="modal">X</button>
         </div>
 
-        <mat-tab-group animationDuration="0ms">
+        <mat-tab-group animationDuration="0ms" [selectedIndex]="1">
           <mat-tab label="View Details">
             <div class="modal-footers modal-footers2 modal-footers-view-tab">
-              <button *ngIf="routeType=='assign' || routeType == 'unassign'" (click)="processReleaseShipment()"
+              <button *ngIf="routeType=='assign'" (click)="processReleaseShipment()"
                 type="button" class="btn btn-primary">Release Shipment</button>
               <a *ngIf="routeType=='assign'" href="" (click)="validateDeliverShipment()" class="btn btn-primary"
                 data-toggle="modal" data-target="#Modal6" [attr.data-dismiss]="releaseShipmentTkt.length?modal:''">
                 <span>Deliver Shipment</span>
               </a>
-              <button *ngIf="booking_type != 'Vendor'" type="button" class="btn btn-primary" (click)="downloadExportCageSheet()">Export
+              <button *ngIf="booking_type != 'Vendor' && drop_type != 'unassinged'" type="button" class="btn btn-primary" (click)="downloadExportCageSheet()">Export
                 Cagesheet</button>
               <a *ngIf="routeType=='assign'" href="" (click)="validateCardedShipment()" class="btn btn-primary"
                 data-toggle="modal" data-target="#Modal5" [attr.data-dismiss]="releaseShipmentTkt.length?modal:''">
@@ -169,13 +169,17 @@
               </select>
             </div>
             <div class="modal-body space-bitween ">
-              <div style="width: 100%;" class="space-block">
+              <div *ngIf="routeType !='unassign'" style="width: 100%;" class="space-block">
                 <span>
                   <h4>Route:</h4>{{routeName}}
                 </span>
 
                 <span>
                   <h4>Driver:</h4>{{driverName}}
+                </span>
+
+                <span>
+                  <h4>Route Id:</h4>{{shipment_route_id}}
                 </span>
               </div>
               

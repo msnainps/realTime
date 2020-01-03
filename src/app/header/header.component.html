@@ -18,14 +18,18 @@
       </mat-form-field> -->
       <!--Add Filter-->
       <input type="text" [owlDateTime]="headerDate" [owlDateTimeTrigger]="headerDate"
-        [(ngModel)]="headreSearch.searchdate" required autocomplete="off" placeholder="Choose a date" />
+        [(ngModel)]="headreSearch.searchdate" [selectMode]="'range'" required autocomplete="off" placeholder="Choose a date" />
       <span class="trigger" [owlDateTimeTrigger]="headerDate">
         <i class="material-icons">
           event_note
         </i>
       </span>
-      <owl-date-time [pickerType]="'calendar'" #headerDate></owl-date-time>
+      <owl-date-time [pickerType]="'calendar'" (afterPickerClosed)="getMapDataOnDateSelect()" #headerDate></owl-date-time>
+    
     </div>
+
+    <button class="restor-btn" (click) = "deleteHeaderDate()"> <i class="material-icons"> delete_forever </i></button>
+
     <input class="search-header" placeholder="Search" [(ngModel)]="headreSearch.searchvalue">
     <button mat-button>
       <mat-icon class="example-icon" aria-hidden="false" data-toggle="modal" data-target="#calendar-search"
@@ -89,11 +93,11 @@
         <button type="button" data-dismiss="modal">X</button>
       </div>
       <div class="modal-body space-bitween">
-      <div style="width: 100%;">
+      <!-- <div style="width: 100%;">
         <span>
           <h4>Search Date:</h4>{{searchedDate}}
         </span>
-      </div>
+      </div> -->
       <div style="width: 100%;">
         <span>
           <h4>Search Value:</h4>{{searchedValue}}
