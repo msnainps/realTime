@@ -135,7 +135,7 @@
           <button type="button" data-dismiss="modal">X</button>
         </div>
 
-        <mat-tab-group animationDuration="0ms" [selectedIndex]="1">
+        <mat-tab-group animationDuration="0ms" [(selectedIndex)]="selectedIndex" (selectedTabChange)="getTrakingInfo($event,trakingInfoRequiredData)">
           <mat-tab label="View Details">
             <div class="modal-footers modal-footers2 modal-footers-view-tab">
               <button *ngIf="routeType=='assign'" (click)="processReleaseShipment()"

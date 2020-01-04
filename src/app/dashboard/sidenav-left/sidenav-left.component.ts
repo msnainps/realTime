@@ -80,6 +80,7 @@ export class SidenavLeftComponent implements OnInit {
     this.sidebarLeftNavOp.rowDataTrakingInfo = '';//Reset Traking Info row data
     this.sidebarLeftNavOp.routeName = '';
     this.sidebarLeftNavOp.driverName = '';
+    this.sidebarLeftNavOp.trakingCallStatus = false;
 
     this.sidebarLeftNavOp.releaseShipmentTkt = '';//Reset selected checkbox from grid
     this.sidebarLeftNavOp.routeType = type;
@@ -94,6 +95,9 @@ export class SidenavLeftComponent implements OnInit {
       param = data.shipment_routed_id;
     }
 
+    this.sidebarLeftNavOp.selectedIndex = 0; //Show Active view details Tab
+
+    //get View details data
     this.sidenaveleftService.getRouteDetails(param,type).subscribe(resp => {
       
       if(resp.routeDetailsData.length > 0){
@@ -105,6 +109,7 @@ export class SidenavLeftComponent implements OnInit {
       this.sidebarLeftNavOp.driverName = resp.routeInfo[0].driver_name;
       }
      }
+     this.spinerService.hide('view-details');
     });
 
     //get Disputed List && get Assign Route List 
@@ -118,36 +123,17 @@ export class SidenavLeftComponent implements OnInit {
       });
     }
 
-
-    //Get Shipment Traking Info
-    var Jtypes = data.booking_type.toLowerCase();
-    if(Jtypes == 'next' || Jtypes == 'same'){
-    this.sidenaveleftService.getShipmentTrakingInfo(data.instaDispatch_loadIdentity,data.is_internal,data.booking_type).subscribe(resp => {
-      this.spinerService.hide('view-details');
-      var strArray = resp.split(".");
-      var decodeBAse64 = JSON.parse(atob(strArray[1]));
-      if(Jtypes == 'next'){
-        this.sidebarLeftNavOp.rowDataTrakingInfo = decodeBAse64.nextday.trackinginfo;
-      }else if(Jtypes == 'same'){
-        this.sidebarLeftNavOp.rowDataTrakingInfo = decodeBAse64.sameday.trackinginfo;
-      }
-    });
-  }else{
-    this.spinerService.hide('view-details');
-  }
-
-    
-    
+   //Used to get traking info
+    this.sidebarLeftNavOp.trakingInfoRequiredData = data; 
 
   }
 
+  //Move to map pointer
   focusOnDrops(data){
    //get Latlng for this route
    this.sidenaveleftService.getLatLng(data).subscribe(res => {
       this.dashboradCmp.showFocusToDrop(res);
    });
   }
-
-  
 
 }

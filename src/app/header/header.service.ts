@@ -58,7 +58,7 @@ export class HeaderService {
   getSearchResult(getSearchParam): Observable<any> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-    var dateFormat:any = formatDate(new Date(getSearchParam.searchdate), 'dd-MM-yyyy', 'en-US', '+0530');
+    var dateFormat:any = new Date();
     var search_param: any = { "date": dateFormat, "value": getSearchParam.searchvalue };
     
     this.apiData = {

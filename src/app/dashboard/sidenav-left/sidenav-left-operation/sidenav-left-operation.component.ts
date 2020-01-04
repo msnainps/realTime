@@ -60,7 +60,10 @@ export class SidenavLeftOperationComponent implements OnInit {
   resetAssignRoute: any = { shipment_route_id: 0 };
   rowDataTrakingInfo: any;
   frameworkComponents;
-  drop_type:any;
+  drop_type: any;
+  public selectedIndex: number = 0;
+  trakingInfoRequiredData;
+  trakingCallStatus=false;
 
 
   //Grid headers
@@ -120,7 +123,7 @@ export class SidenavLeftOperationComponent implements OnInit {
     }
     this.defaultColDef = { resizable: true };
 
-    
+
   }
 
   ngOnInit() {
@@ -237,12 +240,12 @@ export class SidenavLeftOperationComponent implements OnInit {
   onClickAssignDriver = () => {
 
     this.submittedAssign = true;
-   
+
     if (this.assignDriverFormVal.invalid) {
       return;
     }
 
-    if(this.assignDriverFormModel.driver_id == 0){
+    if (this.assignDriverFormModel.driver_id == 0) {
       this.toastr.info('Invalid Driver', '', {
         closeButton: true, positionClass: 'toast-top-right', timeOut: 4000
       });
@@ -709,37 +712,64 @@ export class SidenavLeftOperationComponent implements OnInit {
   }
 
   //Return signature
-  customCellSignatureFunc(param){
+  customCellSignatureFunc(param) {
     if (param.data.podPath.length > 0) {
-          for (var i = 0; i < param.data.podPath.length; i++) {
-            if (param.data.podPath[i].pod_name == 'signature') {
-              if (param.data.podPath[i].pod_path) {
-                return '<a href="'+param.data.podPath[i].pod_path+'" target="_blank"><img src="'+param.data.podPath[i].pod_path+'" height="50" width="50"></a>';
-              } else {
-                return '';
-              }
-            }
+      for (var i = 0; i < param.data.podPath.length; i++) {
+        if (param.data.podPath[i].pod_name == 'signature') {
+          if (param.data.podPath[i].pod_path) {
+            return '<a href="' + param.data.podPath[i].pod_path + '" target="_blank"><img src="' + param.data.podPath[i].pod_path + '" height="50" width="50"></a>';
+          } else {
+            return '';
           }
-        }else{
-          return '';
         }
+      }
+    } else {
+      return '';
+    }
   }
 
   //Return Picture
-  customCellPictureFunc(param){
+  customCellPictureFunc(param) {
     if (param.data.podPath.length > 0) {
-          for (var i = 0; i < param.data.podPath.length; i++) {
-            if (param.data.podPath[i].pod_name == 'picture') {
-              if (param.data.podPath[i].pod_path) {
-                return '<a href="'+param.data.podPath[i].pod_path+'" target="_blank"><img src="'+param.data.podPath[i].pod_path+'" height="50" width="50"></a>';
-              } else {
-                return '';
-              }
-            }
+      for (var i = 0; i < param.data.podPath.length; i++) {
+        if (param.data.podPath[i].pod_name == 'picture') {
+          if (param.data.podPath[i].pod_path) {
+            return '<a href="' + param.data.podPath[i].pod_path + '" target="_blank"><img src="' + param.data.podPath[i].pod_path + '" height="50" width="50"></a>';
+          } else {
+            return '';
           }
-        }else{
-          return '';
         }
+      }
+    } else {
+      return '';
+    }
+  }
+
+  //get Traking Info by on click on traking tab
+  getTrakingInfo(e, data) {
+    
+    if (e.index == 1 && e.tab.textLabel == 'Tracking' && !this.trakingCallStatus) {
+      this.rowDataTrakingInfo = '';//Reset Traking Info row data
+      this.spinerService.show("traking-details", {
+        type: "line-scale-party",
+        size: "large",
+        color: "white"
+      });
+      var Jtypes = data.booking_type.toLowerCase();
+      if (Jtypes == 'next' || Jtypes == 'same') {
+        this.sidenavleftservice.getShipmentTrakingInfo(data.instaDispatch_loadIdentity, data.is_internal, data.booking_type).subscribe(resp => {
+          this.spinerService.hide('traking-details');
+          var strArray = resp.split(".");
+          this.trakingCallStatus = true;
+          var decodeBAse64 = JSON.parse(atob(strArray[1]));
+          if (Jtypes == 'next') {
+            this.rowDataTrakingInfo = decodeBAse64.nextday.trackinginfo;
+          } else if (Jtypes == 'same') {
+            this.rowDataTrakingInfo = decodeBAse64.sameday.trackinginfo;
+          }
+        });
+      }
+    }
   }
 
 

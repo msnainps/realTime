@@ -124,7 +124,7 @@ export class HeaderComponent implements OnInit {
    
     
 
-    this.searchedDate = formatDate(new Date(searchFileds.searchdate), 'dd-MM-yyyy', 'en-US', '+0530');
+    //this.searchedDate = formatDate(new Date(searchFileds.searchdate), 'dd-MM-yyyy', 'en-US', '+0530');
     this.searchedValue = searchFileds.searchvalue;
 
     this.headerService.getSearchResult(this.headreSearch).subscribe(val => {
@@ -137,7 +137,7 @@ export class HeaderComponent implements OnInit {
       }
     });
     this.headreSearch.searchvalue = '';
-    this.headreSearch.searchdate = new Date();
+    //this.headreSearch.searchdate = new Date();
   }
 
   /**
