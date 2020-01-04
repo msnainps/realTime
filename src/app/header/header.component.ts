@@ -52,8 +52,8 @@ export class HeaderComponent implements OnInit {
     { headerName: 'Postcode', field: 'postcode', width: 120, sortable: true, filter: true },
     { headerName: 'Shipment Ticket', field: 'shipment_ticket', width: 150, sortable: true, filter: true },
     { headerName: 'Route Name', field: 'route_name', width: 100, sortable: true, filter: true },
-    { headerName: 'Driver Name', field: 'driver_name', width: 100, sortable: true, filter: true },
-    { headerName: 'Action', field: 'action' },
+    { headerName: 'Driver Name', field: 'driver_name', width: 100, sortable: true, filter: true }
+    // { headerName: 'Action', field: 'action' },
   ];
 
 

@@ -80,8 +80,8 @@ export class SidenavLeftOperationComponent implements OnInit {
     { headerName: 'Execution Order', field: 'execution_order', width: 100, sortable: true, filter: true },
     { headerName: 'Attempt', field: 'attempt', width: 100, sortable: true, filter: true },
     { headerName: 'Estimated Time', field: 'estimatedtime', width: 100, sortable: true, filter: true },
-    { headerName: 'Status', field: 'current_status', width: 100, sortable: true, filter: true },
-    { headerName: 'Action', field: 'action' },
+    { headerName: 'Status', field: 'current_status', width: 100, sortable: true, filter: true }
+    // { headerName: 'Action', field: 'action' },
   ];
 
 
