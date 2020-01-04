@@ -128,7 +128,6 @@ export class HeaderService {
       company_id: this.companyId
     });
     this.socket.websocket.on('get-header-date', (data) => {
-      console.log(data);
       this.observer.next(data);
     })
     return this.createObservable();

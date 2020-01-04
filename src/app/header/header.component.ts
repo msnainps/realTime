@@ -37,6 +37,7 @@ export class HeaderComponent implements OnInit {
   searchedDate;
   searchedValue;
   selectedDateRange = {}
+  dateDeleteBtn = false;
  
 
 
@@ -78,8 +79,17 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     //this.headerService.getHeaderDataListen(this);
-    //var x  = this.headerService.getHeaderSavedDate();
-    //console.log(x);
+   this.headerService.getHeaderSavedDate().subscribe(resp => {
+    
+    if(resp.getSavedDate.length){
+      this.dateDeleteBtn = true;
+       //show saved date
+      this.headreSearch.searchdate = [new Date(resp.getSavedDate[0].start_date), new Date(resp.getSavedDate[0].end_date)];
+    }else{
+      //show todays date
+      this.headreSearch.searchdate = [new Date(), new Date()];
+    }
+  });
   }
   isShown: Boolean = false;
   toggleShow() {
@@ -133,7 +143,7 @@ export class HeaderComponent implements OnInit {
   /**
    * Save header Date
    */
-  getMapDataOnDateSelect(){
+  saveMapDataOnDateSelect(){
     this.selectedDateRange['start_date'] = formatDate(new Date(this.headreSearch.searchdate[0]), 'yyyy-MM-dd', 'en-US', '+0530');
     this.selectedDateRange['end_date'] = formatDate(new Date(this.headreSearch.searchdate[1]), 'yyyy-MM-dd', 'en-US', '+0530');
     //Save Header Data
@@ -144,6 +154,7 @@ export class HeaderComponent implements OnInit {
       color: "white"
     });
     this.headerService.saveSearchDate(this.selectedDateRange).subscribe(resp => {
+      this.dateDeleteBtn = true;
       this.spinerService.hide('header-search');
       this.dashboardService.loadDropOnMapsEmit();
     });
@@ -162,7 +173,10 @@ export class HeaderComponent implements OnInit {
       color: "white"
     });
     this.headerService.deleteSearchDate().subscribe(resp => {
+      this.dateDeleteBtn = false;
       this.spinerService.hide('header-search');
+       //show todays date
+      this.headreSearch.searchdate = [new Date(), new Date()]; 
       this.dashboardService.loadDropOnMapsEmit();
     });
   }

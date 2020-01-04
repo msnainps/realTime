@@ -24,11 +24,11 @@
           event_note
         </i>
       </span>
-      <owl-date-time [pickerType]="'calendar'" (afterPickerClosed)="getMapDataOnDateSelect()" #headerDate></owl-date-time>
+      <owl-date-time [pickerType]="'calendar'" (afterPickerClosed)="saveMapDataOnDateSelect()" #headerDate></owl-date-time>
     
     </div>
 
-    <button class="restor-btn" (click) = "deleteHeaderDate()"> <i class="material-icons"> delete_forever </i></button>
+    <button *ngIf="dateDeleteBtn" class="restor-btn" (click) = "deleteHeaderDate()"> <i class="material-icons"> delete_forever </i></button>
 
     <input class="search-header" placeholder="Search" [(ngModel)]="headreSearch.searchvalue">
     <button mat-button>
