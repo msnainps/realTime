@@ -26,15 +26,15 @@
                                 <h6 *ngIf="unassignData.booking_type == 'Vendor'"><i class="material-icons"> explore </i>Retail</h6>
                             </div>
 
-                            <div class="panel fourth side-click-hand">
-                                <h6><i class="material-icons"> info </i>{{unassignData.total_drops}}</h6>
+                            <div class="panel fourth side-click-hand set-one">
+                                <h6><i class="material-icons"> local_shipping </i>{{unassignData.total_drops}}</h6>
                             </div>
 
                             <div class="panel fourth side-click-hand">
                                 <h6><i class="material-icons"> date_range </i>{{unassignData.collection_date}}</h6>
                             </div>
         
-                            <div class="panel fifth side-click-hand">
+                            <div class="panel fifth side-click-hand fifth-set">
                                 <!-- <h6><i class="material-icons"> directions_car </i>Meena</h6> -->
                             </div>
                         </div>
@@ -44,7 +44,7 @@
         
                                 <mat-menu #menu="matMenu">
                                     <ul class="set-list">
-                                        <li><a href="" (click)="assignJob(unassignData.shipment_ticket,unassignData.instaDispatch_loadIdentity,unassignData.route_name)" data-toggle="modal" data-target="#Modal1">
+                                        <li><a href="" (click)="assignJob(unassignData.shipment_ticket,unassignData.instaDispatch_loadIdentity,unassignData.collection_date)" data-toggle="modal" data-target="#Modal1">
                                                 <mat-icon>how_to_reg</mat-icon> <span>Assign Job</span>
                                             </a></li>
                                         <li *ngIf="unassignData.booking_type != 'Vendor'"><a href="" (click)="cancelShipment(unassignData.instaDispatch_loadIdentity)" data-toggle="modal" data-target="#Modal2">
@@ -83,17 +83,17 @@
                     <div class="panel second {{assignData.route_label | lowercase}} side-click-hand">
                         <h5>{{assignData.route_label}}</h5>
                     </div>
-                    <div class="panel third side-click-hand">
+                    <div class="panel third side-click-hand all-set">
                         <h6><i class="material-icons"> explore </i>{{assignData.route_name}}</h6>
                     </div>
-                    <div class="panel fourth side-click-hand">
-                        <h6><i class="material-icons"> info </i>{{assignData.total_drops}}</h6>
+                    <div class="panel fourth side-click-hand set-one">
+                        <h6><i class="material-icons"> local_shipping </i>{{assignData.total_drops}}</h6>
                     </div>
                     <div class="panel fourth side-click-hand">
                         <h6><i class="material-icons"> date_range </i>{{assignData.assign_date_time}}</h6>
                     </div>
 
-                    <div class="panel fifth side-click-hand">
+                    <div class="panel fifth side-click-hand all-set">
                         <h6><i class="material-icons"> directions_car </i>{{assignData.driver_name}}</h6>
                     </div>
                     <!-- <div class="panel sixth">
@@ -145,17 +145,17 @@
                     <div class="panel second completed side-click-hand">
                         <h5> {{completed.route_label}}</h5>
                     </div>
-                    <div class="panel third side-click-hand">
+                    <div class="panel third side-click-hand all-set">
                         <h6><i class="material-icons"> explore </i>{{completed.route_name}}</h6>
                     </div>
-                    <div class="panel fourth side-click-hand">
-                        <h6><i class="material-icons"> info </i>{{completed.total_drops}}</h6>
+                    <div class="panel fourth side-click-hand set-one">
+                        <h6><i class="material-icons"> local_shipping </i>{{completed.total_drops}}</h6>
                     </div>
                     <div class="panel fourth side-click-hand">
                         <h6><i class="material-icons"> date_range </i>{{completed.completed_date}}</h6>
                     </div>
 
-                    <div class="panel fifth side-click-hand">
+                    <div class="panel fifth side-click-hand all-set">
                         <h6><i class="material-icons"> directions_car </i>{{completed.driver_name}}</h6>
                     </div>
                 </div>

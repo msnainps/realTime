@@ -117,8 +117,13 @@ export class SidenavLeftService {
    * Assigned Route
    * @param shipmentRouteId
    */
-  sameDayAssignedRoute(assignFormData): Observable<any> {
+  sameDayAssignedRoute(assignFormData,tmpRouteName): Observable<any> {
     const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
+
+    
+    if(typeof assignFormData.route_name == 'undefined' || assignFormData.route_name == ''){
+      assignFormData.route_name = tmpRouteName;
+    }
 
     this.routeData = {
       'endPointUrl': 'samedaydriverassign',
@@ -132,14 +137,13 @@ export class SidenavLeftService {
       'assign_time':formatDate(new Date(assignFormData.assign_date_time), 'dd-MM-yyyy hh:mm:ss a', 'en-US', '+0530'),
       "timezone_name":Intl.DateTimeFormat().resolvedOptions().timeZone
     }
-
    
     return this.http.post<any>(this.iacrgoApiUrl + this.routeData.endPointUrl, JSON.stringify(this.routeData),
       {
         headers, responseType: 'text' as 'json'
       })
       .pipe(
-        retry(1),
+        retry(0),
         catchError(this.handleError)
       )
   }

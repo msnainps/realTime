@@ -13,6 +13,8 @@ import { formatDate } from '@angular/common';
 import { Popup } from 'mapbox-gl';
 import { $ } from 'protractor';
 import { ToastrService } from 'ngx-toastr';
+import { SidenavLeftComponent } from './sidenav-left/sidenav-left.component';
+
 
 
 
@@ -50,12 +52,18 @@ export class DashboardComponent implements OnInit {
 
   shipmentInfo = new shipmentInfo();
   loadIdentity: any;
+  sideNavLeft:SidenavLeftComponent = null;
 
 
 
 
-  constructor(private dashboardService: DashboardService, private mapbox: MapboxService, private dialog: MatDialog, private spinnerService: NgxSpinnerService
-    , private toastr: ToastrService) {
+  constructor(
+    private dashboardService: DashboardService, 
+    private mapbox: MapboxService, 
+    private dialog: MatDialog, 
+    private spinnerService: NgxSpinnerService,
+    private toastr: ToastrService
+    ) {
     document.mapCom = this;
   }
 
@@ -171,8 +179,15 @@ export class DashboardComponent implements OnInit {
       document.mapCom.shipmentInfo.driverName = (res.tktInfo[0].assigned_driver ? res.tktInfo[0].driver_name : 'Assign Driver');
       document.mapCom.shipmentInfo.driverList = (res.tktInfo[0].assigned_driver ? [] : res.driverList);
       document.mapCom.shipmentInfo.assigned_driver = res.tktInfo[0].assigned_driver;
-      document.mapCom.shipmentInfo.shipment_route_id = res.tktInfo[0].shipment_routed_id;
-      document.mapCom.shipmentInfo.loadIdentity = res.tktInfo[0].instaDispatch_loadIdentity;
+      document.mapCom.shipmentInfo.shipment_routed_id = res.tktInfo[0].shipment_routed_id;
+      document.mapCom.shipmentInfo.instaDispatch_loadIdentity = res.tktInfo[0].instaDispatch_loadIdentity;
+      if(res.tktInfo[0].assigned_driver == 0){
+        document.mapCom.shipmentInfo.drop_type = 'unassinged';
+      }else if(res.tktInfo[0].assigned_driver && res.tktInfo[0].shipment_routed_id){
+        document.mapCom.shipmentInfo.drop_type = 'assinged';
+      }else if(res.tktInfo[0].assigned_driver && res.tktInfo[0].shipment_routed_id && res.tktInfo[0].shipment_routed_id.current_status == 'D'){
+        document.mapCom.shipmentInfo.drop_type = 'completed';
+      }
     }, error => {
       console.log(error);
     })
@@ -446,6 +461,26 @@ export class DashboardComponent implements OnInit {
       document.querySelector(".mapboxgl-popup").remove();
       document.mapCom.spinnerService.hide("driverAssign");
     })
+  }
+
+  viewDetailsFromMap(index,type){
+    if(type == 'unassinged'){
+      type = 'unassign';
+    }else if(type == 'assinged'){
+      type = 'assign';
+    }
+    this.sideNavLeft.viewDetails(this.dashboardService.mapData.mapPlotData[index],type);
+  }
+
+  viewDetailsFromSameCordinate(){
+    //console.log(document.mapCom.shipmentInfo);
+    var type = document.mapCom.shipmentInfo.drop_type;
+    if(type == 'unassinged'){
+      type = 'unassign';
+    }else if(type == 'assinged'){
+      type = 'assign';
+    }
+    this.sideNavLeft.viewDetails(document.mapCom.shipmentInfo,type);
   }
 
 }

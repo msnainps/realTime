@@ -19,7 +19,7 @@ body { margin: 0; font-family: 'Lato', sans-serif;}
 height: calc(100vh - 64px);
 }
 mat-drawer.example-sidenav {
-    width: 782px;
+    width: 702px;
 }
 mat-drawer.example-sidenav2 {
 width: 650px;
@@ -817,7 +817,7 @@ margin: 6px;
 }
 .date-picker2 span{
 position: absolute;
-right: 5px;
+right: 0;
 color: #fff;
 top: 7px;
 }
@@ -936,4 +936,24 @@ top: 7px;
 } */
 .mat-button{
   outline: none;
+}
+.set-one{
+  width: 53px !important;
+}
+.side-click .panel.first {
+  overflow: hidden;
+  height: 17px;
+}
+.fifth-set {
+  overflow: hidden;
+  width: 120px !important;
+  height: 17px;
+}
+
+.main-left-panel {
+  justify-content: space-between;
+}
+.all-set {
+  overflow: hidden;
+  height: 17px;
 }

@@ -169,7 +169,8 @@
               </select>
             </div>
             <div class="modal-body space-bitween ">
-              <div *ngIf="routeType !='unassign'" style="width: 100%;" class="space-block">
+              <div style="width: 100%;" class="space-block">
+                <ng-container *ngIf="routeType !='unassign'">
                 <span>
                   <h4>Route:</h4>{{routeName}}
                 </span>
@@ -180,6 +181,11 @@
 
                 <span>
                   <h4>Route Id:</h4>{{shipment_route_id}}
+                </span>
+              </ng-container>
+
+                <span *ngIf="booking_type == 'Vendor' || booking_type == 'NEXT'">
+                  <h4>Total Item:</h4>{{totalJobItem}}
                 </span>
               </div>
               

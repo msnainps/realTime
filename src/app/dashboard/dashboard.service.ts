@@ -23,6 +23,7 @@ export class DashboardService {
   access_token = this.configSettings.env.icargo_access_token;
   public markerList: any = new Array();
   routeData: any;
+  mapData:any;
   //socket;
   notiFicationResponce;
   observer: Observer<any>;
@@ -78,6 +79,7 @@ export class DashboardService {
       //data.shipment_data.push.apply(data.shipment_data, data.completed_shipment_data)
       console.log(data);
       this.points.features = [];
+      this.mapData = data;
       for (var index1 in data.mapPlotData) {
         this.points.features[index1] = {
           'type': 'Feature',
@@ -87,6 +89,7 @@ export class DashboardService {
                 '<div class="drops-headding">' + data.mapPlotData[index1].route_name + '</div>\
               <div class="drops-min"><i class="material-icons drops-min-color1">home</i> <span>'+ data.mapPlotData[index1].customer_name + '</span><div>' + data.mapPlotData[index1].fulladdress + '</div></div>\
               <div class="drops-min"><i class="material-icons drops-min-color2">help_outline</i> <span>Ref:'+ data.mapPlotData[index1].cr + '</span><div>  <span>Job:</span> ' + data.mapPlotData[index1].job_type + '</div><div>  <span>Ticket:</span> ' + data.mapPlotData[index1].shipment_ticket + '</div></div>\
+              <div class="drops-min"><i class="material-icons drops-min-color2">visibility</i> <span><a href="" onClick ="document.mapCom.viewDetailsFromMap(\'' + index1 + '\',\'' + data.mapPlotData[index1].drop_type + '\')" data-toggle="modal" data-target="#Modal4">View Details</a></span></div>\
               <div class="drops-line"></div>\
               <div class="drops-min"><i class="material-icons drops-min-color3">local_car_wash</i> <span>'+ data.mapPlotData[index1].driver_name + '</span><div>\
               <div class="postion-set">\
@@ -215,9 +218,9 @@ export class DashboardService {
     if (vechileType) {
       if (vechileType.toLowerCase() == 'van' || vechileType.toLowerCase() == 'car') {
         return 'mini-van'
-      } else if (vechileType.toLowerCase() == 'bike' || vechileType.toLowerCase() == 'motorbike') {
+      } else if (vechileType.toLowerCase() == 'bike' || vechileType.toLowerCase() == 'motorbike' || vechileType.toLowerCase() == 'pushbike') {
         return 'motorbike';
-      } else if (vechileType.toLowerCase() == 'cycle' || vechileType.toLowerCase() == 'pushbike' || vechileType.toLowerCase() == 'bycycle') {
+      } else if (vechileType.toLowerCase() == 'cycle' || vechileType.toLowerCase() == 'bycycle' || vechileType.toLowerCase() == 'cargobike') {
         return 'cycle'
       } else {
         return 'mini-van'
@@ -309,6 +312,8 @@ export class DashboardService {
         catchError(this.handleError)
       )
   }
+
+  
 
 
 }

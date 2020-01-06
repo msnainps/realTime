@@ -4,6 +4,8 @@ import { SidenavLeftOperationComponent } from './sidenav-left-operation/sidenav-
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DashboardComponent } from '../dashboard.component';
+import { formatDate } from '@angular/common';
+import { config } from 'src/config/config';
 
 
 
@@ -16,6 +18,7 @@ import { DashboardComponent } from '../dashboard.component';
 })
 export class SidenavLeftComponent implements OnInit {
 
+  configSettings = new config;
   shipment_ticket:any;
   shipment_route_name:any;
   shipment_route_id:any;
@@ -27,7 +30,14 @@ export class SidenavLeftComponent implements OnInit {
  
   
   @Input() sidebarLeftNavOp:SidenavLeftOperationComponent; //Send Data to SidenavLeftOperationComponent
-  constructor(private sidenaveleftService:SidenavLeftService,private toastr: ToastrService,private spinerService: NgxSpinnerService,private dashboradCmp:DashboardComponent) { }
+  constructor(
+    private sidenaveleftService:SidenavLeftService,
+    private toastr: ToastrService,
+    private spinerService: NgxSpinnerService,
+    private dashboradCmp:DashboardComponent
+    ) { 
+     this.dashboradCmp.sideNavLeft=this;
+    }
 
   ngOnInit() {
     this.sidenaveleftService.getAssignDropData();
@@ -44,10 +54,18 @@ export class SidenavLeftComponent implements OnInit {
     this.sidebarLeftNavOp.shipment_route_id = shipmentRouteId;
   }
 
-  assignJob(shipmentTicket,laodIdentity,shipmentRouteName){
+  assignJob(shipmentTicket,laodIdentity,collection_date){
+    console.log(collection_date);
     //Fill RouteName and Todays Date
     //this.sidebarLeftNavOp.assignDriverFormModel.route_name = shipmentRouteName;
-    this.sidebarLeftNavOp.assignDriverFormModel.assign_date_time = new Date();
+   
+    if (this.configSettings.env.country_code.toLowerCase() == 'us' || this.configSettings.env.country_code.toLowerCase() == 'usa') {
+      var dt =  formatDate(new Date(collection_date), 'MM-dd-yyyy hh:mm:ss a', 'en-US', '+0530');  
+    } else {
+      var dt =  formatDate(new Date(collection_date), 'dd-MM-yyyy hh:mm:ss a', 'en-US', '+0530');
+    }
+    
+    this.sidebarLeftNavOp.assignDriverFormModel.assign_date_time = new Date(dt);
     
 
     this.sidebarLeftNavOp.showHideModal = 'block';
@@ -58,8 +76,9 @@ export class SidenavLeftComponent implements OnInit {
 
     //get All Ticket
     this.sidenaveleftService.getAllTickets(shipmentTicket,laodIdentity).subscribe(res => {
-      if(res.ticket_list.length > 0){
-      this.sidebarLeftNavOp.assignDriverFormModel.shipment_ticket = res.ticket_list[0]['tktList'];
+      if(res.shipmentKey){
+      this.sidebarLeftNavOp.assignDriverFormModel.shipment_ticket = res.shipmentKey;
+      this.sidebarLeftNavOp.tmpRouteName = res.routeName;
       }else{
         this.toastr.info('You can not assign driver to this job !!', '', {
           closeButton: true, positionClass: 'toast-top-right', timeOut: 4000
@@ -94,6 +113,8 @@ export class SidenavLeftComponent implements OnInit {
     }else{
       param = data.shipment_routed_id;
     }
+    
+   
 
     this.sidebarLeftNavOp.selectedIndex = 0; //Show Active view details Tab
 
@@ -110,10 +131,11 @@ export class SidenavLeftComponent implements OnInit {
       }
      }
      this.spinerService.hide('view-details');
+     this.sidebarLeftNavOp.totalJobItem = resp.totalItem[0].total_item;
     });
 
     //get Disputed List && get Assign Route List 
-    if(type == 'unassign'){
+    if(type == 'unassign' || type == 'unassinged'){
       this.sidenaveleftService.getDispuedList().subscribe(resp => {
         this.sidebarLeftNavOp.disputedList = JSON.parse(resp).message;
       });
@@ -124,7 +146,7 @@ export class SidenavLeftComponent implements OnInit {
     }
 
    //Used to get traking info
-    this.sidebarLeftNavOp.trakingInfoRequiredData = data; 
+    this.sidebarLeftNavOp.trakingInfoRequiredData = data;
 
   }
 

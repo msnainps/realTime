@@ -64,6 +64,8 @@ export class SidenavLeftOperationComponent implements OnInit {
   public selectedIndex: number = 0;
   trakingInfoRequiredData;
   trakingCallStatus=false;
+  tmpRouteName;
+  totalJobItem;
 
 
   //Grid headers
@@ -143,7 +145,7 @@ export class SidenavLeftOperationComponent implements OnInit {
 
     //Driver Assign Form Validation
     this.assignDriverFormVal = this.formBuilder.group({
-      route_name: ['', Validators.required],
+      route_name: [''],
       driver_id: ['', Validators.required],
       assign_date_time: ['', Validators.required]
     });
@@ -258,7 +260,7 @@ export class SidenavLeftOperationComponent implements OnInit {
       color: "white"
     });
 
-    this.sidenavleftservice.sameDayAssignedRoute(this.assignDriverFormModel).subscribe(val => {
+    this.sidenavleftservice.sameDayAssignedRoute(this.assignDriverFormModel,this.tmpRouteName).subscribe(val => {
 
       this.showHideModal = 'none';
       document.querySelector(".modal-backdrop").remove();
