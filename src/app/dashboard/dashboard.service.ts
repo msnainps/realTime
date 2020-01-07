@@ -23,7 +23,7 @@ export class DashboardService {
   access_token = this.configSettings.env.icargo_access_token;
   public markerList: any = new Array();
   routeData: any;
-  mapData:any;
+  mapData: any;
   //socket;
   notiFicationResponce;
   observer: Observer<any>;
@@ -121,11 +121,15 @@ export class DashboardService {
   }
 
   loadDropOnMapsEmit() {
-   
+
     this.socket.websocket.emit('req-all-drops', { search_date: '', warehouse_id: this.wairehouseId, company_id: this.companyId });
   }
 
   loadDriverData() {
+
+    //Get Driver Info from fire base before gps location
+    this.getDriverInfoFromUserNode();
+
     this.socket.drivergpssocket.on('offline-data-process', driverData => {
       var driverDataGps = (JSON.parse(driverData));
       if (driverDataGps.source == 'gps-location') {
@@ -155,7 +159,7 @@ export class DashboardService {
             'execution_order': driverData.payload.userId,
             'driver_id': driverData.payload.userId,
             'battery_status': driverData.payload.batteryStatus,
-            'name': driverData.payload.profileName,
+            'name': this.getDriverNameInitials(driverData.payload.profileName),
             'last_sync_time': driverData.payload.time
           },
           'geometry': {
@@ -179,7 +183,7 @@ export class DashboardService {
           'execution_order': driverData.payload.userId,
           'driver_id': driverData.payload.userId,
           'battery_status': driverData.payload.batteryStatus,
-          'name': driverData.payload.profileName,
+          'name': this.getDriverNameInitials(driverData.payload.profileName),
           'last_sync_time': driverData.payload.time
         },
         'geometry': {
@@ -193,8 +197,8 @@ export class DashboardService {
 
       this.driverInfo.features.push(newDriverfeatures);
     }
+    //console.log(this.driverInfo.features);
     this.formatedDataDriver.data.features = this.driverInfo.features;
-    //console.log(JSON.stringify(this.formatedData));
     if (this.mapbox.map.getSource('drivers') != undefined) {
       this.mapbox.map.getSource('drivers').setData(this.formatedDataDriver.data);
     }
@@ -313,7 +317,79 @@ export class DashboardService {
       )
   }
 
-  
+  //Show driver secod name initials
+  getDriverNameInitials(drivareName) {
+    if (drivareName) {
+      var dname = drivareName;
+      dname = dname.split(" ");
+      var fullname = '';
+      if (dname.length > 1) {
+        fullname = dname[0] + ' ' + dname[1].charAt(0);
+        return fullname;
+      } else {
+        fullname = dname[0];
+        return fullname;
+      }
+    } else {
+      return '';
+    }
+
+  }
+
+
+  /**
+   * Get Driver Details from Firebase User node
+   */
+  getDriverInfoFromUserNode() {
+    let driverUserNodeStatus = false;
+    if (driverUserNodeStatus == false) {
+      this.socket.drivergpssocket.on('driver-info', ds => {
+        driverUserNodeStatus = true;
+        console.log("-----Driver User Node Data----");
+        console.log(ds);
+        console.log("-----Driver User Node Data----");
+        if (ds.length) {
+          for (var dInfo in ds) {
+            var newDriverfeatures = {
+              'type': 'Feature',
+              "uid": ds[dInfo]['userId'],
+              'properties': {
+                'description':
+                  ds[dInfo]['userId'],
+                'icon':this.vechileType(''),
+                'execution_order': '',
+                'driver_id': ds[dInfo]['userId'],
+                'battery_status': '',
+                'name': this.getDriverNameInitials(ds[dInfo]['profileName']),
+                'last_sync_time': ds[dInfo]['time']
+              },
+              'geometry': {
+                'type': 'Point',
+                'coordinates': [
+                  ds[dInfo]['longitude'],
+                  ds[dInfo]['latitude']
+                ]
+              }
+            };
+
+            this.driverInfo.features.push(newDriverfeatures);
+            this.formatedDataDriver.data.features = this.driverInfo.features;
+            if (this.mapbox.map.getSource('drivers') != undefined) {
+              this.mapbox.map.getSource('drivers').setData(this.formatedDataDriver.data);
+            }
+          }
+        }
+
+      })
+    }
+
+  }
+
+
+  // vechileTypeName(driverId,companyId){
+  //   console.log(driverId);
+  // }
+
 
 
 }

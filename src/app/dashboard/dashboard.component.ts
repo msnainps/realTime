@@ -181,6 +181,8 @@ export class DashboardComponent implements OnInit {
       document.mapCom.shipmentInfo.assigned_driver = res.tktInfo[0].assigned_driver;
       document.mapCom.shipmentInfo.shipment_routed_id = res.tktInfo[0].shipment_routed_id;
       document.mapCom.shipmentInfo.instaDispatch_loadIdentity = res.tktInfo[0].instaDispatch_loadIdentity;
+      document.mapCom.shipmentInfo.booking_type = res.tktInfo[0].instaDispatch_loadGroupTypeCode;
+      document.mapCom.shipmentInfo.is_internal = res.tktInfo[0].is_internal;
       if(res.tktInfo[0].assigned_driver == 0){
         document.mapCom.shipmentInfo.drop_type = 'unassinged';
       }else if(res.tktInfo[0].assigned_driver && res.tktInfo[0].shipment_routed_id){
@@ -463,6 +465,7 @@ export class DashboardComponent implements OnInit {
     })
   }
 
+  //Show View Details When one shipment on one address
   viewDetailsFromMap(index,type){
     if(type == 'unassinged'){
       type = 'unassign';
@@ -472,9 +475,12 @@ export class DashboardComponent implements OnInit {
     this.sideNavLeft.viewDetails(this.dashboardService.mapData.mapPlotData[index],type);
   }
 
+  //Show View Details When multiple shipment on one address
   viewDetailsFromSameCordinate(){
-    //console.log(document.mapCom.shipmentInfo);
+    //This value is getting from getTktInfo();
     var type = document.mapCom.shipmentInfo.drop_type;
+    //Hide modal
+    document.mapCom.showHideModal = 'none'; 
     if(type == 'unassinged'){
       type = 'unassign';
     }else if(type == 'assinged'){

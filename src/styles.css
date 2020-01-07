@@ -957,3 +957,8 @@ top: 7px;
   overflow: hidden;
   height: 17px;
 }
+@media only screen and(min-width: 600px) and (max-width: 1600px){
+  .modal-dialog.modal-dialog2 {
+     margin: 1.75rem 20px;
+  }
+  }

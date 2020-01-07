@@ -749,14 +749,13 @@ export class SidenavLeftOperationComponent implements OnInit {
 
   //get Traking Info by on click on traking tab
   getTrakingInfo(e, data) {
-    
     if (e.index == 1 && e.tab.textLabel == 'Tracking' && !this.trakingCallStatus) {
       this.rowDataTrakingInfo = '';//Reset Traking Info row data
-      this.spinerService.show("traking-details", {
-        type: "line-scale-party",
-        size: "large",
-        color: "white"
-      });
+      // this.spinerService.show("traking-details", {
+      //   type: "line-scale-party",
+      //   size: "large",
+      //   color: "white"
+      // });
       var Jtypes = data.booking_type.toLowerCase();
       if (Jtypes == 'next' || Jtypes == 'same') {
         this.sidenavleftservice.getShipmentTrakingInfo(data.instaDispatch_loadIdentity, data.is_internal, data.booking_type).subscribe(resp => {
