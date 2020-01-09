@@ -519,6 +519,17 @@ table button.mat-raised-button{
   line-height: 13px;
   
 }
+
+.drops-min.sec-div-drop div{
+  margin-left: 34px;
+  font-size: 11px;
+  font-weight: normal;
+  /* margin-top: -9px; */
+  letter-spacing: 0.5px;
+  width: 100%;
+  line-height: 13px;
+  
+}
 /* .drops-min {
   background: #fff;
   border: none;
@@ -962,3 +973,6 @@ top: 7px;
      margin: 1.75rem 20px;
   }
   }
+.driver-align{
+  width: 85px;
+}

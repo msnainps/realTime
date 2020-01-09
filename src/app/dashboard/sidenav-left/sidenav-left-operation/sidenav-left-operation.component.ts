@@ -63,10 +63,13 @@ export class SidenavLeftOperationComponent implements OnInit {
   drop_type: any;
   public selectedIndex: number = 0;
   trakingInfoRequiredData;
-  trakingCallStatus=false;
+  trakingCallStatus = false;
   tmpRouteName;
   totalJobItem;
-
+  private gridApi;
+  overlayLoadingTemplate;
+  customerAccountNumber;
+  loadIdentity;
 
   //Grid headers
   columnDefs = [
@@ -124,7 +127,8 @@ export class SidenavLeftOperationComponent implements OnInit {
       dateTimeAdapter.setLocale('en-IN');
     }
     this.defaultColDef = { resizable: true };
-
+    this.overlayLoadingTemplate =
+      '<span style="color:#33225A;font-size:14px;font-weight:bold;" class="ag-overlay-loading-center">Loading Tracking Data ....</span>';
 
   }
 
@@ -260,7 +264,7 @@ export class SidenavLeftOperationComponent implements OnInit {
       color: "white"
     });
 
-    this.sidenavleftservice.sameDayAssignedRoute(this.assignDriverFormModel,this.tmpRouteName).subscribe(val => {
+    this.sidenavleftservice.sameDayAssignedRoute(this.assignDriverFormModel, this.tmpRouteName).subscribe(val => {
 
       this.showHideModal = 'none';
       document.querySelector(".modal-backdrop").remove();
@@ -749,17 +753,14 @@ export class SidenavLeftOperationComponent implements OnInit {
 
   //get Traking Info by on click on traking tab
   getTrakingInfo(e, data) {
+
     if (e.index == 1 && e.tab.textLabel == 'Tracking' && !this.trakingCallStatus) {
+
+      this.gridApi.showLoadingOverlay();
       this.rowDataTrakingInfo = '';//Reset Traking Info row data
-      // this.spinerService.show("traking-details", {
-      //   type: "line-scale-party",
-      //   size: "large",
-      //   color: "white"
-      // });
       var Jtypes = data.booking_type.toLowerCase();
       if (Jtypes == 'next' || Jtypes == 'same') {
         this.sidenavleftservice.getShipmentTrakingInfo(data.instaDispatch_loadIdentity, data.is_internal, data.booking_type).subscribe(resp => {
-          this.spinerService.hide('traking-details');
           var strArray = resp.split(".");
           this.trakingCallStatus = true;
           var decodeBAse64 = JSON.parse(atob(strArray[1]));
@@ -773,6 +774,50 @@ export class SidenavLeftOperationComponent implements OnInit {
     }
   }
 
+  //Show grid loader while fetch tracking data
+  onGridReadyTracking(params) {
+    this.gridApi = params.api;
+  }
 
+  /**
+   * Download and create pod label
+   */
+  downloadPodLabel() {
+    if (this.customerAccountNumber && this.loadIdentity) {
+      this.spinerService.show("podlabel", {
+        type: "line-scale-party",
+        size: "large",
+        color: "white"
+      });
+      
+      this.sidenavleftservice.getPodLabel(this.customerAccountNumber, this.loadIdentity, this.booking_type).subscribe(resp => {
+        this.spinerService.hide("podlabel");
+        var strArray = resp.split(".");
+        this.trakingCallStatus = true;
+        var decodeBAse64 = JSON.parse(atob(strArray[1]));
+        if(decodeBAse64.status == 'success'){
+          console.log(decodeBAse64.pod_path);
+          //window.location.href = decodeBAse64.pod_path;
+          var evt = new MouseEvent('click', {
+            'view': window,
+            'bubbles': true,
+            'cancelable': false
+        });
+        var save = document.createElement('a');
+            save.href = decodeBAse64.pod_path;
+            save.target = '_blank';
+            var filename = decodeBAse64.pod_path.substring(decodeBAse64.pod_path.lastIndexOf('/')+1);
+            save.download = 'test' || filename;
+        save.dispatchEvent(evt);
+        (window.URL).revokeObjectURL(save.href);
+        }
+      },
+      error => {
+        this.spinerService.hide("podlabel");
+        console.log(error);
+      },
+      );
+    }
+  }
 
 }

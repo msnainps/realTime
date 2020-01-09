@@ -183,11 +183,16 @@ export class DashboardComponent implements OnInit {
       document.mapCom.shipmentInfo.instaDispatch_loadIdentity = res.tktInfo[0].instaDispatch_loadIdentity;
       document.mapCom.shipmentInfo.booking_type = res.tktInfo[0].instaDispatch_loadGroupTypeCode;
       document.mapCom.shipmentInfo.is_internal = res.tktInfo[0].is_internal;
+      document.mapCom.shipmentInfo.eta = res.tktInfo[0].travel_time;
+      document.mapCom.shipmentInfo.shipment_instruction = res.tktInfo[0].shipment_instruction;
+      document.mapCom.shipmentInfo.customer_id = res.tktInfo[0].customer_id;
+      document.mapCom.shipmentInfo.job_customer_ref = res.dropDataServiceInfo.job_customer_ref;
+      document.mapCom.shipmentInfo.job_service_name = res.dropDataServiceInfo.job_service_name;
       if(res.tktInfo[0].assigned_driver == 0){
         document.mapCom.shipmentInfo.drop_type = 'unassinged';
-      }else if(res.tktInfo[0].assigned_driver && res.tktInfo[0].shipment_routed_id){
+      }else if(res.tktInfo[0].assigned_driver && res.tktInfo[0].shipment_routed_id && res.tktInfo[0].current_status != 'D'){
         document.mapCom.shipmentInfo.drop_type = 'assinged';
-      }else if(res.tktInfo[0].assigned_driver && res.tktInfo[0].shipment_routed_id && res.tktInfo[0].shipment_routed_id.current_status == 'D'){
+      }else if(res.tktInfo[0].assigned_driver && res.tktInfo[0].shipment_routed_id && res.tktInfo[0].current_status == 'D'){
         document.mapCom.shipmentInfo.drop_type = 'completed';
       }
     }, error => {

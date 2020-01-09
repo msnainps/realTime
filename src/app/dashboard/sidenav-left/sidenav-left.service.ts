@@ -191,13 +191,14 @@ export class SidenavLeftService {
   }
 
   //Get All Route Details
-  getRouteDetails = (routeId,type) => {
+  getRouteDetails = (param,type) => {
     this.socket.websocket.emit('req-route-details-grid', 
       {
        warehouse_id: this.wairehouseId,
        company_id: this.companyId,
-       routedId:routeId,
-       route_type:type
+       routedId:param.routeId,
+       route_type:type,
+       customer_id:param.customer_id
       }
     );
     return Observable.create(observer => {
@@ -482,6 +483,51 @@ export class SidenavLeftService {
         observer.next(data);
       });
     });
+  }
+
+
+  /**
+   * Generate POD
+   * @param customerAccount 
+   * @param loadIdentity 
+   * @param booking_type 
+   */
+  
+  getPodLabel(customerAccount,loadIdentity,booking_type):Observable<any>{
+
+    this.routeData = {
+      'endPointUrl': 'downloadPod',
+      'account': customerAccount,
+      'load_identity': loadIdentity,
+      'company_id': '' + this.companyId,
+      'warehouse_id': '' + this.wairehouseId,
+      'email': this.email,
+      'access_token': this.access_token,
+      'job_type':booking_type,
+      "timezone_name":Intl.DateTimeFormat().resolvedOptions().timeZone
+    }
+
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.http.post(this.iacrgoApiUrl + this.routeData.endPointUrl,JSON.stringify(this.routeData),{
+      "headers": headers,
+      responseType: 'text' as 'json'
+    }).pipe(
+      retry(1),
+      map(data => {
+        return data;
+      }),
+      catchError((error: HttpErrorResponse) => {
+        if (error.error instanceof Error) {
+          // A client-side or network error occurred. Handle it accordingly.
+          console.error('An error occurred:', error.error.message);
+        } else {
+          console.error(`Backend returned code ${error.status}, body was: ${error.error}`);
+          return `${error.status}`;
+        }
+        return EMPTY;
+      })
+    );
+    
   }
 
 }

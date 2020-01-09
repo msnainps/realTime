@@ -88,7 +88,15 @@ export class DashboardService {
               (data.mapPlotData[index1].drop_type == 'same-coord' ? data.mapPlotData[index1].shipmentTicketList :
                 '<div class="drops-headding">' + data.mapPlotData[index1].route_name + '</div>\
               <div class="drops-min"><i class="material-icons drops-min-color1">home</i> <span>'+ data.mapPlotData[index1].customer_name + '</span><div>' + data.mapPlotData[index1].fulladdress + '</div></div>\
-              <div class="drops-min"><i class="material-icons drops-min-color2">help_outline</i> <span>Ref:'+ data.mapPlotData[index1].cr + '</span><div>  <span>Job:</span> ' + data.mapPlotData[index1].job_type + '</div><div>  <span>Ticket:</span> ' + data.mapPlotData[index1].shipment_ticket + '</div></div>\
+              <div class="drops-min sec-div-drop"><i class="material-icons drops-min-color2">help_outline</i>\
+              <div><span>Ref:</span> '+ data.mapPlotData[index1].job_customer_ref + '</div>\
+              <div><span>Service Type:</span> ' + data.mapPlotData[index1].job_service_name + '</div>\
+              <div><span>Job:</span> ' + data.mapPlotData[index1].job_type + '</div>\
+              <div><span>Ticket:</span> ' + data.mapPlotData[index1].shipment_ticket + '</div>\
+              <div><span>Tracking No:</span> ' + data.mapPlotData[index1].instaDispatch_loadIdentity + '</div>\
+              <div><span>ETA:</span> ' + data.mapPlotData[index1].travel_time + ' Minutes' + '</div>\
+              <div><span>Instruction:</span> ' + data.mapPlotData[index1].shipment_instruction + '</div>\
+              </div>\
               <div class="drops-min"><i class="material-icons drops-min-color2">visibility</i> <span><a href="" onClick ="document.mapCom.viewDetailsFromMap(\'' + index1 + '\',\'' + data.mapPlotData[index1].drop_type + '\')" data-toggle="modal" data-target="#Modal4">View Details</a></span></div>\
               <div class="drops-line"></div>\
               <div class="drops-min"><i class="material-icons drops-min-color3">local_car_wash</i> <span>'+ data.mapPlotData[index1].driver_name + '</span><div>\
@@ -220,12 +228,14 @@ export class DashboardService {
 
   vechileType(vechileType: any) {
     if (vechileType) {
-      if (vechileType.toLowerCase() == 'van' || vechileType.toLowerCase() == 'car') {
+      if (vechileType.toLowerCase() == 'van' || vechileType.toLowerCase() == 'car' || vechileType.toLowerCase() == 'minivan' || vechileType.toLowerCase() == 'mini van') {
         return 'mini-van'
       } else if (vechileType.toLowerCase() == 'bike' || vechileType.toLowerCase() == 'motorbike' || vechileType.toLowerCase() == 'pushbike') {
         return 'motorbike';
       } else if (vechileType.toLowerCase() == 'cycle' || vechileType.toLowerCase() == 'bycycle' || vechileType.toLowerCase() == 'cargobike') {
-        return 'cycle'
+        return 'cycle';
+      } else if (vechileType.toLowerCase() == 'lbw' || vechileType.toLowerCase() == 'large van' || vechileType.toLowerCase() == 'largevan') {
+        return 'largevan';
       } else {
         return 'mini-van'
       }
@@ -356,10 +366,10 @@ export class DashboardService {
               'properties': {
                 'description':
                   ds[dInfo]['userId'],
-                'icon':this.vechileType(''),
+                'icon': this.vechileType(ds[dInfo]['vechileType']),
                 'execution_order': '',
                 'driver_id': ds[dInfo]['userId'],
-                'battery_status': '',
+                'battery_status': ds[dInfo]['battery_status'],
                 'name': this.getDriverNameInitials(ds[dInfo]['profileName']),
                 'last_sync_time': ds[dInfo]['time']
               },
@@ -371,7 +381,7 @@ export class DashboardService {
                 ]
               }
             };
-
+            
             this.driverInfo.features.push(newDriverfeatures);
             this.formatedDataDriver.data.features = this.driverInfo.features;
             if (this.mapbox.map.getSource('drivers') != undefined) {
@@ -382,14 +392,6 @@ export class DashboardService {
 
       })
     }
-
+    
   }
-
-
-  // vechileTypeName(driverId,companyId){
-  //   console.log(driverId);
-  // }
-
-
-
 }

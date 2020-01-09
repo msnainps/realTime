@@ -62,18 +62,19 @@
 <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" type="ball-spin-clockwise" name='view-details'>
   <p style="color: white">Loading Details ....</p>
 </ngx-spinner>
-<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" type="ball-spin-clockwise" name='header-search'>
-  <p style="color: white">Searching ....</p>
-</ngx-spinner>
 <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" type="ball-spin-clockwise" name='get-filter'>
   <p style="color: white">Filter Data ....</p>
 </ngx-spinner>
 <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" type="ball-spin-clockwise" name='loadMap'>
   <p style="color: white">Loading Map Data ....</p>
 </ngx-spinner>
-<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" type="ball-spin-clockwise" name='traking-details'>
-  <p style="color: white">Tracking Info ....</p>
+<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" type="ball-spin-clockwise" name='podlabel'>
+  <p style="color: white">
+   <i class="material-icons">
+    picture_as_pdf
+  </i> Generating POD Label ....</p>
 </ngx-spinner>
+
 
 
 
@@ -91,9 +92,14 @@
         <div class="drops-min"><i class="material-icons drops-min-color1">home</i> <span>{{shipmentInfo.customerName}}</span>
           <div>{{shipmentInfo.address}}</div>
         </div>
-        <div class="drops-min"><i class="material-icons drops-min-color2">help_outline</i> <span>Ref:{{shipmentInfo.customerReference}}</span>
+        <div class="drops-min sec-div-drop"><i class="material-icons drops-min-color2">help_outline</i>
+          <div><span>Ref:</span>{{shipmentInfo.job_customer_ref}}</div>
+          <div><span>Service Type:</span> {{shipmentInfo.job_service_name}}</div>
           <div><span>Job:</span> {{shipmentInfo.jobType}}</div>
           <div><span>Ticket:</span> {{shipmentInfo.ticket}}</div>
+          <div><span>Tracking No:</span> {{shipmentInfo.instaDispatch_loadIdentity}}</div>
+          <div><span>ETA:</span> {{shipmentInfo.eta}} Minute</div>
+          <div><span>Instruction:</span> {{shipmentInfo.shipment_instruction}}</div>
         </div>
         <div class="drops-min"><i class="material-icons drops-min-color2">visibility</i> 
           <span><a href="" onClick ="document.mapCom.viewDetailsFromSameCordinate()" data-toggle="modal" data-target="#Modal4">View Details</a></span>

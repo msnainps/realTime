@@ -38,8 +38,9 @@ export class HeaderComponent implements OnInit {
   searchedValue;
   selectedDateRange = {}
   dateDeleteBtn = false;
- 
-
+  private gridApiSearch;
+  overlayLoadingTemplateSearch;
+  
 
   //Grid headers
   columnDefs = [
@@ -52,8 +53,12 @@ export class HeaderComponent implements OnInit {
     { headerName: 'Postcode', field: 'postcode', width: 120, sortable: true, filter: true },
     { headerName: 'Shipment Ticket', field: 'shipment_ticket', width: 150, sortable: true, filter: true },
     { headerName: 'Route Name', field: 'route_name', width: 100, sortable: true, filter: true },
-    { headerName: 'Driver Name', field: 'driver_name', width: 100, sortable: true, filter: true }
-    // { headerName: 'Action', field: 'action' },
+    { headerName: 'Driver Name', field: 'driver_name', width: 100, sortable: true, filter: true },
+    {
+      headerName: 'Details',
+      cellRenderer: this.viewDetailsFromHeaderSearch,
+      width: 150
+    }
   ];
 
 
@@ -74,6 +79,9 @@ export class HeaderComponent implements OnInit {
     this.headreSearch.searchvalue = '';
     this.defaultColDef = { resizable: true };
     this.paginationPageSize = 15;
+    this.overlayLoadingTemplateSearch =
+      '<span style="color:#33225A;font-size:14px;font-weight:bold;" class="ag-overlay-loading-center">Searching ....</span>';
+    
   }
 
 
@@ -103,15 +111,10 @@ export class HeaderComponent implements OnInit {
   }
 
   getSearchRecord() {
-    this.spinerService.show("header-search", {
-      type: "line-scale-party",
-      size: "large",
-      color: "white"
-    });
-
-    this.rowData = '';
+    
+    //this.rowData = '';
     var searchFileds = this.headreSearch;
-
+    
     if(!this.headreSearch.searchvalue){
       this.toastr.error('search value is required !', '', {
         closeButton: true, positionClass: 'toast-top-right', timeOut: 4000
@@ -119,19 +122,22 @@ export class HeaderComponent implements OnInit {
       //this.searchedDate = '';
       this.searchedValue = '';
       this.spinerService.hide('header-search');
+      this.rowData = '';
+      this.gridApiSearch.showNoRowsOverlay();
       return ''
+    }else{
+      this.gridApiSearch.showLoadingOverlay(); 
     }
    
     
 
     //this.searchedDate = formatDate(new Date(searchFileds.searchdate), 'dd-MM-yyyy', 'en-US', '+0530');
     this.searchedValue = searchFileds.searchvalue;
-
     this.headerService.getSearchResult(this.headreSearch).subscribe(val => {
-      this.spinerService.hide('header-search');
       var data: any = JSON.parse(val);
       if (Object.keys(data.message).length === 0) {
         this.rowData = '';
+        this.gridApiSearch.showNoRowsOverlay();
       } else {
         this.rowData = data.message;
       }
@@ -180,5 +186,22 @@ export class HeaderComponent implements OnInit {
       this.dashboardService.loadDropOnMapsEmit();
     });
   }
+
+   //Show grid loader while fetch tracking data
+   onGridReadySearching(params){
+    this.gridApiSearch = params.api;
+   }
+
+   //Open View Details from header search
+   viewDetailsFromHeaderSearch(param){
+     return '<a href="" (click)="showViewDetails()" data-toggle="modal" data-target="#Modal4">Details</a>'
+   }
+
+   showViewDetails(){
+     console.log('tests');
+   }
+
+
+   
   
 }

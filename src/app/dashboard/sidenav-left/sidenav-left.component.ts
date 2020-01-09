@@ -27,6 +27,7 @@ export class SidenavLeftComponent implements OnInit {
   rowData:any;
   routeName:any;
   driverName:any;
+  param:any = {};
  
   
   @Input() sidebarLeftNavOp:SidenavLeftOperationComponent; //Send Data to SidenavLeftOperationComponent
@@ -55,7 +56,7 @@ export class SidenavLeftComponent implements OnInit {
   }
 
   assignJob(shipmentTicket,laodIdentity,collection_date){
-    console.log(collection_date);
+    
     //Fill RouteName and Todays Date
     //this.sidebarLeftNavOp.assignDriverFormModel.route_name = shipmentRouteName;
    
@@ -104,22 +105,25 @@ export class SidenavLeftComponent implements OnInit {
     this.sidebarLeftNavOp.releaseShipmentTkt = '';//Reset selected checkbox from grid
     this.sidebarLeftNavOp.routeType = type;
     this.sidebarLeftNavOp.shipment_route_id = data.shipment_routed_id; //Used while download PDF
-    this.sidebarLeftNavOp.booking_type = data.booking_type //Used while diputed and Roteassign
+    this.sidebarLeftNavOp.booking_type = data.booking_type //Used while diputed and Ruteteassign and POD lable create
     this.sidebarLeftNavOp.drop_type = data.drop_type
 
-    var param;
+    
     if(type == 'unassign'){
-      param = data.instaDispatch_loadIdentity;
+      this.param.routeId = data.instaDispatch_loadIdentity;
     }else{
-      param = data.shipment_routed_id;
+      this.param.routeId = data.shipment_routed_id;
     }
     
-   
+     //For POD download
+     this.param.customer_id = data.customer_id
+     this.sidebarLeftNavOp.loadIdentity = data.instaDispatch_loadIdentity;
+     
 
     this.sidebarLeftNavOp.selectedIndex = 0; //Show Active view details Tab
 
     //get View details data
-    this.sidenaveleftService.getRouteDetails(param,type).subscribe(resp => {
+    this.sidenaveleftService.getRouteDetails(this.param,type).subscribe(resp => {
       
       if(resp.routeDetailsData.length > 0){
       this.sidebarLeftNavOp.rowData = resp.routeDetailsData;
@@ -132,6 +136,11 @@ export class SidenavLeftComponent implements OnInit {
      }
      this.spinerService.hide('view-details');
      this.sidebarLeftNavOp.totalJobItem = resp.totalItem[0].total_item;
+     if(resp.accountNumber.length){
+     this.sidebarLeftNavOp.customerAccountNumber = resp.accountNumber[0].accountnumber
+     }else{
+      this.sidebarLeftNavOp.customerAccountNumber = '';
+     }
     });
 
     //get Disputed List && get Assign Route List 

@@ -135,25 +135,33 @@
           <button type="button" data-dismiss="modal">X</button>
         </div>
 
-        <mat-tab-group animationDuration="0ms" [(selectedIndex)]="selectedIndex" (selectedTabChange)="getTrakingInfo($event,trakingInfoRequiredData)">
+        <mat-tab-group animationDuration="0ms" [(selectedIndex)]="selectedIndex"
+          (selectedTabChange)="getTrakingInfo($event,trakingInfoRequiredData)">
           <mat-tab label="View Details">
             <div class="modal-footers modal-footers2 modal-footers-view-tab">
-              <button *ngIf="routeType=='assign'" (click)="processReleaseShipment()"
-                type="button" class="btn btn-primary">Release Shipment</button>
+              <button *ngIf="routeType=='assign'" (click)="processReleaseShipment()" type="button"
+                class="btn btn-primary">Release Shipment</button>
               <a *ngIf="routeType=='assign'" href="" (click)="validateDeliverShipment()" class="btn btn-primary"
                 data-toggle="modal" data-target="#Modal6" [attr.data-dismiss]="releaseShipmentTkt.length?modal:''">
                 <span>Deliver Shipment</span>
               </a>
-              <button *ngIf="booking_type != 'Vendor' && drop_type != 'unassinged'" type="button" class="btn btn-primary" (click)="downloadExportCageSheet()">Export
+              <button *ngIf="booking_type != 'Vendor' && drop_type != 'unassinged'" type="button"
+                class="btn btn-primary" (click)="downloadExportCageSheet()">Export
                 Cagesheet</button>
+
+              <button *ngIf="booking_type != 'Vendor'" type="button" class="btn btn-primary" (click)="downloadPodLabel()">
+                <i class="material-icons">
+                  picture_as_pdf
+                </i>Pod Label</button>
+
               <a *ngIf="routeType=='assign'" href="" (click)="validateCardedShipment()" class="btn btn-primary"
                 data-toggle="modal" data-target="#Modal5" [attr.data-dismiss]="releaseShipmentTkt.length?modal:''">
                 <span>Carded Shipment</span>
               </a>
 
 
-              <select *ngIf="routeType=='unassign'" [(ngModel)]="resetDisputed.action_id" class="btn btn-primary selection"
-                id="sel1" (change)="sendToDisputed($event.target.value)">
+              <select *ngIf="routeType=='unassign'" [(ngModel)]="resetDisputed.action_id"
+                class="btn btn-primary selection" id="sel1" (change)="sendToDisputed($event.target.value)">
                 <option [value]='0' selected="selected">--Disputed--</option>
                 <option *ngFor="let diputedCode of disputedList; let i = index" [value]="diputedCode.action_id">
                   {{diputedCode.action_name}}
@@ -171,24 +179,24 @@
             <div class="modal-body space-bitween ">
               <div style="width: 100%;" class="space-block">
                 <ng-container *ngIf="routeType !='unassign'">
-                <span>
-                  <h4>Route:</h4>{{routeName}}
-                </span>
+                  <span>
+                    <h4>Route:</h4>{{routeName}}
+                  </span>
 
-                <span>
-                  <h4>Driver:</h4>{{driverName}}
-                </span>
+                  <span>
+                    <h4>Driver:</h4>{{driverName}}
+                  </span>
 
-                <span>
-                  <h4>Route Id:</h4>{{shipment_route_id}}
-                </span>
-              </ng-container>
+                  <span>
+                    <h4>Route Id:</h4>{{shipment_route_id}}
+                  </span>
+                </ng-container>
 
                 <span *ngIf="booking_type == 'Vendor' || booking_type == 'NEXT'">
                   <h4>Total Item:</h4>{{totalJobItem}}
                 </span>
               </div>
-              
+
 
               <div class="inner-set-section">
                 <ag-grid-angular style="width: auto; height: 500px;" class="ag-theme-balham" [rowData]="rowData"
@@ -204,11 +212,13 @@
           <!--Show Traking Info-->
           <mat-tab label="Tracking" *ngIf="booking_type != 'Vendor'">
             <div class="modal-body traking-details-grid">
-            <ag-grid-angular style="width: auto; height: 500px;" class="ag-theme-balham" [rowData]="rowDataTrakingInfo"
-              [columnDefs]="columnDefsTrakingInfo" [modules]="modules" [suppressRowClickSelection]="true"
-              [rowSelection]='selectionMode' [defaultColDef]="defaultColDef" [enableCellTextSelection]="true">
-            </ag-grid-angular>
-          </div>
+              <ag-grid-angular style="width: auto; height: 500px;" class="ag-theme-balham"
+                [rowData]="rowDataTrakingInfo" [columnDefs]="columnDefsTrakingInfo" [modules]="modules"
+                [suppressRowClickSelection]="true" [rowSelection]='selectionMode' [defaultColDef]="defaultColDef"
+                [enableCellTextSelection]="true" [overlayLoadingTemplate]="overlayLoadingTemplate"
+                (gridReady)="onGridReadyTracking($event)">
+              </ag-grid-angular>
+            </div>
           </mat-tab>
         </mat-tab-group>
       </div>

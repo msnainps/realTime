@@ -1,72 +1,83 @@
 <mat-accordion [multi]="true">
 
-        <mat-expansion-panel [expanded]="false" class="custom-accordian">
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        Unassigned ({{sidenaveleftService.dataList.unassignDropCount?sidenaveleftService.dataList.unassignDropCount:0}})
-                    </mat-panel-title>
-                    <mat-panel-description>
-        
-                        <!-- <mat-icon>account_circle</mat-icon> -->
-                    </mat-panel-description>
-                </mat-expansion-panel-header>
-                <ng-container *ngFor="let unassignData of sidenaveleftService.dataList.unassingedData">
-                    <ng-container *ngIf="unassignData.drop_type == 'unassinged'">
-                        
-                        <div class="main-left-panel unassigned">
-                            <div class="side-click" (click)="focusOnDrops(unassignData)">
-                            <div class="panel first">
-                                <h6><span class="material-icons" style="background:orange;border: 1px solid orange"></span>{{unassignData.customer_name}}</h6>
-                            </div>
-                            <!-- <div class="panel second">
-                        <h5> Paused</h5>
-                    </div> -->
-                            <div class="panel third fixed-width side-click-hand">
-                                <h6 *ngIf="unassignData.booking_type != 'Vendor'"><i class="material-icons"> explore </i>{{unassignData.booking_type}} DAY</h6>
-                                <h6 *ngIf="unassignData.booking_type == 'Vendor'"><i class="material-icons"> explore </i>Retail</h6>
-                            </div>
+    <mat-expansion-panel [expanded]="false" class="custom-accordian">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Unassigned
+                ({{sidenaveleftService.dataList.unassignDropCount?sidenaveleftService.dataList.unassignDropCount:0}})
+            </mat-panel-title>
+            <mat-panel-description>
 
-                            <div class="panel fourth side-click-hand set-one">
-                                <h6><i class="material-icons"> local_shipping </i>{{unassignData.total_drops}}</h6>
-                            </div>
+                <!-- <mat-icon>account_circle</mat-icon> -->
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+        <ng-container *ngFor="let unassignData of sidenaveleftService.dataList.unassingedData">
+            <ng-container *ngIf="unassignData.drop_type == 'unassinged'">
 
-                            <div class="panel fourth side-click-hand">
-                                <h6><i class="material-icons"> date_range </i>{{unassignData.collection_date}}</h6>
-                            </div>
-        
-                            <div class="panel fifth side-click-hand fifth-set">
-                                <!-- <h6><i class="material-icons"> directions_car </i>Meena</h6> -->
-                            </div>
+                <div class="main-left-panel unassigned">
+                    <div class="side-click" (click)="focusOnDrops(unassignData)">
+                        <div class="panel first">
+                            <h6><span class="material-icons"
+                                    style="background:orange;border: 1px solid orange"></span>{{unassignData.customer_name}}
+                            </h6>
                         </div>
-                            <div class="panel sixth">
-                                <a mat-button routerLink="." [matMenuTriggerFor]="menu"><i class="material-icons"> more_vert
-                                    </i></a>
-        
-                                <mat-menu #menu="matMenu">
-                                    <ul class="set-list">
-                                        <li><a href="" (click)="assignJob(unassignData.shipment_ticket,unassignData.instaDispatch_loadIdentity,unassignData.collection_date)" data-toggle="modal" data-target="#Modal1">
-                                                <mat-icon>how_to_reg</mat-icon> <span>Assign Job</span>
-                                            </a></li>
-                                        <li *ngIf="unassignData.booking_type != 'Vendor'"><a href="" (click)="cancelShipment(unassignData.instaDispatch_loadIdentity)" data-toggle="modal" data-target="#Modal2">
-                                                <mat-icon>cancel_presentation</mat-icon> <span>Cancel Job</span>
-                                            </a></li>
-                                        <li><a href="" (click)="viewDetails(unassignData,'unassign')" data-toggle="modal" data-target="#Modal4">
-                                                <mat-icon>remove_red_eye</mat-icon> <span>View Details</span>
-                                            </a></li>
-                                    </ul>
-                                </mat-menu>
-                            </div>
+                        <div class="panel first">
+                            <h6> {{unassignData.instaDispatch_loadIdentity}}</h6>
                         </div>
-                   
-                    </ng-container>
-                </ng-container>
-            </mat-expansion-panel>
+                        <div class="panel third fixed-width side-click-hand">
+                            <h6 *ngIf="unassignData.booking_type != 'Vendor'"><i class="material-icons"> explore
+                                </i>{{unassignData.booking_type}} DAY</h6>
+                            <h6 *ngIf="unassignData.booking_type == 'Vendor'"><i class="material-icons"> explore
+                                </i>Retail</h6>
+                        </div>
+
+                        <div class="panel fourth side-click-hand set-one">
+                            <h6><i class="material-icons"> local_shipping </i>{{unassignData.total_drops}}</h6>
+                        </div>
+
+                        <div class="panel fourth side-click-hand">
+                            <h6><i class="material-icons"> date_range </i>{{unassignData.collection_date}}</h6>
+                        </div>
+
+                        <div class="panel fifth side-click-hand fifth-set">
+                            <!-- <h6><i class="material-icons"> directions_car </i>Meena</h6> -->
+                        </div>
+                    </div>
+                    <div class="panel sixth">
+                        <a mat-button routerLink="." [matMenuTriggerFor]="menu"><i class="material-icons"> more_vert
+                            </i></a>
+
+                        <mat-menu #menu="matMenu">
+                            <ul class="set-list">
+                                <li><a href=""
+                                        (click)="assignJob(unassignData.shipment_ticket,unassignData.instaDispatch_loadIdentity,unassignData.collection_date)"
+                                        data-toggle="modal" data-target="#Modal1">
+                                        <mat-icon>how_to_reg</mat-icon> <span>Assign Job</span>
+                                    </a></li>
+                                <li *ngIf="unassignData.booking_type != 'Vendor'"><a href=""
+                                        (click)="cancelShipment(unassignData.instaDispatch_loadIdentity)"
+                                        data-toggle="modal" data-target="#Modal2">
+                                        <mat-icon>cancel_presentation</mat-icon> <span>Cancel Job</span>
+                                    </a></li>
+                                <li><a href="" (click)="viewDetails(unassignData,'unassign')" data-toggle="modal"
+                                        data-target="#Modal4">
+                                        <mat-icon>remove_red_eye</mat-icon> <span>View Details</span>
+                                    </a></li>
+                            </ul>
+                        </mat-menu>
+                    </div>
+                </div>
+
+            </ng-container>
+        </ng-container>
+    </mat-expansion-panel>
 
 
     <mat-expansion-panel [expanded]="false" class="custom-accordian">
         <mat-expansion-panel-header>
             <mat-panel-title>
-                Assigned ({{sidenaveleftService.dataList.assignDropCount?sidenaveleftService.dataList.assignDropCount:0}})
+                Assigned
+                ({{sidenaveleftService.dataList.assignDropCount?sidenaveleftService.dataList.assignDropCount:0}})
             </mat-panel-title>
             <mat-panel-description>
 
@@ -77,42 +88,49 @@
             <ng-container *ngIf="assignData.drop_type == 'assinged'">
                 <div class="main-left-panel assigned">
                     <div class="side-click" (click)="focusOnDrops(assignData)">
-                    <div class="panel first side-click-hand">
-                        <h6><span [ngStyle]="{ background: assignData.color_code_driver }" ></span>{{assignData.customer_name}}</h6>
-                    </div>
-                    <div class="panel second {{assignData.route_label | lowercase}} side-click-hand">
-                        <h5>{{assignData.route_label}}</h5>
-                    </div>
-                    <div class="panel third side-click-hand all-set">
-                        <h6><i class="material-icons"> explore </i>{{assignData.route_name}}</h6>
-                    </div>
-                    <div class="panel fourth side-click-hand set-one">
-                        <h6><i class="material-icons"> local_shipping </i>{{assignData.total_drops}}</h6>
-                    </div>
-                    <div class="panel fourth side-click-hand">
-                        <h6><i class="material-icons"> date_range </i>{{assignData.assign_date_time}}</h6>
-                    </div>
+                        <div class="panel first side-click-hand">
+                            <h6><span
+                                    [ngStyle]="{ background: assignData.color_code_driver }"></span>{{assignData.customer_name}}
+                            </h6>
+                        </div>
+                        <div class="panel second {{assignData.route_label | lowercase}} side-click-hand driver-align">
+                            <h5>{{assignData.route_label}}</h5>
+                        </div>
+                        <div class="panel third side-click-hand all-set">
+                            <h6><i class="material-icons"> explore </i>{{assignData.route_name}}</h6>
+                        </div>
+                        <div class="panel fourth side-click-hand set-one">
+                            <h6><i class="material-icons"> local_shipping </i>{{assignData.total_drops}}</h6>
+                        </div>
+                        <div class="panel fourth side-click-hand">
+                            <h6><i class="material-icons"> date_range </i>{{assignData.assign_date_time}}</h6>
+                        </div>
 
-                    <div class="panel fifth side-click-hand all-set">
-                        <h6><i class="material-icons"> directions_car </i>{{assignData.driver_name}}</h6>
-                    </div>
-                    <!-- <div class="panel sixth">
+                        <div class="panel fifth side-click-hand all-set">
+                            <h6><i class="material-icons"> directions_car </i>{{assignData.driver_name}}</h6>
+                        </div>
+                        <!-- <div class="panel sixth">
                         <a mat-button routerLink="."><i class="material-icons"> more_vert </i></a>
                     </div> -->
-                   </div>
+                    </div>
                     <div class="panel sixth">
                         <a mat-button routerLink="." [matMenuTriggerFor]="menu"><i class="material-icons"> more_vert
                             </i></a>
 
                         <mat-menu #menu="matMenu">
                             <ul class="set-list">
-                                <li *ngIf="assignData.booking_type != 'Vendor'"><a href="" (click)="cancelShipment(assignData.instaDispatch_loadIdentity)" data-toggle="modal" data-target="#Modal2">
+                                <li *ngIf="assignData.booking_type != 'Vendor'"><a href=""
+                                        (click)="cancelShipment(assignData.instaDispatch_loadIdentity)"
+                                        data-toggle="modal" data-target="#Modal2">
                                         <mat-icon>cancel_presentation</mat-icon> <span>Cancel Job</span>
                                     </a></li>
-                                <li><a href="" (click)="WithdrawRoute(assignData.route_name,assignData.shipment_routed_id)" data-toggle="modal" data-target="#Modal3">
+                                <li><a href=""
+                                        (click)="WithdrawRoute(assignData.route_name,assignData.shipment_routed_id)"
+                                        data-toggle="modal" data-target="#Modal3">
                                         <mat-icon>credit_card</mat-icon> <span>Withdraw</span>
                                     </a></li>
-                                <li><a href="" (click)="viewDetails(assignData,'assign')" data-toggle="modal" data-target="#Modal4">
+                                <li><a href="" (click)="viewDetails(assignData,'assign')" data-toggle="modal"
+                                        data-target="#Modal4">
                                         <mat-icon>remove_red_eye</mat-icon> <span>View Details</span>
                                     </a></li>
                             </ul>
@@ -127,7 +145,8 @@
     <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false" class="custom-accordian">
         <mat-expansion-panel-header>
             <mat-panel-title>
-                Completed ({{sidenaveleftService.dataList.completedDropCount?sidenaveleftService.dataList.completedDropCount:0}})
+                Completed
+                ({{sidenaveleftService.dataList.completedDropCount?sidenaveleftService.dataList.completedDropCount:0}})
             </mat-panel-title>
             <mat-panel-description>
 
@@ -139,38 +158,41 @@
             <ng-container *ngIf="completed.drop_type == 'completed'">
                 <div class="main-left-panel completed">
                     <div class="side-click" (click)="focusOnDrops(completed)">
-                    <div class="panel first side-click-hand">
-                        <h6><span [ngStyle]="{ background: completed.color_code_driver }"></span>{{completed.customer_name}}</h6>
-                    </div>
-                    <div class="panel second completed side-click-hand">
-                        <h5> {{completed.route_label}}</h5>
-                    </div>
-                    <div class="panel third side-click-hand all-set">
-                        <h6><i class="material-icons"> explore </i>{{completed.route_name}}</h6>
-                    </div>
-                    <div class="panel fourth side-click-hand set-one">
-                        <h6><i class="material-icons"> local_shipping </i>{{completed.total_drops}}</h6>
-                    </div>
-                    <div class="panel fourth side-click-hand">
-                        <h6><i class="material-icons"> date_range </i>{{completed.completed_date}}</h6>
-                    </div>
-
-                    <div class="panel fifth side-click-hand all-set">
-                        <h6><i class="material-icons"> directions_car </i>{{completed.driver_name}}</h6>
-                    </div>
-                </div>
-                    <div class="panel sixth">
-                            <a mat-button routerLink="." [matMenuTriggerFor]="menu"><i class="material-icons"> more_vert
-                                </i></a>
-    
-                            <mat-menu #menu="matMenu">
-                                <ul class="set-list">
-                                    <li><a href="" (click)="viewDetails(completed,'completed')" data-toggle="modal" data-target="#Modal4">
-                                            <mat-icon>remove_red_eye</mat-icon> <span>View Details</span>
-                                        </a></li>
-                                </ul>
-                            </mat-menu>
+                        <div class="panel first side-click-hand">
+                            <h6><span
+                                    [ngStyle]="{ background: completed.color_code_driver }"></span>{{completed.customer_name}}
+                            </h6>
                         </div>
+                        <div class="panel second completed side-click-hand driver-align">
+                            <h5> {{completed.route_label}}</h5>
+                        </div>
+                        <div class="panel third side-click-hand all-set">
+                            <h6><i class="material-icons"> explore </i>{{completed.route_name}}</h6>
+                        </div>
+                        <div class="panel fourth side-click-hand set-one">
+                            <h6><i class="material-icons"> local_shipping </i>{{completed.total_drops}}</h6>
+                        </div>
+                        <div class="panel fourth side-click-hand">
+                            <h6><i class="material-icons"> date_range </i>{{completed.completed_date}}</h6>
+                        </div>
+
+                        <div class="panel fifth side-click-hand all-set">
+                            <h6><i class="material-icons"> directions_car </i>{{completed.driver_name}}</h6>
+                        </div>
+                    </div>
+                    <div class="panel sixth">
+                        <a mat-button routerLink="." [matMenuTriggerFor]="menu"><i class="material-icons"> more_vert
+                            </i></a>
+
+                        <mat-menu #menu="matMenu">
+                            <ul class="set-list">
+                                <li><a href="" (click)="viewDetails(completed,'completed')" data-toggle="modal"
+                                        data-target="#Modal4">
+                                        <mat-icon>remove_red_eye</mat-icon> <span>View Details</span>
+                                    </a></li>
+                            </ul>
+                        </mat-menu>
+                    </div>
                 </div>
             </ng-container>
         </ng-container>
