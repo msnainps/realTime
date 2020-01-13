@@ -87,19 +87,24 @@ export class DashboardService {
             'description':
               (data.mapPlotData[index1].drop_type == 'same-coord' ? data.mapPlotData[index1].shipmentTicketList :
                 '<div class="drops-headding">' + data.mapPlotData[index1].route_name + '</div>\
-              <div class="drops-min"><i class="material-icons drops-min-color1">home</i> <span>'+ data.mapPlotData[index1].customer_name + '</span><div>' + data.mapPlotData[index1].fulladdress + '</div></div>\
-              <div class="drops-min sec-div-drop"><i class="material-icons drops-min-color2">help_outline</i>\
-              <div><span>Ref:</span> '+ data.mapPlotData[index1].job_customer_ref + '</div>\
+              <div class="sec-div-drop-list-main"><div class="drop-list-design-1"><i class="material-icons drops-min-color1">home</i></div>\
+              <div class="drop-list-design-2"><div><span>'+ data.mapPlotData[index1].customer_name + '</span><div>' + data.mapPlotData[index1].fulladdress + '</div></div></div></div>\
+              <div class="sec-div-drop-list-main sec-div-drop"><div class="drop-list-design-1"><i class="material-icons drops-min-color2">help_outline</i></div>\
+              <div class="drop-list-design-2"><div><span>Ref:</span> '+ data.mapPlotData[index1].job_customer_ref + '</div>\
               <div><span>Service Type:</span> ' + data.mapPlotData[index1].job_service_name + '</div>\
               <div><span>Job:</span> ' + data.mapPlotData[index1].job_type + '</div>\
               <div><span>Ticket:</span> ' + data.mapPlotData[index1].shipment_ticket + '</div>\
               <div><span>Tracking No:</span> ' + data.mapPlotData[index1].instaDispatch_loadIdentity + '</div>\
               <div><span>ETA:</span> ' + data.mapPlotData[index1].travel_time + ' Minutes' + '</div>\
               <div><span>Instruction:</span> ' + data.mapPlotData[index1].shipment_instruction + '</div>\
-              </div>\
-              <div class="drops-min"><i class="material-icons drops-min-color2">visibility</i> <span><a href="" onClick ="document.mapCom.viewDetailsFromMap(\'' + index1 + '\',\'' + data.mapPlotData[index1].drop_type + '\')" data-toggle="modal" data-target="#Modal4">View Details</a></span></div>\
+              </div></div></div>\
+              <div class="sec-div-drop-list-main">\
+              <div class="drop-list-design-1"><i class="material-icons drops-min-color4">visibility</i></div>\
+              <div class="drop-list-design-2"><div><span><a href="" onClick ="document.mapCom.viewDetailsFromMap(\'' + index1 + '\',\'' + data.mapPlotData[index1].drop_type + '\')" data-toggle="modal" data-target="#Modal4">View Details</a>\
+              </span></div></div></div>\
               <div class="drops-line"></div>\
-              <div class="drops-min"><i class="material-icons drops-min-color3">local_car_wash</i> <span>'+ data.mapPlotData[index1].driver_name + '</span><div>\
+              <div class="sec-div-drop-list-main"><div class="drop-list-design-1"><i class="material-icons drops-min-color3">local_car_wash</i></div>\
+              <div class="drop-list-design-2"><div><span>'+ data.mapPlotData[index1].driver_name + '</span><div></div></div>\
               <div class="postion-set">\
               '+ (data.mapPlotData[index1].drop_type == 'unassinged' ? data.driverList : "") + '\
               </div></div>'),

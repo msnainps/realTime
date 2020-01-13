@@ -16,32 +16,43 @@
 
                 <div class="main-left-panel unassigned">
                     <div class="side-click" (click)="focusOnDrops(unassignData)">
+                        <div class="yellow-box-height">
+                            <span style="background:orange;border: 1px solid orange"></span>
+                        </div>
+                        <div class="box-space"></div>
                         <div class="panel first">
-                            <h6><span class="material-icons"
-                                    style="background:orange;border: 1px solid orange"></span>{{unassignData.customer_name}}
+                            <h6>{{unassignData.customer_name}}
                             </h6>
                         </div>
-                        <div class="panel first">
+                        <!-- <div class="panel first">
                             <h6> {{unassignData.instaDispatch_loadIdentity}}</h6>
-                        </div>
-                        <div class="panel third fixed-width side-click-hand">
+                        </div> -->
+                        <!-- <div class="panel third new-width-1 side-click-hand">
                             <h6 *ngIf="unassignData.booking_type != 'Vendor'"><i class="material-icons"> explore
                                 </i>{{unassignData.booking_type}} DAY</h6>
                             <h6 *ngIf="unassignData.booking_type == 'Vendor'"><i class="material-icons"> explore
                                 </i>Retail</h6>
+                        </div> -->
+
+                        <div class="panel fourth new-width-2 side-click-hand">
+                            <h6 title="{{unassignData.post_code_name}}"><i class="material-icons"> local_post_office </i>{{unassignData.post_code_name}}</h6>
+                        </div>
+
+                        <div class="panel fourth new-width-full side-click-hand">
+                            <h6 title="{{unassignData.job_service_name}}"><i class="material-icons"> device_hub </i>{{unassignData.job_service_name}}</h6>
                         </div>
 
                         <div class="panel fourth side-click-hand set-one">
-                            <h6><i class="material-icons"> local_shipping </i>{{unassignData.total_drops}}</h6>
+                            <h6><i class="material-icons"> room </i>{{unassignData.total_drops}}</h6>
                         </div>
 
-                        <div class="panel fourth side-click-hand">
+                        <div class="panel fourth new-width-3 side-click-hand">
                             <h6><i class="material-icons"> date_range </i>{{unassignData.collection_date}}</h6>
                         </div>
 
-                        <div class="panel fifth side-click-hand fifth-set">
-                            <!-- <h6><i class="material-icons"> directions_car </i>Meena</h6> -->
-                        </div>
+                        <!-- <div class="panel fifth side-click-hand fifth-set">
+                            <h6><i class="material-icons"> directions_car </i>Meena</h6>
+                        </div> -->
                     </div>
                     <div class="panel sixth">
                         <a mat-button routerLink="." [matMenuTriggerFor]="menu"><i class="material-icons"> more_vert
@@ -88,9 +99,15 @@
             <ng-container *ngIf="assignData.drop_type == 'assinged'">
                 <div class="main-left-panel assigned">
                     <div class="side-click" (click)="focusOnDrops(assignData)">
+                        
+                        <div class="yellow-box-height">
+                            <span
+                                    [ngStyle]="{ background: assignData.color_code_driver }"></span>
+                        </div>
+                        <div class="box-space"></div>
+
                         <div class="panel first side-click-hand">
-                            <h6><span
-                                    [ngStyle]="{ background: assignData.color_code_driver }"></span>{{assignData.customer_name}}
+                            <h6>{{assignData.customer_name}}
                             </h6>
                         </div>
                         <div class="panel second {{assignData.route_label | lowercase}} side-click-hand driver-align">
@@ -100,7 +117,7 @@
                             <h6><i class="material-icons"> explore </i>{{assignData.route_name}}</h6>
                         </div>
                         <div class="panel fourth side-click-hand set-one">
-                            <h6><i class="material-icons"> local_shipping </i>{{assignData.total_drops}}</h6>
+                            <h6><i class="material-icons"> room </i>{{assignData.total_drops}}</h6>
                         </div>
                         <div class="panel fourth side-click-hand">
                             <h6><i class="material-icons"> date_range </i>{{assignData.assign_date_time}}</h6>
@@ -158,9 +175,13 @@
             <ng-container *ngIf="completed.drop_type == 'completed'">
                 <div class="main-left-panel completed">
                     <div class="side-click" (click)="focusOnDrops(completed)">
+                        <div class="yellow-box-height">
+                            <span
+                                    [ngStyle]="{ background: completed.color_code_driver }"></span>
+                        </div>
+                        <div class="box-space"></div>
                         <div class="panel first side-click-hand">
-                            <h6><span
-                                    [ngStyle]="{ background: completed.color_code_driver }"></span>{{completed.customer_name}}
+                            <h6>{{completed.customer_name}}
                             </h6>
                         </div>
                         <div class="panel second completed side-click-hand driver-align">
@@ -170,7 +191,7 @@
                             <h6><i class="material-icons"> explore </i>{{completed.route_name}}</h6>
                         </div>
                         <div class="panel fourth side-click-hand set-one">
-                            <h6><i class="material-icons"> local_shipping </i>{{completed.total_drops}}</h6>
+                            <h6><i class="material-icons"> room </i>{{completed.total_drops}}</h6>
                         </div>
                         <div class="panel fourth side-click-hand">
                             <h6><i class="material-icons"> date_range </i>{{completed.completed_date}}</h6>

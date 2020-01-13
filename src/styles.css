@@ -139,6 +139,12 @@ border-radius: 2px;
   background: rgb(6, 144, 29);
 }
 
+.panel.second.out.for.del h5,
+.panel.second.out.for.coll h5
+{
+  background: rgb(6, 144, 29);
+}
+
 .panel.second.completed h5 {
   background: rgb(6, 144, 29);
 }
@@ -713,19 +719,22 @@ transition: all 0.5s ease 0s;
 /*toaster css */
 .btn-map-zoom{
   font:bold 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-background-color: #3386c0;
+background-color: #33225A;
 color: #fff;
 position: absolute;
 top: 20px;
 left: 50%;
+text-transform: uppercase;
 z-index: 1;
 border: none;
-width: 200px;
+width: 166px;
+text-align: right;
 margin-left:-100px;
 display: block;
 cursor: pointer;
 padding: 10px 20px;
 border-radius: 3px;
+outline: none;
 }
 
 .modal-footers{
@@ -975,4 +984,120 @@ top: 7px;
   }
 .driver-align{
   width: 85px;
+}
+
+.new-width-1{
+  width: 100px !important;
+ }
+ .new-width-2{
+  height: 17px;
+  overflow: hidden;
+  margin-right: 4px;
+  width: 138px !important;
+ }
+ .new-width-3{
+  height: 17px;
+  overflow: hidden;
+  width: 133px !important;
+ }
+ .date-picker2 input, .search-header {
+  width: 200px !important;
+ }
+ .modal-footers-view-tab button{
+  padding: 3px 10px;
+  height: 39px;
+ }
+ .modal-footers-view-tab button i{
+  font-size: 20px;
+  margin-right: 4px;
+  top: 4px;
+  position: relative;
+ } 
+
+ .modal-dialog.modal-width-large{
+  max-width: 1600px !important;
+  margin: 1.75rem auto;
+}
+.modal{
+  padding-left: 15px !important;
+  padding-right: 15px !important;
+}
+@media only screen and(min-width: 1025px) and (max-width: 1600px){
+.modal-dialog.modal-width-large{
+  max-width: 1600px !important;
+  margin: 1.75rem 1%;
+}
+}
+
+
+.sec-div-drop-list-main{
+    display: flex;
+    width: 100%;
+    margin-bottom: 10px;
+    color: #fff;
+}
+.drop-list-design-1 i {
+  width: 25px;
+    height: 25px;
+    border-radius: 100%;
+    text-align: center;
+    padding: 4px;
+    font-size: 17px;
+    color: #fff;
+    margin-right: 8px;
+    position: relative;
+}
+.drop-list-design-2{
+   font-size: 11px;
+    font-weight: normal;
+    letter-spacing: 0.5px;
+    line-height: 13px;
+}
+.drop-list-design-2 div span{
+  font-size: 12px;
+    font-weight: 600;
+    margin-right: 5px;
+    display: inline-block;
+    padding: 2px 0;
+}
+.drop-list-design-2 div span a{
+  font-size: 12px;
+  font-weight: 600;
+  margin-right: 5px;
+  display: inline-block;
+  padding: 5px 0;
+  color: #5fc4ff;
+  text-decoration: none;
+}
+.drops-min-color4 {
+  background: #da5a66;
+}
+
+.btn-map-zoom i{
+  font-size: 22px;
+    position: absolute;
+    top: 8px;
+    left: 10px;
+}
+.side-click{
+  position: relative;
+  flex-wrap: unset !important;
+}
+.yellow-box-height{
+  width: 6px;
+  position: absolute;
+  display: grid;
+  height: 36px;
+  top: -8px;
+}
+.box-space {
+  width: 4px;
+  padding: 0 7px;
+}
+
+.new-width-full {
+  height: 17px;
+  overflow: hidden;
+  margin-right: 4px;
+  width: 196px !important;
 }

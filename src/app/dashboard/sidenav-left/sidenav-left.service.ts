@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import * as io from 'socket.io-client';
 import { config } from 'src/config/config';
 import { SocketService } from 'src/app/commonServices/socket.service';
-import { Observable, Observer, throwError,EMPTY } from 'rxjs';
+import { Observable, Observer, throwError, EMPTY } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { retry, catchError, map } from 'rxjs/operators';
 import { formatDate } from '@angular/common';
@@ -72,8 +72,8 @@ export class SidenavLeftService {
       'email': this.email,
       'access_token': this.access_token,
       'job_identity': [shipmentTkt],
-      'user':'' + this.companyId,
-      "timezone_name":Intl.DateTimeFormat().resolvedOptions().timeZone
+      'user': '' + this.companyId,
+      "timezone_name": Intl.DateTimeFormat().resolvedOptions().timeZone
     }
 
     return this.http.post<any>(this.iacrgoApiUrl + this.routeData.endPointUrl, JSON.stringify(this.routeData),
@@ -99,8 +99,8 @@ export class SidenavLeftService {
       'warehouse_id': '' + this.wairehouseId,
       'email': this.email,
       'access_token': this.access_token,
-      'shipment_route_id': ''+shipmentRouteId,
-      "timezone_name":Intl.DateTimeFormat().resolvedOptions().timeZone
+      'shipment_route_id': '' + shipmentRouteId,
+      "timezone_name": Intl.DateTimeFormat().resolvedOptions().timeZone
     }
 
     return this.http.post<any>(this.iacrgoApiUrl + this.routeData.endPointUrl, JSON.stringify(this.routeData),
@@ -117,11 +117,11 @@ export class SidenavLeftService {
    * Assigned Route
    * @param shipmentRouteId
    */
-  sameDayAssignedRoute(assignFormData,tmpRouteName): Observable<any> {
+  sameDayAssignedRoute(assignFormData, tmpRouteName): Observable<any> {
     const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
 
-    
-    if(typeof assignFormData.route_name == 'undefined' || assignFormData.route_name == ''){
+
+    if (typeof assignFormData.route_name == 'undefined' || assignFormData.route_name == '') {
       assignFormData.route_name = tmpRouteName;
     }
 
@@ -131,13 +131,13 @@ export class SidenavLeftService {
       'warehouse_id': '' + this.wairehouseId,
       'email': this.email,
       'access_token': this.access_token,
-      'shipment_ticket': ''+assignFormData.shipment_ticket,
-      'route_name':''+assignFormData.route_name,
-      'driver_id':''+assignFormData.driver_id,
-      'assign_time':formatDate(new Date(assignFormData.assign_date_time), 'dd-MM-yyyy hh:mm:ss a', 'en-US', '+0530'),
-      "timezone_name":Intl.DateTimeFormat().resolvedOptions().timeZone
+      'shipment_ticket': '' + assignFormData.shipment_ticket,
+      'route_name': '' + assignFormData.route_name,
+      'driver_id': '' + assignFormData.driver_id,
+      'assign_time': formatDate(new Date(assignFormData.assign_date_time), 'dd-MM-yyyy hh:mm:ss a', 'en-US', '+0530'),
+      "timezone_name": Intl.DateTimeFormat().resolvedOptions().timeZone
     }
-   
+
     return this.http.post<any>(this.iacrgoApiUrl + this.routeData.endPointUrl, JSON.stringify(this.routeData),
       {
         headers, responseType: 'text' as 'json'
@@ -164,8 +164,8 @@ export class SidenavLeftService {
   };
 
   //Get Driver List
-  getDriverList(){
-    this.socket.websocket.emit('req-driver-list', { warehouse_id: this.wairehouseId, company_id: this.companyId});
+  getDriverList() {
+    this.socket.websocket.emit('req-driver-list', { warehouse_id: this.wairehouseId, company_id: this.companyId });
     return Observable.create(observer => {
       this.socket.websocket.on('get-driver-list', data => {
         observer.next(data);
@@ -174,13 +174,13 @@ export class SidenavLeftService {
   }
 
   //Get All Tickets
-  getAllTickets(tkt,laodIdentity){
-    this.socket.websocket.emit('req-ticket-list', 
+  getAllTickets(tkt, laodIdentity) {
+    this.socket.websocket.emit('req-ticket-list',
       {
-       warehouse_id: this.wairehouseId,
-       company_id: this.companyId,
-       loadIdentity:laodIdentity,
-       //routedId:laodIdentity
+        warehouse_id: this.wairehouseId,
+        company_id: this.companyId,
+        loadIdentity: laodIdentity,
+        //routedId:laodIdentity
       }
     );
     return Observable.create(observer => {
@@ -191,14 +191,14 @@ export class SidenavLeftService {
   }
 
   //Get All Route Details
-  getRouteDetails = (param,type) => {
-    this.socket.websocket.emit('req-route-details-grid', 
+  getRouteDetails = (param, type) => {
+    this.socket.websocket.emit('req-route-details-grid',
       {
-       warehouse_id: this.wairehouseId,
-       company_id: this.companyId,
-       routedId:param.routeId,
-       route_type:type,
-       customer_id:param.customer_id
+        warehouse_id: this.wairehouseId,
+        company_id: this.companyId,
+        routedId: param.routeId,
+        route_type: type,
+        customer_id: param.customer_id
       }
     );
     return Observable.create(observer => {
@@ -209,7 +209,7 @@ export class SidenavLeftService {
   }
 
   //Rease shipment
-  releaselJob(rlsTktList,shipRouteId):Observable<any> {
+  releaselJob(rlsTktList, shipRouteId): Observable<any> {
     const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
 
     this.routeData = {
@@ -219,8 +219,8 @@ export class SidenavLeftService {
       'email': this.email,
       'access_token': this.access_token,
       'shipment_route_id': shipRouteId,
-      'shipment_ticket':rlsTktList.join('","'),
-      "timezone_name":Intl.DateTimeFormat().resolvedOptions().timeZone
+      'shipment_ticket': rlsTktList.join('","'),
+      "timezone_name": Intl.DateTimeFormat().resolvedOptions().timeZone
     }
 
     return this.http.post<any>(this.iacrgoApiUrl + this.routeData.endPointUrl, JSON.stringify(this.routeData),
@@ -239,7 +239,7 @@ export class SidenavLeftService {
    * @param shipRouteId 
    * @param cardedFormValue 
    */
-  cardedJob(cradedTktList,shipRouteId,cardedFormValue):Observable<any> {
+  cardedJob(cradedTktList, shipRouteId, cardedFormValue): Observable<any> {
     const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
 
     this.routeData = {
@@ -249,11 +249,11 @@ export class SidenavLeftService {
       'email': this.email,
       'access_token': this.access_token,
       'shipment_route_id': shipRouteId,
-      'shipment_ticket':cradedTktList.join('","'),
-      'comment':cardedFormValue.driver_comment,
-      'next_date_time':formatDate(new Date(cardedFormValue.carded_date_time), 'dd-MM-yyyy hh:mm:ss a', 'en-US', '+0530'),
-      'failure_status':cardedFormValue.carded_status,
-      'timezone_name':Intl.DateTimeFormat().resolvedOptions().timeZone
+      'shipment_ticket': cradedTktList.join('","'),
+      'comment': cardedFormValue.driver_comment,
+      'next_date_time': formatDate(new Date(cardedFormValue.carded_date_time), 'dd-MM-yyyy hh:mm:ss a', 'en-US', '+0530'),
+      'failure_status': cardedFormValue.carded_status,
+      'timezone_name': Intl.DateTimeFormat().resolvedOptions().timeZone
     }
 
     return this.http.post<any>(this.iacrgoApiUrl + this.routeData.endPointUrl, JSON.stringify(this.routeData),
@@ -272,7 +272,7 @@ export class SidenavLeftService {
    * @param shipRouteId 
    * @param cardedFormValue 
    */
-  deliverJob(deliverTktList,shipRouteId,deliverFormValue):Observable<any> {
+  deliverJob(deliverTktList, shipRouteId, deliverFormValue): Observable<any> {
     const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
 
     this.routeData = {
@@ -282,11 +282,11 @@ export class SidenavLeftService {
       'email': this.email,
       'access_token': this.access_token,
       'shipment_route_id': shipRouteId,
-      'shipment_ticket':deliverTktList.join(","),
-      'comment':deliverFormValue.deliver_comment,
-      'next_date_time':formatDate(new Date(deliverFormValue.deliver_date_time), 'dd-MM-yyyy hh:mm:ss a', 'en-US', '+0530'),
-      'contact_name':deliverFormValue.contact_person,
-      'timezone_name':Intl.DateTimeFormat().resolvedOptions().timeZone
+      'shipment_ticket': deliverTktList.join(","),
+      'comment': deliverFormValue.deliver_comment,
+      'next_date_time': formatDate(new Date(deliverFormValue.deliver_date_time), 'dd-MM-yyyy hh:mm:ss a', 'en-US', '+0530'),
+      'contact_name': deliverFormValue.contact_person,
+      'timezone_name': Intl.DateTimeFormat().resolvedOptions().timeZone
     }
 
     return this.http.post<any>(this.iacrgoApiUrl + this.routeData.endPointUrl, JSON.stringify(this.routeData),
@@ -299,7 +299,7 @@ export class SidenavLeftService {
       )
   }
 
-  getCasgePDFData(shipmentRouteId):Observable<any>{
+  getCasgePDFData(shipmentRouteId): Observable<any> {
     const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
 
     this.routeData = {
@@ -309,7 +309,7 @@ export class SidenavLeftService {
       'email': this.email,
       'access_token': this.access_token,
       'routeid': shipmentRouteId,
-      'timezone_name':Intl.DateTimeFormat().resolvedOptions().timeZone
+      'timezone_name': Intl.DateTimeFormat().resolvedOptions().timeZone
     }
     return this.http.post<any>(this.iacrgoApiUrl + this.routeData.endPointUrl, JSON.stringify(this.routeData),
       {
@@ -338,7 +338,7 @@ export class SidenavLeftService {
   }
 
   //Moved to disputed
-  disputedJob(tktList,disputed_id,booking_type):Observable<any>{
+  disputedJob(tktList, disputed_id, booking_type): Observable<any> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     this.routeData = {
       'endPointUrl': 'movetodispute',
@@ -346,13 +346,13 @@ export class SidenavLeftService {
       'warehouse_id': '' + this.wairehouseId,
       'email': this.email,
       'access_token': this.access_token,
-      'shipment_ticket':tktList.join(','),
-      "timezone_name":Intl.DateTimeFormat().resolvedOptions().timeZone,
-      "disputeid":disputed_id,
-      "shipment_type":booking_type
+      'shipment_ticket': tktList.join(','),
+      "timezone_name": Intl.DateTimeFormat().resolvedOptions().timeZone,
+      "disputeid": disputed_id,
+      "shipment_type": booking_type
     }
 
-    return this.http.post(this.iacrgoApiUrl + this.routeData.endPointUrl,JSON.stringify(this.routeData),{
+    return this.http.post(this.iacrgoApiUrl + this.routeData.endPointUrl, JSON.stringify(this.routeData), {
       "headers": headers,
       responseType: 'text' as 'json'
     }).pipe(
@@ -363,14 +363,14 @@ export class SidenavLeftService {
     );
   }
 
-   //get Disputed List  getDispuedList
-   getAssignRouteList(): Observable<any> {
+  //get Disputed List  getDispuedList
+  getAssignRouteList(): Observable<any> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     this.routeData = {
       'endPoint': 'getAssingedRouteList',
-      'company_id':this.companyId
+      'company_id': this.companyId
     }
-    return this.http.get(this.socketRestAPI + this.routeData.endPoint+'/'+this.routeData.company_id, {
+    return this.http.get(this.socketRestAPI + this.routeData.endPoint + '/' + this.routeData.company_id, {
       "headers": headers,
       responseType: 'text' as 'json'
     }).pipe(
@@ -381,7 +381,7 @@ export class SidenavLeftService {
   }
 
   //ReAssign
-  movetoReAssign(tktList,shipment_route_id):Observable<any>{
+  movetoReAssign(tktList, shipment_route_id): Observable<any> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     this.routeData = {
       'endPointUrl': 'assignToCurrentRoute',
@@ -390,12 +390,12 @@ export class SidenavLeftService {
       'email': this.email,
       'access_token': this.access_token,
       //'shipment_ticket':tktList.join(','),
-      'shipment_ticket':tktList,
-      "timezone_name":Intl.DateTimeFormat().resolvedOptions().timeZone,
-      "shipment_route_id":shipment_route_id,
+      'shipment_ticket': tktList,
+      "timezone_name": Intl.DateTimeFormat().resolvedOptions().timeZone,
+      "shipment_route_id": shipment_route_id,
     }
 
-    return this.http.post(this.iacrgoApiUrl + this.routeData.endPointUrl,JSON.stringify(this.routeData),{
+    return this.http.post(this.iacrgoApiUrl + this.routeData.endPointUrl, JSON.stringify(this.routeData), {
       "headers": headers,
       responseType: 'text' as 'json'
     }).pipe(
@@ -407,7 +407,7 @@ export class SidenavLeftService {
         if (error.error instanceof Error) {
           // A client-side or network error occurred. Handle it accordingly.
           console.error('An error occurred:', error.error.message);
-          
+
         } else {
           console.error(`Backend returned code ${error.status}, body was: ${error.error}`);
           return `${error.status}`;
@@ -418,38 +418,51 @@ export class SidenavLeftService {
   }
 
   //get Shipment Traking Details
-  getShipmentTrakingInfo(load_identity,is_internal,job_type):Observable<any>{
+  getShipmentTrakingInfo(load_identity, is_internal, job_type): Observable<any> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-    if(job_type.toLowerCase() == 'same'){
-    this.routeData = {
-      'endPointUrl': 'sameday',
-      'company_id': '' + this.companyId,
-      'warehouse_id': '' + this.wairehouseId,
-      'email': this.email,
-      'access_token': this.access_token,
-      'job_type':job_type,
-      "timezone_name":Intl.DateTimeFormat().resolvedOptions().timeZone,
-      "identity":load_identity,
-      "is_internal":is_internal
+    if (job_type.toLowerCase() == 'same') {
+      this.routeData = {
+        'endPointUrl': 'sameday',
+        'company_id': '' + this.companyId,
+        'warehouse_id': '' + this.wairehouseId,
+        'email': this.email,
+        'access_token': this.access_token,
+        'job_type': job_type,
+        "timezone_name": Intl.DateTimeFormat().resolvedOptions().timeZone,
+        "identity": load_identity,
+        "is_internal": is_internal
+      }
+    } else if (job_type.toLowerCase() == 'next') {
+      this.routeData = {
+        'endPointUrl': 'nextday',
+        'company_id': '' + this.companyId,
+        'warehouse_id': '' + this.wairehouseId,
+        'email': this.email,
+        'access_token': this.access_token,
+        'job_type': job_type,
+        "timezone_name": Intl.DateTimeFormat().resolvedOptions().timeZone,
+        "identity": load_identity,
+        "is_internal": is_internal,
+        "isCopyShipment": '',
+        "isRepriceCase": "Y"
+      }
+    } else if (job_type.toLowerCase() == 'vendor') {
+      this.routeData = {
+        'endPointUrl': 'retail',
+        'company_id': '' + this.companyId,
+        'warehouse_id': '' + this.wairehouseId,
+        'email': this.email,
+        'access_token': this.access_token,
+        'job_type': job_type,
+        "timezone_name": Intl.DateTimeFormat().resolvedOptions().timeZone,
+        "identity": load_identity,
+        "shipment_ticket": load_identity,
+        "is_internal": is_internal
+      }
     }
-  }else if(job_type.toLowerCase() == 'next'){
-    this.routeData = {
-      'endPointUrl': 'nextday',
-      'company_id': '' + this.companyId,
-      'warehouse_id': '' + this.wairehouseId,
-      'email': this.email,
-      'access_token': this.access_token,
-      'job_type':job_type,
-      "timezone_name":Intl.DateTimeFormat().resolvedOptions().timeZone,
-      "identity":load_identity,
-      "is_internal":is_internal,
-      "isCopyShipment":'',
-      "isRepriceCase": "Y"
-    }
-  }
 
-    return this.http.post(this.iacrgoApiUrl + this.routeData.endPointUrl,JSON.stringify(this.routeData),{
+    return this.http.post(this.iacrgoApiUrl + this.routeData.endPointUrl, JSON.stringify(this.routeData), {
       "headers": headers,
       responseType: 'text' as 'json'
     }).pipe(
@@ -470,11 +483,11 @@ export class SidenavLeftService {
     );
   }
 
-  getLatLng(param){
-    this.socket.websocket.emit('req-lat-lng', 
+  getLatLng(param) {
+    this.socket.websocket.emit('req-lat-lng',
       {
-       company_id: this.companyId,
-       dropData:param
+        company_id: this.companyId,
+        dropData: param
       }
     );
 
@@ -492,8 +505,8 @@ export class SidenavLeftService {
    * @param loadIdentity 
    * @param booking_type 
    */
-  
-  getPodLabel(customerAccount,loadIdentity,booking_type):Observable<any>{
+
+  getPodLabel(customerAccount, loadIdentity, booking_type): Observable<any> {
 
     this.routeData = {
       'endPointUrl': 'downloadPod',
@@ -503,12 +516,12 @@ export class SidenavLeftService {
       'warehouse_id': '' + this.wairehouseId,
       'email': this.email,
       'access_token': this.access_token,
-      'job_type':booking_type,
-      "timezone_name":Intl.DateTimeFormat().resolvedOptions().timeZone
+      'job_type': booking_type,
+      "timezone_name": Intl.DateTimeFormat().resolvedOptions().timeZone
     }
 
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.http.post(this.iacrgoApiUrl + this.routeData.endPointUrl,JSON.stringify(this.routeData),{
+    return this.http.post(this.iacrgoApiUrl + this.routeData.endPointUrl, JSON.stringify(this.routeData), {
       "headers": headers,
       responseType: 'text' as 'json'
     }).pipe(
@@ -527,7 +540,7 @@ export class SidenavLeftService {
         return EMPTY;
       })
     );
-    
+
   }
 
 }

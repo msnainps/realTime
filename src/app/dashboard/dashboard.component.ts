@@ -53,7 +53,7 @@ export class DashboardComponent implements OnInit {
   shipmentInfo = new shipmentInfo();
   loadIdentity: any;
   sideNavLeft:SidenavLeftComponent = null;
-
+  sameCordinateSattusInfo;
 
 
 
@@ -169,7 +169,9 @@ export class DashboardComponent implements OnInit {
    */
   getTktInfo(tkt: string) {
     document.mapCom.showHideModal = 'block';
+    document.mapCom.sameCordinateSattusInfo = 'false';
     document.mapCom.dashboardService.getSameCorrdinateTktInfo(tkt).subscribe((res) => {
+      document.mapCom.sameCordinateSattusInfo = 'true';
       document.mapCom.shipmentInfo.route_name = (res.tktInfo[0].route_name ? res.tktInfo[0].route_name : 'Drop Info');
       document.mapCom.shipmentInfo.ticket = res.tktInfo[0].shipment_ticket;
       document.mapCom.shipmentInfo.customerName = res.tktInfo[0].customer_name;

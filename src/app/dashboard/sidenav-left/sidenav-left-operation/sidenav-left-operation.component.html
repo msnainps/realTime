@@ -168,6 +168,7 @@
                 </option>
               </select>
 
+             
               <select *ngIf="routeType=='unassign'" [(ngModel)]="resetAssignRoute.shipment_route_id"
                 class="btn btn-primary selection" id="sel1" (change)="moveToAssignRoute($event.target.value)">
                 <option [value]='0' selected="selected">--Route Assign--</option>
@@ -197,7 +198,7 @@
                 </span>
               </div>
 
-
+               <!--Show View Details Info-->
               <div class="inner-set-section">
                 <ag-grid-angular style="width: auto; height: 500px;" class="ag-theme-balham" [rowData]="rowData"
                   [columnDefs]="columnDefs" [modules]="modules" [suppressRowClickSelection]="true"
@@ -210,7 +211,7 @@
             </div>
           </mat-tab>
           <!--Show Traking Info-->
-          <mat-tab label="Tracking" *ngIf="booking_type != 'Vendor'">
+          <mat-tab label="Tracking">
             <div class="modal-body traking-details-grid">
               <ag-grid-angular style="width: auto; height: 500px;" class="ag-theme-balham"
                 [rowData]="rowDataTrakingInfo" [columnDefs]="columnDefsTrakingInfo" [modules]="modules"

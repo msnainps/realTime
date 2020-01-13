@@ -19,55 +19,63 @@ import { config } from 'src/config/config';
 export class SidenavLeftComponent implements OnInit {
 
   configSettings = new config;
-  shipment_ticket:any;
-  shipment_route_name:any;
-  shipment_route_id:any;
-  driverList:any[] = [];
+  shipment_ticket: any;
+  shipment_route_name: any;
+  shipment_route_id: any;
+  driverList: any[] = [];
   assignDriverFormModel: any = {};
-  rowData:any;
-  routeName:any;
-  driverName:any;
-  param:any = {};
- 
-  
-  @Input() sidebarLeftNavOp:SidenavLeftOperationComponent; //Send Data to SidenavLeftOperationComponent
+  rowData: any;
+  routeName: any;
+  driverName: any;
+  param: any = {};
+
+
+  @Input() sidebarLeftNavOp: SidenavLeftOperationComponent; //Send Data to SidenavLeftOperationComponent
   constructor(
-    private sidenaveleftService:SidenavLeftService,
+    private sidenaveleftService: SidenavLeftService,
     private toastr: ToastrService,
     private spinerService: NgxSpinnerService,
-    private dashboradCmp:DashboardComponent
-    ) { 
-     this.dashboradCmp.sideNavLeft=this;
-    }
+    private dashboradCmp: DashboardComponent
+  ) {
+    this.dashboradCmp.sideNavLeft = this;
+  }
 
   ngOnInit() {
     this.sidenaveleftService.getAssignDropData();
   }
 
-  cancelShipment(shipmentTkt){
+  cancelShipment(shipmentTkt) {
     this.sidebarLeftNavOp.showHideModal = 'block';
     this.sidebarLeftNavOp.shipment_ticket = shipmentTkt;
   }
 
-  WithdrawRoute(shipmentRouteName,shipmentRouteId){
+  WithdrawRoute(shipmentRouteName, shipmentRouteId) {
     this.sidebarLeftNavOp.showHideModal = 'block';
     this.sidebarLeftNavOp.shipment_route_name = shipmentRouteName;
     this.sidebarLeftNavOp.shipment_route_id = shipmentRouteId;
   }
 
-  assignJob(shipmentTicket,laodIdentity,collection_date){
-    
+  assignJob(shipmentTicket, laodIdentity, collection_date) {
+
     //Fill RouteName and Todays Date
     //this.sidebarLeftNavOp.assignDriverFormModel.route_name = shipmentRouteName;
-   
-    if (this.configSettings.env.country_code.toLowerCase() == 'us' || this.configSettings.env.country_code.toLowerCase() == 'usa') {
-      var dt =  formatDate(new Date(collection_date), 'MM-dd-yyyy hh:mm:ss a', 'en-US', '+0530');  
-    } else {
-      var dt =  formatDate(new Date(collection_date), 'dd-MM-yyyy hh:mm:ss a', 'en-US', '+0530');
+
+
+    try {
+      if (this.configSettings.env.country_code.toLowerCase() == 'us' || this.configSettings.env.country_code.toLowerCase() == 'usa') {
+        var dt = formatDate(new Date(collection_date), 'MM-dd-yyyy hh:mm:ss a', 'en-US', '+0530');
+      } else {
+        var dt = formatDate(new Date(collection_date), 'dd-MM-yyyy hh:mm:ss a', 'en-US', '+0530');
+      }
+      this.sidebarLeftNavOp.assignDriverFormModel.assign_date_time = new Date(dt);
+    } catch (err) {
+      console.log(err.message);
+      this.sidebarLeftNavOp.assignDriverFormModel.assign_date_time = new Date();
     }
+
+
     
-    this.sidebarLeftNavOp.assignDriverFormModel.assign_date_time = new Date(dt);
-    
+
 
     this.sidebarLeftNavOp.showHideModal = 'block';
     //get Driver List
@@ -76,11 +84,11 @@ export class SidenavLeftComponent implements OnInit {
     });
 
     //get All Ticket
-    this.sidenaveleftService.getAllTickets(shipmentTicket,laodIdentity).subscribe(res => {
-      if(res.shipmentKey){
-      this.sidebarLeftNavOp.assignDriverFormModel.shipment_ticket = res.shipmentKey;
-      this.sidebarLeftNavOp.tmpRouteName = res.routeName;
-      }else{
+    this.sidenaveleftService.getAllTickets(shipmentTicket, laodIdentity).subscribe(res => {
+      if (res.shipmentKey) {
+        this.sidebarLeftNavOp.assignDriverFormModel.shipment_ticket = res.shipmentKey;
+        this.sidebarLeftNavOp.tmpRouteName = res.routeName;
+      } else {
         this.toastr.info('You can not assign driver to this job !!', '', {
           closeButton: true, positionClass: 'toast-top-right', timeOut: 4000
         });
@@ -89,7 +97,8 @@ export class SidenavLeftComponent implements OnInit {
     });
   }
 
-  viewDetails(data,type){
+  viewDetails(data, type) {
+    console.log(data);
     this.spinerService.show("view-details", {
       type: "line-scale-party",
       size: "large",
@@ -108,63 +117,63 @@ export class SidenavLeftComponent implements OnInit {
     this.sidebarLeftNavOp.booking_type = data.booking_type //Used while diputed and Ruteteassign and POD lable create
     this.sidebarLeftNavOp.drop_type = data.drop_type
 
-    
-    if(type == 'unassign'){
+
+    if (type == 'unassign') {
       this.param.routeId = data.instaDispatch_loadIdentity;
-    }else{
+    } else {
       this.param.routeId = data.shipment_routed_id;
     }
-    
-     //For POD download
-     this.param.customer_id = data.customer_id
-     this.sidebarLeftNavOp.loadIdentity = data.instaDispatch_loadIdentity;
-     
+
+    //For POD download
+    this.param.customer_id = data.customer_id
+    this.sidebarLeftNavOp.loadIdentity = data.instaDispatch_loadIdentity;
+
 
     this.sidebarLeftNavOp.selectedIndex = 0; //Show Active view details Tab
 
     //get View details data
-    this.sidenaveleftService.getRouteDetails(this.param,type).subscribe(resp => {
-      
-      if(resp.routeDetailsData.length > 0){
-      this.sidebarLeftNavOp.rowData = resp.routeDetailsData;
+    this.sidenaveleftService.getRouteDetails(this.param, type).subscribe(resp => {
+
+      if (resp.routeDetailsData.length > 0) {
+        this.sidebarLeftNavOp.rowData = resp.routeDetailsData;
       }
-      if(resp.routeInfo){
-      if(resp.routeInfo.length > 0){
-      this.sidebarLeftNavOp.routeName = resp.routeInfo[0].route_name;
-      this.sidebarLeftNavOp.driverName = resp.routeInfo[0].driver_name;
+      if (resp.routeInfo) {
+        if (resp.routeInfo.length > 0) {
+          this.sidebarLeftNavOp.routeName = resp.routeInfo[0].route_name;
+          this.sidebarLeftNavOp.driverName = resp.routeInfo[0].driver_name;
+        }
       }
-     }
-     this.spinerService.hide('view-details');
-     this.sidebarLeftNavOp.totalJobItem = resp.totalItem[0].total_item;
-     if(resp.accountNumber.length){
-     this.sidebarLeftNavOp.customerAccountNumber = resp.accountNumber[0].accountnumber
-     }else{
-      this.sidebarLeftNavOp.customerAccountNumber = '';
-     }
+      this.spinerService.hide('view-details');
+      this.sidebarLeftNavOp.totalJobItem = resp.totalItem[0].total_item;
+      if (resp.accountNumber.length) {
+        this.sidebarLeftNavOp.customerAccountNumber = resp.accountNumber[0].accountnumber
+      } else {
+        this.sidebarLeftNavOp.customerAccountNumber = '';
+      }
     });
 
     //get Disputed List && get Assign Route List 
-    if(type == 'unassign' || type == 'unassinged'){
+    if (type == 'unassign' || type == 'unassinged') {
       this.sidenaveleftService.getDispuedList().subscribe(resp => {
         this.sidebarLeftNavOp.disputedList = JSON.parse(resp).message;
       });
 
-      this.sidenaveleftService.getAssignRouteList().subscribe(resp => {
-        this.sidebarLeftNavOp.assignRouteList = JSON.parse(resp).message;
+      this.sidenaveleftService.getAssignRouteList().subscribe(respRoutes => {
+        this.sidebarLeftNavOp.assignRouteList = JSON.parse(respRoutes).message;
       });
     }
 
-   //Used to get traking info
+    //Used to get traking info
     this.sidebarLeftNavOp.trakingInfoRequiredData = data;
 
   }
 
   //Move to map pointer
-  focusOnDrops(data){
-   //get Latlng for this route
-   this.sidenaveleftService.getLatLng(data).subscribe(res => {
+  focusOnDrops(data) {
+    //get Latlng for this route
+    this.sidenaveleftService.getLatLng(data).subscribe(res => {
       this.dashboradCmp.showFocusToDrop(res);
-   });
+    });
   }
 
 }

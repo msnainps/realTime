@@ -11,7 +11,11 @@
   </div>
   <div class="map-dashboard">
     <div id="map"></div>
-    <button id='zoomto' class='btn-map-zoom'>Show All Drops</button>
+    <button id='zoomto' class='btn-map-zoom'>
+      <i class="material-icons">
+        near_me
+        </i>
+        Show All Drops</button>
   </div>
 
   <!-- <mat-drawer #drawer2 class="example-sidenav2" mode="side" position="end">
@@ -88,11 +92,23 @@
         <button type="button" data-dismiss="modal">X</button>
       </div>
       <div class="mapboxgl-popup-content">
+        <ng-container *ngIf="sameCordinateSattusInfo">
         <div class="drops-headding">{{shipmentInfo.route_name}}</div>
-        <div class="drops-min"><i class="material-icons drops-min-color1">home</i> <span>{{shipmentInfo.customerName}}</span>
-          <div>{{shipmentInfo.address}}</div>
+        <div class="sec-div-drop-list-main">
+          <div class="drop-list-design-1">
+          <i class="material-icons drops-min-color1">home</i>
+           </div>
+           <div class="drop-list-design-2"> 
+            <div><span>{{shipmentInfo.customerName}}</span>
+          <div>{{shipmentInfo.address}}</div></div>
+          </div>
         </div>
-        <div class="drops-min sec-div-drop"><i class="material-icons drops-min-color2">help_outline</i>
+
+        <div class="sec-div-drop-list-main">
+          <div class="drop-list-design-1">
+          <i class="material-icons drops-min-color2">help_outline</i>
+        </div>
+        <div class="drop-list-design-2">
           <div><span>Ref:</span>{{shipmentInfo.job_customer_ref}}</div>
           <div><span>Service Type:</span> {{shipmentInfo.job_service_name}}</div>
           <div><span>Job:</span> {{shipmentInfo.jobType}}</div>
@@ -100,12 +116,24 @@
           <div><span>Tracking No:</span> {{shipmentInfo.instaDispatch_loadIdentity}}</div>
           <div><span>ETA:</span> {{shipmentInfo.eta}} Minute</div>
           <div><span>Instruction:</span> {{shipmentInfo.shipment_instruction}}</div>
+          </div>
         </div>
-        <div class="drops-min"><i class="material-icons drops-min-color2">visibility</i> 
-          <span><a href="" onClick ="document.mapCom.viewDetailsFromSameCordinate()" data-toggle="modal" data-target="#Modal4">View Details</a></span>
+        <div class="sec-div-drop-list-main">
+          <div class="drop-list-design-1">
+          <i class="material-icons drops-min-color4">visibility</i> 
         </div>
+        <div class="drop-list-design-2"> 
+          <div><span><a href="" onClick ="document.mapCom.viewDetailsFromSameCordinate()" data-toggle="modal" data-target="#Modal4">View Details</a></span></div>
+          </div>
+        </div>
+
         <div class="drops-line"></div>
-        <div class="drops-min"><i class="material-icons drops-min-color3">local_car_wash</i><span>{{shipmentInfo.driverName}}</span>
+        <div class="sec-div-drop-list-main">
+          <div class="drop-list-design-1">
+          <i class="material-icons drops-min-color3">local_car_wash</i>
+          <span>{{shipmentInfo.driverName}}</span></div>
+          <div class="drop-list-design-2">
+
           <div>
             <div class="postion-set postion-set-new" *ngIf="shipmentInfo.assigned_driver == 0">
                <div class="dropdown show">
@@ -118,11 +146,16 @@
                       </li>
                 </ul>
                 </div>
+              </div>
             </div>
           </div>
         </div>
+
+      </ng-container>
+      <ng-container *ngIf="!sameCordinateSattusInfo">
+        Loading ....
+      </ng-container>
       </div>
-    </div>
   </div>
 </div>
 <!--Same Coordinate Shipemnt Info-->

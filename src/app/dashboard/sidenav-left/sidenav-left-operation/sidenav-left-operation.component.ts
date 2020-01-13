@@ -699,6 +699,7 @@ export class SidenavLeftOperationComponent implements OnInit {
       //disputed job
       this.sidenavleftservice.movetoReAssign(this.deliverTktList, shipmentRouteId).subscribe(res => {
 
+
         this.showHideModal = 'none';
         document.querySelector(".modal-backdrop").remove();
 
@@ -707,12 +708,13 @@ export class SidenavLeftOperationComponent implements OnInit {
         var strArray = res.split(".");
         var decodeBAse64 = JSON.parse(atob(strArray[1]));
 
-        this.toastr.success(decodeBAse64.actions.message, '', {
+        this.toastr.success(decodeBAse64.message, '', {
           closeButton: true, positionClass: 'toast-top-right', timeOut: 4000
         });
         this.spinerService.hide("assignRoute");
       }, err => {
         console.log(err);
+        this.spinerService.hide("assignRoute");
       })
     }
   }
@@ -759,7 +761,7 @@ export class SidenavLeftOperationComponent implements OnInit {
       this.gridApi.showLoadingOverlay();
       this.rowDataTrakingInfo = '';//Reset Traking Info row data
       var Jtypes = data.booking_type.toLowerCase();
-      if (Jtypes == 'next' || Jtypes == 'same') {
+      if (Jtypes == 'next' || Jtypes == 'same' || Jtypes == 'vendor') {
         this.sidenavleftservice.getShipmentTrakingInfo(data.instaDispatch_loadIdentity, data.is_internal, data.booking_type).subscribe(resp => {
           var strArray = resp.split(".");
           this.trakingCallStatus = true;
@@ -768,6 +770,8 @@ export class SidenavLeftOperationComponent implements OnInit {
             this.rowDataTrakingInfo = decodeBAse64.nextday.trackinginfo;
           } else if (Jtypes == 'same') {
             this.rowDataTrakingInfo = decodeBAse64.sameday.trackinginfo;
+          }else if(Jtypes == 'vendor'){
+            this.rowDataTrakingInfo = decodeBAse64.retail.trackinginfo;
           }
         });
       }

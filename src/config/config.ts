@@ -42,7 +42,7 @@ export class config {
     // env = {
     //     name: 'local',
     //     socket_api_url: 'http://localhost:3000/',
-    //     driver_socket_api_url: 'http://localhost:3500',
+    //     driver_socket_api_url: 'wss://gps.app-tree.co.uk:3500',
     //     company_id: 10,
     //     user_id: 10,
     //     wairehouse_id: 1,

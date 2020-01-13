@@ -132,4 +132,14 @@ export class HeaderService {
     })
     return this.createObservable();
   }
+
+  getParcelTktInfo(shipmentTkt):Observable<any> {
+    this.socket.websocket.emit('req-shipment-tkt-info', { 
+      shipment_tkt: shipmentTkt
+    });
+    this.socket.websocket.on('get-shipment-tkt-info', (data) => {
+      this.observer.next(data);
+    })
+    return this.createObservable();
+  }
 }

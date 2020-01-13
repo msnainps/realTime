@@ -9,7 +9,8 @@ import { ToastrService } from 'ngx-toastr';
 import { formatDate } from '@angular/common';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DashboardService } from '../dashboard/dashboard.service';
-
+import { SharedService } from '../shared/shared.service';
+declare var document: any;
  
 
 
@@ -41,6 +42,7 @@ export class HeaderComponent implements OnInit {
   private gridApiSearch;
   overlayLoadingTemplateSearch;
   
+  
 
   //Grid headers
   columnDefs = [
@@ -68,7 +70,8 @@ export class HeaderComponent implements OnInit {
     dateTimeAdapter: DateTimeAdapter<any>, 
     private toastr: ToastrService,
     private spinerService: NgxSpinnerService,
-    private dashboardService:DashboardService
+    private dashboardService:DashboardService,
+    private sharedService:SharedService
     ) {
     if (this.configSettings.env.country_code.toLowerCase() == 'us' || this.configSettings.env.country_code.toLowerCase() == 'usa') {
       dateTimeAdapter.setLocale('us');
@@ -81,6 +84,8 @@ export class HeaderComponent implements OnInit {
     this.paginationPageSize = 15;
     this.overlayLoadingTemplateSearch =
       '<span style="color:#33225A;font-size:14px;font-weight:bold;" class="ag-overlay-loading-center">Searching ....</span>';
+
+    document.gridDocThis = this; 
     
   }
 
@@ -193,15 +198,21 @@ export class HeaderComponent implements OnInit {
    }
 
    //Open View Details from header search
-   viewDetailsFromHeaderSearch(param){
-     return '<a href="" (click)="showViewDetails()" data-toggle="modal" data-target="#Modal4">Details</a>'
+   viewDetailsFromHeaderSearch(viewDetailsClick){
+     console.log(viewDetailsClick);
+     var viewDetails =viewDetailsClick.data.instaDispatch_loadIdentity;
+     return '<a href="" onclick="document.gridDocThis.showViewDetails(\'' + viewDetails + '\')" data-toggle="modal" data-target="#Modal4">View Details</a>'
    }
 
-   showViewDetails(){
-     console.log('tests');
+   showViewDetails(loadIdentity){
+
+    this.headerService.getParcelTktInfo(loadIdentity).subscribe(resp => {
+      console.log(resp);
+      console.log(this.sharedService);
+      //console.log(this.sideNavLeft.viewDetails(resp.getParcelData[0],resp.getParcelData[0].drop_type));
+      //document.gridDocThis.sideNavLeft.viewDetails(resp.getParcelData[0],resp.getParcelData[0].drop_type);
+    });
    }
-
-
    
   
 }
