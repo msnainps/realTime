@@ -6,6 +6,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { DashboardComponent } from '../dashboard.component';
 import { formatDate } from '@angular/common';
 import { config } from 'src/config/config';
+import { SharedService } from 'src/app/shared/shared.service';
+
 
 
 
@@ -35,9 +37,11 @@ export class SidenavLeftComponent implements OnInit {
     private sidenaveleftService: SidenavLeftService,
     private toastr: ToastrService,
     private spinerService: NgxSpinnerService,
-    private dashboradCmp: DashboardComponent
+    private dashboradCmp: DashboardComponent,
+    private sharedService:SharedService
   ) {
     this.dashboradCmp.sideNavLeft = this;
+    this.sharedService.sidecmp=this;
   }
 
   ngOnInit() {
@@ -98,7 +102,6 @@ export class SidenavLeftComponent implements OnInit {
   }
 
   viewDetails(data, type) {
-    console.log(data);
     this.spinerService.show("view-details", {
       type: "line-scale-party",
       size: "large",

@@ -199,18 +199,15 @@ export class HeaderComponent implements OnInit {
 
    //Open View Details from header search
    viewDetailsFromHeaderSearch(viewDetailsClick){
-     console.log(viewDetailsClick);
      var viewDetails =viewDetailsClick.data.instaDispatch_loadIdentity;
      return '<a href="" onclick="document.gridDocThis.showViewDetails(\'' + viewDetails + '\')" data-toggle="modal" data-target="#Modal4">View Details</a>'
    }
 
    showViewDetails(loadIdentity){
-
     this.headerService.getParcelTktInfo(loadIdentity).subscribe(resp => {
-      console.log(resp);
-      console.log(this.sharedService);
-      //console.log(this.sideNavLeft.viewDetails(resp.getParcelData[0],resp.getParcelData[0].drop_type));
-      //document.gridDocThis.sideNavLeft.viewDetails(resp.getParcelData[0],resp.getParcelData[0].drop_type);
+     if(resp.getParcelData.length){
+      this.sharedService.sidecmp.viewDetails(resp.getParcelData[0],resp.getParcelData[0].drop_type);
+     }
     });
    }
    

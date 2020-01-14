@@ -6,6 +6,7 @@ import { Observable, Observer, throwError, EMPTY } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { retry, catchError, map } from 'rxjs/operators';
 import { formatDate } from '@angular/common';
+import { FnParam } from '@angular/compiler/src/output/output_ast';
 
 
 @Injectable({
@@ -418,48 +419,49 @@ export class SidenavLeftService {
   }
 
   //get Shipment Traking Details
-  getShipmentTrakingInfo(load_identity, is_internal, job_type): Observable<any> {
+  getShipmentTrakingInfo(param): Observable<any> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-    if (job_type.toLowerCase() == 'same') {
+    if (param.booking_type.toLowerCase() == 'same') {
       this.routeData = {
         'endPointUrl': 'sameday',
         'company_id': '' + this.companyId,
         'warehouse_id': '' + this.wairehouseId,
         'email': this.email,
         'access_token': this.access_token,
-        'job_type': job_type,
+        'job_type':param.booking_type,
         "timezone_name": Intl.DateTimeFormat().resolvedOptions().timeZone,
-        "identity": load_identity,
-        "is_internal": is_internal
+        "identity": param.instaDispatch_loadIdentity,
+        "is_internal": param.is_internal
       }
-    } else if (job_type.toLowerCase() == 'next') {
+    } else if (param.booking_type.toLowerCase() == 'next') {
       this.routeData = {
         'endPointUrl': 'nextday',
         'company_id': '' + this.companyId,
         'warehouse_id': '' + this.wairehouseId,
         'email': this.email,
         'access_token': this.access_token,
-        'job_type': job_type,
+        'job_type': param.booking_type,
         "timezone_name": Intl.DateTimeFormat().resolvedOptions().timeZone,
-        "identity": load_identity,
-        "is_internal": is_internal,
+        "identity": param.instaDispatch_loadIdentity,
+        "is_internal": param.is_internal,
         "isCopyShipment": '',
         "isRepriceCase": "Y"
       }
-    } else if (job_type.toLowerCase() == 'vendor') {
+    } else if (param.booking_type.toLowerCase() == 'vendor') {
       this.routeData = {
-        'endPointUrl': 'retail',
+        'endPointUrl': 'retailTrackingNew',
         'company_id': '' + this.companyId,
         'warehouse_id': '' + this.wairehouseId,
         'email': this.email,
         'access_token': this.access_token,
-        'job_type': job_type,
+        'job_type': param.booking_type,
         "timezone_name": Intl.DateTimeFormat().resolvedOptions().timeZone,
-        "identity": load_identity,
-        "shipment_ticket": load_identity,
-        "is_internal": is_internal
-      }
+        "identity": param.instaDispatch_loadIdentity,
+        "shipment_ticket": param.instaDispatch_loadIdentity,
+        "is_internal": param.is_internal,
+        "route_id":(typeof param.shipment_routed_id != 'undefined' ? param.shipment_routed_id : '')
+      }  
     }
 
     return this.http.post(this.iacrgoApiUrl + this.routeData.endPointUrl, JSON.stringify(this.routeData), {

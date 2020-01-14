@@ -762,7 +762,7 @@ export class SidenavLeftOperationComponent implements OnInit {
       this.rowDataTrakingInfo = '';//Reset Traking Info row data
       var Jtypes = data.booking_type.toLowerCase();
       if (Jtypes == 'next' || Jtypes == 'same' || Jtypes == 'vendor') {
-        this.sidenavleftservice.getShipmentTrakingInfo(data.instaDispatch_loadIdentity, data.is_internal, data.booking_type).subscribe(resp => {
+        this.sidenavleftservice.getShipmentTrakingInfo(data).subscribe(resp => {
           var strArray = resp.split(".");
           this.trakingCallStatus = true;
           var decodeBAse64 = JSON.parse(atob(strArray[1]));
@@ -800,7 +800,6 @@ export class SidenavLeftOperationComponent implements OnInit {
         this.trakingCallStatus = true;
         var decodeBAse64 = JSON.parse(atob(strArray[1]));
         if(decodeBAse64.status == 'success'){
-          console.log(decodeBAse64.pod_path);
           //window.location.href = decodeBAse64.pod_path;
           var evt = new MouseEvent('click', {
             'view': window,

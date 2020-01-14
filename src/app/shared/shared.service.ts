@@ -7,7 +7,7 @@ import { SidenavLeftComponent } from '../dashboard/sidenav-left/sidenav-left.com
 })
 export class SharedService {
 
-  private sidecmp :SidenavLeftComponent = null;
+  public sidecmp :SidenavLeftComponent = null;
   constructor(
     
   ) { }
