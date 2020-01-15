@@ -70,6 +70,13 @@ export class DashboardService {
       }
 
     })
+
+    //Run this for flashmessage in every five minutes
+    //e.g 5 minutes would be 5 * 60 * 1000 = 300000
+    setInterval(() => {
+      this.loadDropOnMapsEmit();
+    }, 300000);
+
   }
 
   loadDropOnMapsListen() {
@@ -386,7 +393,7 @@ export class DashboardService {
                 ]
               }
             };
-            
+
             this.driverInfo.features.push(newDriverfeatures);
             this.formatedDataDriver.data.features = this.driverInfo.features;
             if (this.mapbox.map.getSource('drivers') != undefined) {
@@ -397,6 +404,6 @@ export class DashboardService {
 
       })
     }
-    
+
   }
 }

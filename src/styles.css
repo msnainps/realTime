@@ -1101,3 +1101,11 @@ top: 7px;
   margin-right: 4px;
   width: 196px !important;
 }
+.panel h6.blink_me{
+  animation: blinker 1s linear infinite;
+  color: red;
+  font-weight: bold;
+}
+@keyframes blinker {  
+  50% { opacity: 0; }
+}
