@@ -109,7 +109,9 @@ export class SidenavLeftComponent implements OnInit {
     });
     this.sidebarLeftNavOp.showHideModal = 'block';
     this.sidebarLeftNavOp.rowData = ''; //Reset Grid Data
-    this.sidebarLeftNavOp.rowDataTrakingInfo = '';//Reset Traking Info row data
+    this.sidebarLeftNavOp.rowDataByParcelInfo = '';//Reset Byparcel row data
+    this.sidebarLeftNavOp.rowDataTrackingInfo = '';//Reset Traking Info row data
+    this.sidebarLeftNavOp.rowDataPodInfo = '';//Reset POD Info row data
     this.sidebarLeftNavOp.routeName = '';
     this.sidebarLeftNavOp.driverName = '';
     this.sidebarLeftNavOp.trakingCallStatus = false;

@@ -200,10 +200,10 @@
 
                <!--Show View Details Info-->
               <div class="inner-set-section">
-                <ag-grid-angular style="width: auto; height: 500px;" class="ag-theme-balham" [rowData]="rowData"
+                <ag-grid-angular style="width: auto; height: 400px;" class="ag-theme-balham" [rowData]="rowData"
                   [columnDefs]="columnDefs" [modules]="modules" [suppressRowClickSelection]="true"
                   [rowSelection]='selectionMode' [enableCellTextSelection]="true" [defaultColDef]="defaultColDef"
-                  (selectionChanged)="onSelectionChanged($event)">
+                  (selectionChanged)="onSelectionChanged($event)" [floatingFilter]="true">
                 </ag-grid-angular>
               </div>
 
@@ -213,11 +213,35 @@
           <!--Show Traking Info-->
           <mat-tab label="Tracking">
             <div class="modal-body traking-details-grid">
-              <ag-grid-angular style="width: auto; height: 500px;" class="ag-theme-balham"
-                [rowData]="rowDataTrakingInfo" [columnDefs]="columnDefsTrakingInfo" [modules]="modules"
+              <ag-grid-angular style="width: auto; height: 400px;" class="ag-theme-balham"
+                [rowData]="rowDataTrackingInfo" [columnDefs]="columnDefsTrakingInfo" [modules]="modules"
                 [suppressRowClickSelection]="true" [rowSelection]='selectionMode' [defaultColDef]="defaultColDef"
-                [enableCellTextSelection]="true" [overlayLoadingTemplate]="overlayLoadingTemplate"
-                (gridReady)="onGridReadyTracking($event)">
+                [enableCellTextSelection]="true" [overlayLoadingTemplate]="overlayLoadingTemplateTracking"
+                (gridReady)="onGridReadyTracking($event)" [floatingFilter]="true">
+              </ag-grid-angular>
+            </div>
+          </mat-tab>
+
+          <!--Show By Parcel Info-->
+          <mat-tab label="BY PARCEL">
+            <div class="modal-body traking-details-grid">
+              <ag-grid-angular style="width: auto; height: 400px;" class="ag-theme-balham"
+                [rowData]="rowDataByParcelInfo" [columnDefs]="columnDefsByParcel" [modules]="modules"
+                [suppressRowClickSelection]="true" [rowSelection]='selectionMode' [defaultColDef]="defaultColDef"
+                [enableCellTextSelection]="true" [overlayLoadingTemplate]="overlayLoadingTemplateParcel"
+                (gridReady)="onGridReadyByParcel($event)" [floatingFilter]="true">
+              </ag-grid-angular>
+            </div>
+          </mat-tab>
+
+          <!--Show POD Info-->
+          <mat-tab label="POD">
+            <div class="modal-body traking-details-grid">
+              <ag-grid-angular style="width: auto; height: 400px;" class="ag-theme-balham"
+                [rowData]="rowDataPodInfo" [columnDefs]="columnDefsPOD" [modules]="modules"
+                [suppressRowClickSelection]="true" [rowSelection]='selectionMode' [defaultColDef]="defaultColDef"
+                [enableCellTextSelection]="true" [overlayLoadingTemplate]="overlayLoadingTemplatePod"
+                (gridReady)="onGridReadyPod($event)" [floatingFilter]="true">
               </ag-grid-angular>
             </div>
           </mat-tab>

@@ -424,26 +424,26 @@ export class SidenavLeftService {
 
     if (param.booking_type.toLowerCase() == 'same') {
       this.routeData = {
-        'endPointUrl': 'sameday',
+        'endPointUrl': 'getShipmentTrackingInfo',
         'company_id': '' + this.companyId,
         'warehouse_id': '' + this.wairehouseId,
         'email': this.email,
         'access_token': this.access_token,
         'job_type':param.booking_type,
         "timezone_name": Intl.DateTimeFormat().resolvedOptions().timeZone,
-        "identity": param.instaDispatch_loadIdentity,
+        "job_identity": param.instaDispatch_loadIdentity,
         "is_internal": param.is_internal
       }
     } else if (param.booking_type.toLowerCase() == 'next') {
       this.routeData = {
-        'endPointUrl': 'nextday',
+        'endPointUrl': 'getShipmentTrackingInfo',
         'company_id': '' + this.companyId,
         'warehouse_id': '' + this.wairehouseId,
         'email': this.email,
         'access_token': this.access_token,
         'job_type': param.booking_type,
         "timezone_name": Intl.DateTimeFormat().resolvedOptions().timeZone,
-        "identity": param.instaDispatch_loadIdentity,
+        "job_identity": param.instaDispatch_loadIdentity,
         "is_internal": param.is_internal,
         "isCopyShipment": '',
         "isRepriceCase": "Y"

@@ -58,7 +58,9 @@ export class SidenavLeftOperationComponent implements OnInit {
   resetDisputed: any = { action_id: 0 };
   assignRouteList: any;
   resetAssignRoute: any = { shipment_route_id: 0 };
-  rowDataTrakingInfo: any;
+  rowDataByParcelInfo: any;
+  rowDataTrackingInfo: any;
+  rowDataPodInfo: any;
   frameworkComponents;
   drop_type: any;
   public selectedIndex: number = 0;
@@ -66,8 +68,12 @@ export class SidenavLeftOperationComponent implements OnInit {
   trakingCallStatus = false;
   tmpRouteName;
   totalJobItem;
-  private gridApi;
-  overlayLoadingTemplate;
+  private gridApiTracking;
+  private gridApiByParcel;
+  private gridApiPod;
+  overlayLoadingTemplateTracking;
+  overlayLoadingTemplateParcel;
+  overlayLoadingTemplatePod;
   customerAccountNumber;
   loadIdentity;
 
@@ -75,24 +81,25 @@ export class SidenavLeftOperationComponent implements OnInit {
   columnDefs = [
     { headerName: 'Docket No', field: 'docket_no', width: 200, sortable: true, filter: true, checkboxSelection: true, headerCheckboxSelection: true },
     { headerName: 'Service', field: 'service_type', width: 100, sortable: true, filter: true },
+    { headerName: 'Status', field: 'current_status', width: 100, sortable: true, filter: true },
     { headerName: 'Service Date', field: 'service_date', width: 100, sortable: true, filter: true },
     { headerName: 'Service Time', field: 'service_time', width: 100, sortable: true, filter: true },
     { headerName: 'Weight', field: 'weight', width: 7, sortable: true, filter: true },
     { headerName: 'Postcode', field: 'postcode', width: 120, sortable: true, filter: true },
     { headerName: 'Consignee Name', field: 'consignee_name', width: 250, sortable: true, filter: true },
     { headerName: 'Address1', field: 'address1', width: 150, sortable: true, filter: true },
+    { headerName: 'Instruction', field: 'instruction', width: 150, sortable: true, filter: true },
     { headerName: 'Phone', field: 'phone', width: 150, sortable: true, filter: true },
     { headerName: 'Execution Order', field: 'execution_order', width: 100, sortable: true, filter: true },
     { headerName: 'Attempt', field: 'attempt', width: 100, sortable: true, filter: true },
-    { headerName: 'Estimated Time', field: 'estimatedtime', width: 100, sortable: true, filter: true },
-    { headerName: 'Status', field: 'current_status', width: 100, sortable: true, filter: true }
+    { headerName: 'Estimated Time', field: 'estimatedtime', width: 100, sortable: true, filter: true }
     // { headerName: 'Action', field: 'action' },
   ];
 
 
-  //Traking Info Header
+  //By Parcel Header
   //Grid headers
-  columnDefsTrakingInfo = [
+  columnDefsByParcel = [
     { headerName: 'Ticket', field: 'shipment_ticket', width: 200, sortable: true, filter: true },
     { headerName: 'Type', field: 'shipment_service_type', width: 100, sortable: true },
     { headerName: 'Date', field: 'create_date', width: 100, sortable: true },
@@ -108,7 +115,41 @@ export class SidenavLeftOperationComponent implements OnInit {
       cellRenderer: this.customCellPictureFunc,
       width: 250
     }
+    // {
+    //   headerName: 'Comment',
+    //   cellRenderer: this.customCellCommentFunc,
+    //   width: 250
+    // },
+    // {
+    //   headerName: 'Recipient',
+    //   cellRenderer: this.customCellRecipientFunc,
+    //   width: 250
+    // }
   ];
+
+  //Tracking Header Info
+  columnDefsTrakingInfo = [
+    { headerName: 'Type', field: 'shipment_service_type', width: 200, sortable: true, filter: true },
+    { headerName: 'Date', field: 'create_date', width: 100, sortable: true },
+    { headerName: 'Time', field: 'create_time', width: 100, sortable: true },
+    { headerName: 'Tracking event', field: 'code_text', width: 250, sortable: true },
+    { headerName: 'Action', field: '', width: 250, sortable: true }
+  ]
+
+  //POD Header Info
+  columnDefsPOD = [
+    { headerName: 'Date', field: 'date', width: 100, sortable: true },
+    { headerName: 'Time', field: 'time', width: 100, sortable: true },
+    { headerName: 'Type', field: 'pod_name', width: 200, sortable: true, filter: true },
+    { headerName: 'Address', field: 'shp_postcode', width: 200, sortable: true, filter: true },
+    { headerName: 'Recipient', field: 'recipient', width: 200, sortable: true, filter: true },
+    { headerName: 'Signed By', field: 'comment', width: 250, sortable: true },
+    {
+      headerName: 'Action',
+      cellRenderer: this.customCellPictureClickPod,
+      width: 250
+    }
+  ]
 
 
   modules = AllCommunityModules;
@@ -127,8 +168,14 @@ export class SidenavLeftOperationComponent implements OnInit {
       dateTimeAdapter.setLocale('en-IN');
     }
     this.defaultColDef = { resizable: true };
-    this.overlayLoadingTemplate =
-      '<span style="color:#33225A;font-size:14px;font-weight:bold;" class="ag-overlay-loading-center">Loading Tracking Data ....</span>';
+    this.overlayLoadingTemplateTracking =
+      '<span style="color:#33225A;font-size:14px;font-weight:bold;" class="ag-overlay-loading-center">Loading Tracking Data....</span>';
+
+      this.overlayLoadingTemplateParcel =
+      '<span style="color:#33225A;font-size:14px;font-weight:bold;" class="ag-overlay-loading-center">Loading Parcel Data....</span>';
+
+      this.overlayLoadingTemplatePod =
+      '<span style="color:#33225A;font-size:14px;font-weight:bold;" class="ag-overlay-loading-center">Loading POD Data....</span>';
 
   }
 
@@ -753,25 +800,82 @@ export class SidenavLeftOperationComponent implements OnInit {
     }
   }
 
+  //Click on picture click
+  customCellPictureClickPod(param){
+    if (param.data.action) {
+      //var path = 'http://localhost/parcel-api/pod/signature/ICARGOSF51636.png';
+      return '<a href="' + param.data.action + '" target="_blank"><img src="' + param.data.action + '" height="50" width="50"></a>';
+    } else {
+      return '';
+    }
+  }
+
+  // //Return comment
+  // customCellCommentFunc(param){
+  //   if (param.data.podPath.length > 0) {
+  //     for (var i = 0; i < param.data.podPath.length; i++) {
+  //         if (param.data.podPath[i].tracking_comment) {
+  //           return  param.data.podPath[i].tracking_comment;
+  //         } else {
+  //           return '';
+  //         }
+  //     }
+  //   } else {
+  //     return '';
+  //   }
+  // }
+
+  // //Return recipient name
+  // customCellRecipientFunc(param){
+  //   if (param.data.podPath.length > 0) {
+  //     for (var i = 0; i < param.data.podPath.length; i++) {
+  //         if (param.data.podPath[i].contact_person) {
+  //           return  param.data.podPath[i].contact_person;
+  //         } else {
+  //           return '';
+  //         }
+  //     }
+  //   } else {
+  //     return '';
+  //   }
+  // }
+
   //get Traking Info by on click on traking tab
   getTrakingInfo(e, data) {
 
-    if (e.index == 1 && e.tab.textLabel == 'Tracking' && !this.trakingCallStatus) {
+    if (e.index > 0 && e.tab.textLabel != 'View Details' && !this.trakingCallStatus) {
 
-      this.gridApi.showLoadingOverlay();
-      this.rowDataTrakingInfo = '';//Reset Traking Info row data
+      this.gridApiTracking.showLoadingOverlay();
+      this.gridApiByParcel.showLoadingOverlay();
+      this.gridApiPod.showLoadingOverlay();
+      
+      this.rowDataByParcelInfo = '';//Reset By Parcel Info row data
+      this.rowDataTrackingInfo = '';//Reset Tracking Info row data
       var Jtypes = data.booking_type.toLowerCase();
       if (Jtypes == 'next' || Jtypes == 'same' || Jtypes == 'vendor') {
         this.sidenavleftservice.getShipmentTrakingInfo(data).subscribe(resp => {
           var strArray = resp.split(".");
           this.trakingCallStatus = true;
           var decodeBAse64 = JSON.parse(atob(strArray[1]));
+          if(decodeBAse64.code != 'undefined' && decodeBAse64.code == 'invalid_user'){
+             //Controller Logout
+             this.toastr.error('Controller Logout! please login again', '', {
+              closeButton: true, positionClass: 'toast-top-right', timeOut: 10000
+            });
+          }
+
           if (Jtypes == 'next') {
-            this.rowDataTrakingInfo = decodeBAse64.nextday.trackinginfo;
+            this.rowDataByParcelInfo = decodeBAse64.trackinginfo;
+            this.rowDataTrackingInfo = decodeBAse64.shipmentTrackinginfo;
+            this.rowDataPodInfo = decodeBAse64.podinfo;
           } else if (Jtypes == 'same') {
-            this.rowDataTrakingInfo = decodeBAse64.sameday.trackinginfo;
+            this.rowDataByParcelInfo = decodeBAse64.trackinginfo;
+            this.rowDataTrackingInfo = decodeBAse64.shipmentTrackinginfo;
+            this.rowDataPodInfo = decodeBAse64.podinfo;
           }else if(Jtypes == 'vendor'){
-            this.rowDataTrakingInfo = decodeBAse64.retail.trackinginfo;
+            this.rowDataByParcelInfo = decodeBAse64.retail.trackinginfo;
+            this.rowDataTrackingInfo = decodeBAse64.retail.shipmentTrackinginfo;
+            this.rowDataPodInfo = decodeBAse64.retail.podinfo;
           }
         });
       }
@@ -780,7 +884,15 @@ export class SidenavLeftOperationComponent implements OnInit {
 
   //Show grid loader while fetch tracking data
   onGridReadyTracking(params) {
-    this.gridApi = params.api;
+    this.gridApiTracking = params.api;
+  }
+
+  onGridReadyByParcel(params){
+    this.gridApiByParcel = params.api;
+  }
+
+  onGridReadyPod(params){
+    this.gridApiPod = params.api;
   }
 
   /**
