@@ -21,6 +21,7 @@ export class DashboardService {
   iacrgoApiUrl = this.configSettings.env.icargo_api_url;
   email = this.configSettings.env.email;
   access_token = this.configSettings.env.icargo_access_token;
+  map_box_key = this.configSettings.env.mapbox_api_key;
   public markerList: any = new Array();
   routeData: any;
   mapData: any;
@@ -405,5 +406,38 @@ export class DashboardService {
       })
     }
 
+  }
+
+  /**
+   * Get Direction
+   * @param coordinatesArray 
+   */
+  getDirectionBtwnLatLng(coordinatesArray): Observable<any> {
+    const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
+    var coordinateJoin = '';
+   
+    for (var di = 0; di < coordinatesArray.length; di++) {
+      if(di == 0){
+        coordinateJoin +=coordinatesArray[di][0]+','+coordinatesArray[di][1];
+      }else{
+        coordinateJoin +=';'+coordinatesArray[di][0]+','+coordinatesArray[di][1];
+      }
+      
+    }
+
+    var requestQueryString = '';
+    if(coordinateJoin){
+      requestQueryString = 'https://api.mapbox.com/directions/v5/mapbox/driving/'+coordinateJoin+'?geometries=geojson&steps=true&overview=full&access_token='+this.map_box_key; 
+
+      return this.http.get<any>(requestQueryString,
+      {
+        headers, responseType: 'json' as 'json'
+      })
+      .pipe(
+        retry(1),
+        catchError(this.handleError)
+      )
+    }
+    
   }
 }

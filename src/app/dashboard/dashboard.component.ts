@@ -52,18 +52,18 @@ export class DashboardComponent implements OnInit {
 
   shipmentInfo = new shipmentInfo();
   loadIdentity: any;
-  sideNavLeft:SidenavLeftComponent = null;
+  sideNavLeft: SidenavLeftComponent = null;
   sameCordinateSattusInfo;
 
 
 
   constructor(
-    private dashboardService: DashboardService, 
-    private mapbox: MapboxService, 
-    private dialog: MatDialog, 
+    private dashboardService: DashboardService,
+    private mapbox: MapboxService,
+    private dialog: MatDialog,
     private spinnerService: NgxSpinnerService,
     private toastr: ToastrService
-    ) {
+  ) {
     document.mapCom = this;
   }
 
@@ -190,11 +190,11 @@ export class DashboardComponent implements OnInit {
       document.mapCom.shipmentInfo.customer_id = res.tktInfo[0].customer_id;
       document.mapCom.shipmentInfo.job_customer_ref = res.dropDataServiceInfo.job_customer_ref;
       document.mapCom.shipmentInfo.job_service_name = res.dropDataServiceInfo.job_service_name;
-      if(res.tktInfo[0].assigned_driver == 0){
+      if (res.tktInfo[0].assigned_driver == 0) {
         document.mapCom.shipmentInfo.drop_type = 'unassinged';
-      }else if(res.tktInfo[0].assigned_driver && res.tktInfo[0].shipment_routed_id && res.tktInfo[0].current_status != 'D'){
+      } else if (res.tktInfo[0].assigned_driver && res.tktInfo[0].shipment_routed_id && res.tktInfo[0].current_status != 'D') {
         document.mapCom.shipmentInfo.drop_type = 'assinged';
-      }else if(res.tktInfo[0].assigned_driver && res.tktInfo[0].shipment_routed_id && res.tktInfo[0].current_status == 'D'){
+      } else if (res.tktInfo[0].assigned_driver && res.tktInfo[0].shipment_routed_id && res.tktInfo[0].current_status == 'D') {
         document.mapCom.shipmentInfo.drop_type = 'completed';
       }
     }, error => {
@@ -403,6 +403,7 @@ export class DashboardComponent implements OnInit {
   //Show All Drop to fit when click in show all button
   showFocusToDrop(res) {
 
+    
     var allCordinatesLatLng = [];
     if (res) {
       for (var index2 in res.routeLatLng) {
@@ -410,6 +411,8 @@ export class DashboardComponent implements OnInit {
       }
 
       var coordinates = allCordinatesLatLng;
+     
+      //clear Route
 
       var bounds = coordinates.reduce(function (bounds, coord) {
         return bounds.extend(coord);
@@ -418,8 +421,73 @@ export class DashboardComponent implements OnInit {
       document.mapCom.mapbox.map.fitBounds(bounds, {
         padding: 50
       });
+
+      //get route direction
+      document.mapCom.removeMapLayerDirection();
+      if (coordinates.length > 1) {
+        document.mapCom.dashboardService.getDirectionBtwnLatLng(coordinates).subscribe((response) => {
+          if (response.code == 'Ok') {
+            var routeDirectionArray = '';
+            console.log(response['routes'][0].geometry.coordinates);
+            routeDirectionArray = response['routes'][0].geometry.coordinates;
+
+
+            //Cretae Route from responce
+            if (response['routes'][0].geometry.coordinates.length) {
+              //this.mapbox.map.addSource("routedirection", this.dashboardService.formatedDataDriver);
+              this.mapbox.map.addLayer(
+                {
+                  'id': 'route',
+                  'type': 'line',
+                  'source': {
+                    'type': 'geojson',
+                    'data': {
+                      'type': 'Feature',
+                      'properties': {},
+                      'geometry': {
+                        'type': 'LineString',
+                        'coordinates': routeDirectionArray
+                      }
+                    }
+                  },
+                  'layout': {
+                    'line-join': 'round',
+                    'line-cap': 'round'
+                  },
+                  'paint': {
+                    'line-color': '#ec1919',
+                    'line-width': 2
+                  }
+                }
+              );
+            }
+          } else {
+            console.log(response.code);
+            console.log(response.message);
+          }
+        })
+      }
+
+      
+
     }
   }
+
+  removeMapLayerDirection() {
+    var mpLayer =  this.mapbox.map.getLayer("route");
+    if (typeof mpLayer === 'undefined') {
+        // No Layer
+    } else {
+      this.mapbox.map.removeLayer("route");
+    }
+
+    var mpSource =  this.mapbox.map.getSource("route");
+    if (typeof mpSource === 'undefined') {
+        console.log("no source");
+    } else {
+      this.mapbox.map.removeSource("route");
+    }
+}
 
   /**
    * Assign Driver without loadIdentity
@@ -473,27 +541,27 @@ export class DashboardComponent implements OnInit {
   }
 
   //Show View Details When one shipment on one address
-  viewDetailsFromMap(index,type){
-    if(type == 'unassinged'){
+  viewDetailsFromMap(index, type) {
+    if (type == 'unassinged') {
       type = 'unassign';
-    }else if(type == 'assinged'){
+    } else if (type == 'assinged') {
       type = 'assign';
     }
-    this.sideNavLeft.viewDetails(this.dashboardService.mapData.mapPlotData[index],type);
+    this.sideNavLeft.viewDetails(this.dashboardService.mapData.mapPlotData[index], type);
   }
 
   //Show View Details When multiple shipment on one address
-  viewDetailsFromSameCordinate(){
+  viewDetailsFromSameCordinate() {
     //This value is getting from getTktInfo();
     var type = document.mapCom.shipmentInfo.drop_type;
     //Hide modal
-    document.mapCom.showHideModal = 'none'; 
-    if(type == 'unassinged'){
+    document.mapCom.showHideModal = 'none';
+    if (type == 'unassinged') {
       type = 'unassign';
-    }else if(type == 'assinged'){
+    } else if (type == 'assinged') {
       type = 'assign';
     }
-    this.sideNavLeft.viewDetails(document.mapCom.shipmentInfo,type);
+    this.sideNavLeft.viewDetails(document.mapCom.shipmentInfo, type);
   }
 
 }
