@@ -30,6 +30,7 @@ export class SidenavLeftComponent implements OnInit {
   routeName: any;
   driverName: any;
   param: any = {};
+  getFocusLatLong = '';
 
 
   @Input() sidebarLeftNavOp: SidenavLeftOperationComponent; //Send Data to SidenavLeftOperationComponent
@@ -176,9 +177,11 @@ export class SidenavLeftComponent implements OnInit {
   //Move to map pointer
   focusOnDrops(data) {
     //get Latlng for this route
-    this.sidenaveleftService.getLatLng(data).subscribe(res => {
-      this.dashboradCmp.showFocusToDrop(res);
-    });
+    this.sidenaveleftService.getLatLng(data);
+
+  }
+  alertMeWhenGetLatLng(){
+    this.dashboradCmp.showFocusToDrop(this.sidenaveleftService.setFocusLatLong);
   }
 
 }

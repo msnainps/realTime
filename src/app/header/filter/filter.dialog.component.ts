@@ -5,6 +5,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { DashboardService } from 'src/app/dashboard/dashboard.service';
+import { SharedService } from 'src/app/shared/shared.service';
 
 
 @Component({
@@ -30,7 +31,8 @@ export class FilterDialog implements OnInit {
     private formBuilder: FormBuilder,
     private spinerService: NgxSpinnerService,
     private toastr: ToastrService,
-    private dashboardService: DashboardService
+    private dashboardService: DashboardService,
+    private sharedService:SharedService
   ) {
     if (data) {
       this.message = data.message || this.message;
@@ -99,6 +101,8 @@ export class FilterDialog implements OnInit {
         });
       }
       this.dialogRef.close(); //Close modal
+       //Remove Route Direction Live After filter Data Saved
+       this.sharedService.dashbrdCmpShared.removeDirectionalRouteLineFromMap();
     });
   }
 
@@ -149,6 +153,8 @@ export class FilterDialog implements OnInit {
       }
     });
     this.dialogRef.close();//Close modal
+    //Remove Route Direction Live After filter data delete
+    this.sharedService.dashbrdCmpShared.removeDirectionalRouteLineFromMap();
   }
 
   checkedFiterStatus() {

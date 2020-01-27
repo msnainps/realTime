@@ -103,6 +103,8 @@ export class HeaderComponent implements OnInit {
       this.headreSearch.searchdate = [new Date(), new Date()];
     }
   });
+
+  this.headerService.loadDateFilterListner()
   }
   isShown: Boolean = false;
   toggleShow() {
@@ -167,10 +169,11 @@ export class HeaderComponent implements OnInit {
     this.headerService.saveSearchDate(this.selectedDateRange).subscribe(resp => {
       this.dateDeleteBtn = true;
       this.spinerService.hide('header-search');
-      this.dashboardService.loadDropOnMapsEmit();
+      //this.dashboardService.loadDropOnMapsEmit();
     });
 
-    
+    //Remove Route Direction Live After Date Saved
+    this.sharedService.dashbrdCmpShared.removeDirectionalRouteLineFromMap();
   }
 
 
@@ -188,8 +191,11 @@ export class HeaderComponent implements OnInit {
       this.spinerService.hide('header-search');
        //show todays date
       this.headreSearch.searchdate = [new Date(), new Date()]; 
-      this.dashboardService.loadDropOnMapsEmit();
+      //this.dashboardService.loadDropOnMapsEmit();
     });
+
+     //Remove Route Direction Live After Date Saved
+     this.sharedService.dashbrdCmpShared.removeDirectionalRouteLineFromMap();
   }
 
    //Show grid loader while fetch tracking data

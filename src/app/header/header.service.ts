@@ -6,6 +6,8 @@ import { Observable, Observer, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { retry, catchError, map } from 'rxjs/operators';
 import { formatDate } from '@angular/common';
+import { DashboardService } from '../dashboard/dashboard.service';
+
 
 
 @Injectable({
@@ -23,7 +25,7 @@ export class HeaderService {
   observer: Observer<any>;
 
   notiFicationResponce;
-  constructor(private socket: SocketService, private http: HttpClient) {
+  constructor(private socket: SocketService, private http: HttpClient,private dashboardService:DashboardService) {
     this.getHeaderDataEmit();
     this.socket.websocket.on('instantnotiFication', (data) => {
       this.notiFicationResponce = data;
@@ -33,6 +35,12 @@ export class HeaderService {
 
     })
 
+  }
+
+  loadDateFilterListner(){
+    this.socket.websocket.on('get-header-date', (data) => {
+      this.dashboardService.loadDropOnMapsEmit();
+    })
   }
 
   getHeaderDataEmit() {
@@ -99,9 +107,9 @@ export class HeaderService {
       start_date: dateInfo.start_date,
       end_date:  dateInfo.end_date
     });
-    this.socket.websocket.on('get-header-date', (data) => {
-      this.observer.next(data);
-    })
+    // this.socket.websocket.on('get-header-date', (data) => {
+    //   this.observer.next(data);
+    // })
     return this.createObservable();
   }
 
@@ -116,9 +124,9 @@ export class HeaderService {
       warehouse_id: this.wairehouseId,
       company_id: this.companyId
     });
-    this.socket.websocket.on('get-header-date', (data) => {
-      this.observer.next(data);
-    })
+    // this.socket.websocket.on('get-header-date', (data) => {
+    //   this.observer.next(data);
+    // })
     return this.createObservable();
   }
 

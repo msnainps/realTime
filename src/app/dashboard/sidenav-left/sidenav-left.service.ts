@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Input } from '@angular/core';
 import * as io from 'socket.io-client';
 import { config } from 'src/config/config';
 import { SocketService } from 'src/app/commonServices/socket.service';
@@ -7,6 +7,7 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import { retry, catchError, map } from 'rxjs/operators';
 import { formatDate } from '@angular/common';
 import { FnParam } from '@angular/compiler/src/output/output_ast';
+import { SharedService } from 'src/app/shared/shared.service';
 
 
 @Injectable({
@@ -23,13 +24,25 @@ export class SidenavLeftService {
   socketRestAPI = this.configSettings.env.socket_rest_api_url;
 
   public dataList: any = new Array();
+  setFocusLatLong: any = '';
+  
 
-  constructor(private socket: SocketService, private http: HttpClient) { }
+  constructor(private socket: SocketService, private http: HttpClient,private sharedService:SharedService) {}
   routeData;
   getAssignDropData() {
     this.socket.websocket.on('get-all-drops', (data) => {
       //console.log(data);
       this.dataList = data;
+    });
+    this.getFocusLatLong();
+  }
+
+  getFocusLatLong(){
+    this.socket.websocket.on('get-lat-lng', data => {
+      this.setFocusLatLong = data;
+      if(this.sharedService.sidecmp!=null){
+         this.sharedService.sidecmp.alertMeWhenGetLatLng();
+      }
     });
   }
 
@@ -429,7 +442,7 @@ export class SidenavLeftService {
         'warehouse_id': '' + this.wairehouseId,
         'email': this.email,
         'access_token': this.access_token,
-        'job_type':param.booking_type,
+        'job_type': param.booking_type,
         "timezone_name": Intl.DateTimeFormat().resolvedOptions().timeZone,
         "job_identity": param.instaDispatch_loadIdentity,
         "is_internal": param.is_internal
@@ -460,8 +473,8 @@ export class SidenavLeftService {
         "identity": param.instaDispatch_loadIdentity,
         "shipment_ticket": param.instaDispatch_loadIdentity,
         "is_internal": param.is_internal,
-        "route_id":(typeof param.shipment_routed_id != 'undefined' ? param.shipment_routed_id : '')
-      }  
+        "route_id": (typeof param.shipment_routed_id != 'undefined' ? param.shipment_routed_id : '')
+      }
     }
 
     return this.http.post(this.iacrgoApiUrl + this.routeData.endPointUrl, JSON.stringify(this.routeData), {
@@ -492,12 +505,6 @@ export class SidenavLeftService {
         dropData: param
       }
     );
-
-    return Observable.create(observer => {
-      this.socket.websocket.on('get-lat-lng', data => {
-        observer.next(data);
-      });
-    });
   }
 
 

@@ -14,7 +14,7 @@ import { Popup } from 'mapbox-gl';
 import { $ } from 'protractor';
 import { ToastrService } from 'ngx-toastr';
 import { SidenavLeftComponent } from './sidenav-left/sidenav-left.component';
-
+import { SharedService } from 'src/app/shared/shared.service';
 
 
 
@@ -62,9 +62,11 @@ export class DashboardComponent implements OnInit {
     private mapbox: MapboxService,
     private dialog: MatDialog,
     private spinnerService: NgxSpinnerService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private sharedService: SharedService
   ) {
     document.mapCom = this;
+    this.sharedService.dashbrdCmpShared = this;
   }
 
 
@@ -403,7 +405,6 @@ export class DashboardComponent implements OnInit {
   //Show All Drop to fit when click in show all button
   showFocusToDrop(res) {
 
-    
     var allCordinatesLatLng = [];
     if (res) {
       for (var index2 in res.routeLatLng) {
@@ -411,7 +412,7 @@ export class DashboardComponent implements OnInit {
       }
 
       var coordinates = allCordinatesLatLng;
-     
+
       //clear Route
 
       var bounds = coordinates.reduce(function (bounds, coord) {
@@ -422,72 +423,76 @@ export class DashboardComponent implements OnInit {
         padding: 50
       });
 
+     
       //get route direction
-      document.mapCom.removeMapLayerDirection();
       if (coordinates.length > 1) {
         document.mapCom.dashboardService.getDirectionBtwnLatLng(coordinates).subscribe((response) => {
           if (response.code == 'Ok') {
             var routeDirectionArray = '';
-            console.log(response['routes'][0].geometry.coordinates);
+
             routeDirectionArray = response['routes'][0].geometry.coordinates;
 
-
             //Cretae Route from responce
-            if (response['routes'][0].geometry.coordinates.length) {
-              //this.mapbox.map.addSource("routedirection", this.dashboardService.formatedDataDriver);
-              this.mapbox.map.addLayer(
-                {
-                  'id': 'route',
-                  'type': 'line',
-                  'source': {
-                    'type': 'geojson',
-                    'data': {
-                      'type': 'Feature',
-                      'properties': {},
-                      'geometry': {
-                        'type': 'LineString',
-                        'coordinates': routeDirectionArray
+            if (routeDirectionArray.length) {
+
+              var geojson = {
+                type: 'Feature',
+                properties: {},
+                geometry: {
+                  type: 'LineString',
+                  coordinates: routeDirectionArray
+                }
+              };
+
+              if (this.mapbox.map.getSource('route')) {
+                this.mapbox.map.getSource('route').setData(geojson);
+              } else { // otherwise, make a new request
+                this.mapbox.map.addLayer({
+                  id: 'route',
+                  type: 'line',
+                  source: {
+                    type: 'geojson',
+                    data: {
+                      type: 'Feature',
+                      properties: {},
+                      geometry: {
+                        type: 'LineString',
+                        coordinates: routeDirectionArray
                       }
                     }
                   },
-                  'layout': {
+                  layout: {
                     'line-join': 'round',
                     'line-cap': 'round'
                   },
-                  'paint': {
-                    'line-color': '#ec1919',
-                    'line-width': 2
+                  paint: {
+                    'line-color': '#ff0000',
+                    'line-width': 2,
+                    'line-opacity': 0.75
                   }
-                }
-              );
+                });
+              }
             }
           } else {
             console.log(response.code);
             console.log(response.message);
           }
         })
+      }else{
+        this.removeDirectionalRouteLineFromMap();
       }
 
-      
+
 
     }
   }
 
-  removeMapLayerDirection() {
-    var mpLayer =  this.mapbox.map.getLayer("route");
-    if (typeof mpLayer === 'undefined') {
-        // No Layer
-    } else {
-      this.mapbox.map.removeLayer("route");
+  removeDirectionalRouteLineFromMap() {
+    if (this.mapbox.map.getSource('route')) {
+    this.mapbox.map.removeLayer('route');
+    this.mapbox.map.removeSource('route');
     }
-
-    var mpSource =  this.mapbox.map.getSource("route");
-    if (typeof mpSource === 'undefined') {
-        console.log("no source");
-    } else {
-      this.mapbox.map.removeSource("route");
-    }
-}
+  }
 
   /**
    * Assign Driver without loadIdentity
