@@ -19,7 +19,7 @@ body { margin: 0; font-family: 'Lato', sans-serif;}
 height: calc(100vh - 64px);
 }
 mat-drawer.example-sidenav {
-    width: 702px;
+    width: 800px;
 }
 mat-drawer.example-sidenav2 {
 width: 650px;

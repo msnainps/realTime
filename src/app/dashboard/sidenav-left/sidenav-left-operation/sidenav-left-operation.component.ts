@@ -353,6 +353,7 @@ export class SidenavLeftOperationComponent implements OnInit {
         color: "white"
       });
 
+      this.rlsTktList = [];
       for (var i = 0; i < this.releaseShipmentTkt.length; i++) {
         this.rlsTktList.push(this.releaseShipmentTkt[i].shipment_ticket);
       }
@@ -395,6 +396,7 @@ export class SidenavLeftOperationComponent implements OnInit {
         color: "white"
       });
 
+      this.cradedTktList = [];
       for (var i = 0; i < this.releaseShipmentTkt.length; i++) {
         this.cradedTktList.push(this.releaseShipmentTkt[i].shipment_ticket);
       }
@@ -442,6 +444,7 @@ export class SidenavLeftOperationComponent implements OnInit {
         color: "white"
       });
 
+      this.deliverTktList = [];
       for (var i = 0; i < this.releaseShipmentTkt.length; i++) {
         this.deliverTktList.push(this.releaseShipmentTkt[i].shipment_ticket);
       }
@@ -687,6 +690,7 @@ export class SidenavLeftOperationComponent implements OnInit {
         color: "white"
       });
 
+      this.deliverTktList = [];
       for (var i = 0; i < this.releaseShipmentTkt.length; i++) {
         this.deliverTktList.push(this.releaseShipmentTkt[i].shipment_ticket);
       }
@@ -738,6 +742,7 @@ export class SidenavLeftOperationComponent implements OnInit {
         color: "white"
       });
 
+      this.deliverTktList = [];
       for (var i = 0; i < this.releaseShipmentTkt.length; i++) {
         this.deliverTktList.push(this.releaseShipmentTkt[i].shipment_ticket);
       }
