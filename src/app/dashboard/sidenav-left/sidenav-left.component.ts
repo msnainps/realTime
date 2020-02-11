@@ -39,10 +39,10 @@ export class SidenavLeftComponent implements OnInit {
     private toastr: ToastrService,
     private spinerService: NgxSpinnerService,
     private dashboradCmp: DashboardComponent,
-    private sharedService:SharedService
+    private sharedService: SharedService
   ) {
     this.dashboradCmp.sideNavLeft = this;
-    this.sharedService.sidecmp=this;
+    this.sharedService.sidecmp = this;
   }
 
   ngOnInit() {
@@ -60,7 +60,7 @@ export class SidenavLeftComponent implements OnInit {
     this.sidebarLeftNavOp.shipment_route_id = shipmentRouteId;
   }
 
-  assignJob(shipmentTicket, laodIdentity, collection_date) {
+  assignJob(shipmentTicket, laodIdentity, collection_date, shipment_route_id) {
 
     //Fill RouteName and Todays Date
     //this.sidebarLeftNavOp.assignDriverFormModel.route_name = shipmentRouteName;
@@ -79,7 +79,7 @@ export class SidenavLeftComponent implements OnInit {
     }
 
 
-    
+
 
 
     this.sidebarLeftNavOp.showHideModal = 'block';
@@ -89,7 +89,7 @@ export class SidenavLeftComponent implements OnInit {
     });
 
     //get All Ticket
-    this.sidenaveleftService.getAllTickets(shipmentTicket, laodIdentity).subscribe(res => {
+    this.sidenaveleftService.getAllTickets(shipmentTicket, laodIdentity, shipment_route_id).subscribe(res => {
       if (res.shipmentKey) {
         this.sidebarLeftNavOp.assignDriverFormModel.shipment_ticket = res.shipmentKey;
         this.sidebarLeftNavOp.tmpRouteName = res.routeName;
@@ -124,10 +124,16 @@ export class SidenavLeftComponent implements OnInit {
     this.sidebarLeftNavOp.drop_type = data.drop_type
 
 
-    if (type == 'unassign') {
-      this.param.routeId = data.instaDispatch_loadIdentity;
-    } else {
+    // if (type == 'unassign') {
+    //   this.param.routeId = data.instaDispatch_loadIdentity;
+    // } else {
+    //   this.param.routeId = data.shipment_routed_id;
+    // }
+
+    if (data.shipment_routed_id > 0) {
       this.param.routeId = data.shipment_routed_id;
+    } else {
+      this.param.routeId = data.instaDispatch_loadIdentity;
     }
 
     //For POD download
@@ -139,7 +145,6 @@ export class SidenavLeftComponent implements OnInit {
 
     //get View details data
     this.sidenaveleftService.getRouteDetails(this.param, type).subscribe(resp => {
-
       if (resp.routeDetailsData.length > 0) {
         this.sidebarLeftNavOp.rowData = resp.routeDetailsData;
       }
@@ -180,7 +185,7 @@ export class SidenavLeftComponent implements OnInit {
     this.sidenaveleftService.getLatLng(data);
 
   }
-  alertMeWhenGetLatLng(){
+  alertMeWhenGetLatLng() {
     this.dashboradCmp.showFocusToDrop(this.sidenaveleftService.setFocusLatLong);
   }
 

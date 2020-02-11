@@ -188,13 +188,13 @@ export class SidenavLeftService {
   }
 
   //Get All Tickets
-  getAllTickets(tkt, laodIdentity) {
+  getAllTickets(tkt, laodIdentity,shipment_routed_id) {
     this.socket.websocket.emit('req-ticket-list',
       {
         warehouse_id: this.wairehouseId,
         company_id: this.companyId,
         loadIdentity: laodIdentity,
-        //routedId:laodIdentity
+        routedId:shipment_routed_id
       }
     );
     return Observable.create(observer => {
