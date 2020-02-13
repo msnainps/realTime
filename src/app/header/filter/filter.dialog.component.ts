@@ -1,11 +1,12 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { VERSION, MatDialogRef, MatDialog, MatSnackBar, MAT_DIALOG_DATA } from '@angular/material';
 import { FilterService } from './filter.service';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { DashboardService } from 'src/app/dashboard/dashboard.service';
 import { SharedService } from 'src/app/shared/shared.service';
+import { retry } from 'rxjs/operators';
 
 
 @Component({
@@ -21,9 +22,15 @@ export class FilterDialog implements OnInit {
 
   filterFormVal: FormGroup;
   filterFormModel: any = {};
+  hubFilterFormModel: any = [];
   deleteBtnStatus;
   jobStatusMsg: string;
   jobTypeMsg: string;
+  hubData: any = [];
+  checked = true;
+
+  hubSelectList = new FormControl();
+
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: any,
     private dialogRef: MatDialogRef<FilterDialog>,
@@ -32,7 +39,7 @@ export class FilterDialog implements OnInit {
     private spinerService: NgxSpinnerService,
     private toastr: ToastrService,
     private dashboardService: DashboardService,
-    private sharedService:SharedService
+    private sharedService: SharedService
   ) {
     if (data) {
       this.message = data.message || this.message;
@@ -43,6 +50,7 @@ export class FilterDialog implements OnInit {
     }
     //When Click on Filter Button
     this.getFilterData();
+    this.sharedService.filterDialogCmpShared = this;
   }
 
   ngOnInit() {
@@ -57,6 +65,7 @@ export class FilterDialog implements OnInit {
       online: '',
       offline: '',
       ideal: '',
+      hubs: ''
     });
   }
 
@@ -65,7 +74,6 @@ export class FilterDialog implements OnInit {
    * Save Filter Data
    */
   saveFilter() {
-
     //Check For Validation
     if (this.filterFormModel.unassigned || this.filterFormModel.assign || this.filterFormModel.completed) {
       this.jobStatusMsg = '';
@@ -87,7 +95,7 @@ export class FilterDialog implements OnInit {
       size: "large",
       color: "white"
     });
-    this.filterService.saveFilter(this.filterFormModel).subscribe(val => {
+    this.filterService.saveFilter(this.filterFormModel,this.hubFilterFormModel).subscribe(val => {
       var re = JSON.parse(val);
       this.spinerService.hide("save-filter");
       this.dashboardService.loadDropOnMapsEmit();
@@ -101,8 +109,8 @@ export class FilterDialog implements OnInit {
         });
       }
       this.dialogRef.close(); //Close modal
-       //Remove Route Direction Live After filter Data Saved
-       this.sharedService.dashbrdCmpShared.removeDirectionalRouteLineFromMap();
+      //Remove Route Direction Live After filter Data Saved
+      this.sharedService.dashbrdCmpShared.removeDirectionalRouteLineFromMap();
     });
   }
 
@@ -117,6 +125,10 @@ export class FilterDialog implements OnInit {
       var re = JSON.parse(val);
       this.spinerService.hide("get-filter");
       if (re.data.length > 0) {
+        if (re.data[0].hub_filter) {
+          var objectHub = JSON.parse(re.data[0].hub_filter);
+          this.hubFilterFormModel = objectHub;
+        }
         if (re.data[0].drop_filter) {
           var object = JSON.parse(re.data[0].drop_filter);
           this.filterFormModel = object;
@@ -162,6 +174,19 @@ export class FilterDialog implements OnInit {
     if (!this.filterFormModel.drops) {
       this.filterFormModel = JSON.parse('{"drops":false,"unassigned":false,"assign":false,"completed":false,"collection":false,"delivery":false}');
     }
+  }
+
+  //Get List of hub
+  listenWhenGetHubList() {
+    this.hubData = this.filterService.hubData;
+  }
+
+  //Make Selected checkbox based on saved Filterhub
+  compareFn(o1: any, o2: any): boolean {
+    //console.log(o1.id + '--' + o2.id);
+    if (o1.id === o2.id)
+      return true;
+    else return false
   }
 
 }

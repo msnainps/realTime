@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {MatDialog,MatDialogConfig } from '@angular/material/dialog';
 import {FilterDialog} from './filter.dialog.component';
+import { FilterService } from './filter.service';
+
 
 @Component({
   selector: 'app-filter',
@@ -10,10 +12,11 @@ import {FilterDialog} from './filter.dialog.component';
 export class FilterComponent implements OnInit {
 
   
-  constructor(private dialog: MatDialog) {
+  constructor(private dialog: MatDialog,private filterService:FilterService) {
   }
 
   ngOnInit() {
+    this.hubListner();
   }
 
   openDialog() {
@@ -23,11 +26,25 @@ export class FilterComponent implements OnInit {
         buttonText: {
           ok: 'Set Filter',
           cancel: 'No'
-        }
+        },
+        hubList : this.getHubList()
       }
     });
     
   }
+
+  getHubList(){
+   this.filterService.getHubDetails().subscribe(resp => {
+      //console.log(resp);
+   });
+  }
+
+  hubListner(){
+    this.filterService.setHubListner(); 
+  }
+  
+  
+  
 
 }
 

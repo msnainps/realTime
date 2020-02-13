@@ -21,7 +21,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { SidenavLeftOperationComponent } from './dashboard/sidenav-left/sidenav-left-operation/sidenav-left-operation.component';
 import {AgGridModule} from "@ag-grid-community/angular";
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
-
+import {MatSelectModule} from '@angular/material/select';
 
 
 
@@ -53,7 +53,8 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
     AgGridModule.withComponents([]),
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
-    MatTabsModule
+    MatTabsModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent],

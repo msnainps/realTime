@@ -136,6 +136,8 @@ export class SidenavLeftComponent implements OnInit {
       this.param.routeId = data.instaDispatch_loadIdentity;
     }
 
+    console.log(this.param.routeId);
+
     //For POD download
     this.param.customer_id = data.customer_id
     this.sidebarLeftNavOp.loadIdentity = data.instaDispatch_loadIdentity;
