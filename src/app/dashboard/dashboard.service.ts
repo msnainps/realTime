@@ -111,11 +111,16 @@ export class DashboardService {
               <div class="drop-list-design-2"><div><span><a href="" onClick ="document.mapCom.viewDetailsFromMap(\'' + index1 + '\',\'' + data.mapPlotData[index1].drop_type + '\')" data-toggle="modal" data-target="#Modal4">View Details</a>\
               </span></div></div></div>\
               <div class="drops-line"></div>\
-              <div class="sec-div-drop-list-main"><div class="drop-list-design-1"><i class="material-icons drops-min-color3">local_car_wash</i></div>\
-              <div class="drop-list-design-2"><div><span>'+ data.mapPlotData[index1].driver_name + '</span><div></div></div>\
-              <div class="postion-set">\
+              <div class="sec-div-drop-list-main-a"><div class="drop-list-design-1a"><i class="material-icons drops-min-color3">local_car_wash</i>\
+              <span>'+ data.mapPlotData[index1].driver_name + '</span>\
+              </div>\
+              <div class="drop-list-design-2a">\
+              <div class="">\
+              '+ (data.mapPlotData[index1].drop_type == 'unassinged' ? data.getHubList : "") + '\
+              </div>\
+              <div>\
               '+ (data.mapPlotData[index1].drop_type == 'unassinged' ? data.driverList : "") + '\
-              </div></div>'),
+              </div></div></div>'),
             'icon': data.mapPlotData[index1].marker_url,
             'execution_order': data.mapPlotData[index1].icargo_execution_order,
             'shipment_id': data.mapPlotData[index1].shipment_ticket,
@@ -264,7 +269,7 @@ export class DashboardService {
         headers, responseType: 'text' as 'json'
       })
       .pipe(
-        retry(),
+        retry(1),
         catchError(this.handleError)
       )
   }

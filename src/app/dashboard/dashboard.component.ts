@@ -113,7 +113,7 @@ export class DashboardComponent implements OnInit {
     document.mapCom.sub.unsubscribe();
   }
 
-  assignDriver(driverid: number) {
+  assignDriver(driverid) {
 
     //if Shipment Route id is zero
     if (document.mapCom.shipment_route_id == 0) {
@@ -182,6 +182,7 @@ export class DashboardComponent implements OnInit {
       document.mapCom.shipmentInfo.jobType = (res.tktInfo[0].shipment_service_type == 'P' ? 'Collection' : 'Delivery');
       document.mapCom.shipmentInfo.driverName = (res.tktInfo[0].assigned_driver ? res.tktInfo[0].driver_name : 'Assign Driver');
       document.mapCom.shipmentInfo.driverList = (res.tktInfo[0].assigned_driver ? [] : res.driverList);
+      document.mapCom.shipmentInfo.hubList = (res.tktInfo[0].assigned_driver ? [] : res.hubList);
       document.mapCom.shipmentInfo.assigned_driver = res.tktInfo[0].assigned_driver;
       document.mapCom.shipmentInfo.shipment_routed_id = res.tktInfo[0].shipment_routed_id;
       document.mapCom.shipmentInfo.instaDispatch_loadIdentity = res.tktInfo[0].instaDispatch_loadIdentity;
@@ -211,14 +212,16 @@ export class DashboardComponent implements OnInit {
    */
   assignDriverSameCordinate(driverId) {
 
+
+
     //if Shipment Route id is zero
-    if (document.mapCom.shipmentInfo.shipment_route_id == 0) {
+    if (document.mapCom.shipmentInfo.shipment_routed_id == 0) {
       document.mapCom.assignDriverWithOutRouteId(document.mapCom.shipmentInfo.loadIdentity, driverId);
     } else { //If shipment Id is present
       document.mapCom.assignRouteSameCord =
       {
         'endPointUrl': 'assignUnassignRoute',
-        'route_id': '' + document.mapCom.shipmentInfo.shipment_route_id,
+        'route_id': '' + document.mapCom.shipmentInfo.shipment_routed_id,
         'driver_id': '' + driverId,
         'company_id': '' + document.mapCom.companyId,
         'warehouse_id': '' + document.mapCom.wairehouseId,
@@ -260,6 +263,29 @@ export class DashboardComponent implements OnInit {
       }, error => {
         console.log(error);
       })
+    }
+  }
+
+
+  /**
+   * Get Driver Based on Hub Id
+   * @param obj 
+   */
+  getDriverBasedOnHubId(obj) {
+    //var text = obj.options[obj.selectedIndex].value;
+    var hubid = obj;
+    var ddl2 = document.querySelectorAll('#iOperation option');
+    for (var i = 1; i < ddl2.length; i++) {
+      var option = ddl2[i];
+      var secondOptionValue = ddl2[i].dataset.val;
+      option.style.display = 'none';
+      if ([secondOptionValue].indexOf(hubid) > -1) {
+        option.style.display = 'block';
+      }
+
+      if (hubid == -1) {
+        option.style.display = 'block';
+      }
     }
   }
 
@@ -423,7 +449,7 @@ export class DashboardComponent implements OnInit {
         padding: 50
       });
 
-     
+
       //get route direction
       if (coordinates.length > 1) {
         document.mapCom.dashboardService.getDirectionBtwnLatLng(coordinates).subscribe((response) => {
@@ -478,7 +504,7 @@ export class DashboardComponent implements OnInit {
             console.log(response.message);
           }
         })
-      }else{
+      } else {
         this.removeDirectionalRouteLineFromMap();
       }
 
@@ -489,8 +515,8 @@ export class DashboardComponent implements OnInit {
 
   removeDirectionalRouteLineFromMap() {
     if (this.mapbox.map.getSource('route')) {
-    this.mapbox.map.removeLayer('route');
-    this.mapbox.map.removeSource('route');
+      this.mapbox.map.removeLayer('route');
+      this.mapbox.map.removeSource('route');
     }
   }
 

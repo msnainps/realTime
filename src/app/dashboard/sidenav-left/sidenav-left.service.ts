@@ -25,9 +25,9 @@ export class SidenavLeftService {
 
   public dataList: any = new Array();
   setFocusLatLong: any = '';
-  
 
-  constructor(private socket: SocketService, private http: HttpClient,private sharedService:SharedService) {}
+
+  constructor(private socket: SocketService, private http: HttpClient, private sharedService: SharedService) { }
   routeData;
   getAssignDropData() {
     this.socket.websocket.on('get-all-drops', (data) => {
@@ -37,11 +37,11 @@ export class SidenavLeftService {
     this.getFocusLatLong();
   }
 
-  getFocusLatLong(){
+  getFocusLatLong() {
     this.socket.websocket.on('get-lat-lng', data => {
       this.setFocusLatLong = data;
-      if(this.sharedService.sidecmp!=null){
-         this.sharedService.sidecmp.alertMeWhenGetLatLng();
+      if (this.sharedService.sidecmp != null) {
+        this.sharedService.sidecmp.alertMeWhenGetLatLng();
       }
     });
   }
@@ -187,14 +187,24 @@ export class SidenavLeftService {
     });
   }
 
+  //get Hub List
+  getHubList() {
+    this.socket.websocket.emit('req-hub-list', { warehouse_id: this.wairehouseId, company_id: this.companyId });
+    return Observable.create(observer => {
+      this.socket.websocket.on('get-hub-list', data => {
+        observer.next(data);
+      });
+    });
+  }
+
   //Get All Tickets
-  getAllTickets(tkt, laodIdentity,shipment_routed_id) {
+  getAllTickets(tkt, laodIdentity, shipment_routed_id) {
     this.socket.websocket.emit('req-ticket-list',
       {
         warehouse_id: this.wairehouseId,
         company_id: this.companyId,
         loadIdentity: laodIdentity,
-        routedId:shipment_routed_id
+        routedId: shipment_routed_id
       }
     );
     return Observable.create(observer => {
@@ -550,6 +560,19 @@ export class SidenavLeftService {
       })
     );
 
+  }
+
+  /**
+   * Get Driver List by Hub Id
+   * @param hubId
+   */
+  getDriverListByHubId(hubId) {
+    this.socket.websocket.emit('req-driver-list-byhubid', { hub_id:hubId});
+    return Observable.create(observer => {
+      this.socket.websocket.on('get-driver-list-byhubid', data => {
+        observer.next(data);
+      });
+    });
   }
 
 }

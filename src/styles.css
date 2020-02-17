@@ -1109,3 +1109,61 @@ top: 7px;
 @keyframes blinker {  
   50% { opacity: 0; }
 }
+
+
+.hub-filter{}
+.hub-filter .mat-select-trigger{
+  width: 44%;
+    border: 1px solid #d4d4d4;
+    padding: 5px 7px;
+}
+
+
+
+.sec-div-drop-list-main-a {
+  display: inline-block;
+  width: 100%;
+  color: #fff;
+}
+.drop-list-design-1a{
+  margin-bottom: 10px;
+}
+
+.drop-list-design-2a{
+  display: flex;
+  flex-wrap: wrap;
+}
+.drop-list-design-2a div{
+  width: 46%;
+  margin-bottom: 3px;
+  margin-right: 10px;
+}
+
+
+.drop-list-design-1a i {
+  width: 25px;
+  height: 25px;
+  border-radius: 100%;
+  text-align: center;
+  padding: 4px;
+  font-size: 17px;
+  color: #fff;
+  margin-right: 8px;
+  position: relative;
+}
+.drops-min-color3a {
+  background: #0dad37;
+}
+
+.drop-list-design-2a div select{
+  width: 100%;
+  display: inline-block;
+  border: 1px solid #333;
+  border-radius: 3px;
+  font-size: 13px;
+  padding: 4px;
+}
+.drop-list-design-2a div select:focus{
+  outline: none;
+  box-shadow: none;
+}

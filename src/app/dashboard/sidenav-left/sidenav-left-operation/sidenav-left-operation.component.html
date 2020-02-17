@@ -42,6 +42,19 @@
                 </div>
               </div>
 
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="hubList?.length > 0">
+                <div class="form-group">
+                  <label for="Assign Driver" class="col-form-label">Hub</label>
+                  <select class="form-control" id="sel1" formControlName='hub_id'
+                    [(ngModel)]="assignDriverFormModel.hub_id" (change)="getDriverByHub($event.target.value)">
+                    <option [value]='0' selected="selected">--Select Hub--</option>
+                    <option *ngFor="let hub of hubList; let i = index" [value]="hub.id">
+                      {{hub.name}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+
               <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="form-group">
                   <label for="Assign Driver" class="col-form-label">Assign Driver</label>
@@ -149,7 +162,8 @@
                 class="btn btn-primary" (click)="downloadExportCageSheet()">Export
                 Cagesheet</button>
 
-              <button *ngIf="booking_type != 'Vendor'" type="button" class="btn btn-primary" (click)="downloadPodLabel()">
+              <button *ngIf="booking_type != 'Vendor'" type="button" class="btn btn-primary"
+                (click)="downloadPodLabel()">
                 <i class="material-icons">
                   picture_as_pdf
                 </i>Pod Label</button>
@@ -168,7 +182,7 @@
                 </option>
               </select>
 
-             
+
               <select *ngIf="routeType=='unassign'" [(ngModel)]="resetAssignRoute.shipment_route_id"
                 class="btn btn-primary selection" id="sel1" (change)="moveToAssignRoute($event.target.value)">
                 <option [value]='0' selected="selected">--Route Assign--</option>
@@ -198,7 +212,7 @@
                 </span>
               </div>
 
-               <!--Show View Details Info-->
+              <!--Show View Details Info-->
               <div class="inner-set-section">
                 <ag-grid-angular style="width: auto; height: 400px;" class="ag-theme-balham" [rowData]="rowData"
                   [columnDefs]="columnDefs" [modules]="modules" [suppressRowClickSelection]="true"
@@ -237,11 +251,11 @@
           <!--Show POD Info-->
           <mat-tab label="POD">
             <div class="modal-body traking-details-grid">
-              <ag-grid-angular style="width: auto; height: 400px;" class="ag-theme-balham"
-                [rowData]="rowDataPodInfo" [columnDefs]="columnDefsPOD" [modules]="modules"
-                [suppressRowClickSelection]="true" [rowSelection]='selectionMode' [defaultColDef]="defaultColDef"
-                [enableCellTextSelection]="true" [overlayLoadingTemplate]="overlayLoadingTemplatePod"
-                (gridReady)="onGridReadyPod($event)" [floatingFilter]="true">
+              <ag-grid-angular style="width: auto; height: 400px;" class="ag-theme-balham" [rowData]="rowDataPodInfo"
+                [columnDefs]="columnDefsPOD" [modules]="modules" [suppressRowClickSelection]="true"
+                [rowSelection]='selectionMode' [defaultColDef]="defaultColDef" [enableCellTextSelection]="true"
+                [overlayLoadingTemplate]="overlayLoadingTemplatePod" (gridReady)="onGridReadyPod($event)"
+                [floatingFilter]="true">
               </ag-grid-angular>
             </div>
           </mat-tab>

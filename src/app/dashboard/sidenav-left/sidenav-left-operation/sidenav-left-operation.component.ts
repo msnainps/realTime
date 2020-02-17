@@ -30,6 +30,7 @@ export class SidenavLeftOperationComponent implements OnInit {
   shipment_route_name: any;
   shipment_route_id: any;
   driverList: any[] = [];
+  tmpDriverList: any[] = [];
   rowData: any;
   routeName: any;
   driverName: any;
@@ -76,6 +77,7 @@ export class SidenavLeftOperationComponent implements OnInit {
   overlayLoadingTemplatePod;
   customerAccountNumber;
   loadIdentity;
+  hubList: any[] = [];
 
   //Grid headers
   columnDefs = [
@@ -198,7 +200,8 @@ export class SidenavLeftOperationComponent implements OnInit {
     this.assignDriverFormVal = this.formBuilder.group({
       route_name: [''],
       driver_id: ['', Validators.required],
-      assign_date_time: ['', Validators.required]
+      assign_date_time: ['', Validators.required],
+      hub_id:['']
     });
   }
 
@@ -937,6 +940,24 @@ export class SidenavLeftOperationComponent implements OnInit {
         console.log(error);
       },
       );
+    }
+  }
+
+  /**
+   * Get Driver List By Hub Id
+   * @param hubId
+   */
+  getDriverByHub(hubId){
+    if(hubId > 0){
+      this.sidenavleftservice.getDriverListByHubId(hubId).subscribe(quote => {
+        console.log("--By Hub Id--");
+        console.log(quote);
+        this.assignDriverFormModel.driver_id = '';
+        this.driverList = quote.driver_data;
+      });
+    }else{
+      this.assignDriverFormModel.driver_id = '';
+      this.driverList = this.tmpDriverList;
     }
   }
 

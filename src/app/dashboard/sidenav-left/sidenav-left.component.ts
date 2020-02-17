@@ -64,7 +64,8 @@ export class SidenavLeftComponent implements OnInit {
 
     //Fill RouteName and Todays Date
     //this.sidebarLeftNavOp.assignDriverFormModel.route_name = shipmentRouteName;
-
+    this.sidebarLeftNavOp.assignDriverFormModel.driver_id = '';
+    this.sidebarLeftNavOp.assignDriverFormModel.hub_id = '';
 
     try {
       if (this.configSettings.env.country_code.toLowerCase() == 'us' || this.configSettings.env.country_code.toLowerCase() == 'usa') {
@@ -78,14 +79,17 @@ export class SidenavLeftComponent implements OnInit {
       this.sidebarLeftNavOp.assignDriverFormModel.assign_date_time = new Date();
     }
 
-
-
-
-
     this.sidebarLeftNavOp.showHideModal = 'block';
+    
+    //get hub list
+    this.sidenaveleftService.getHubList().subscribe(quote => {
+      this.sidebarLeftNavOp.hubList = quote.hub_data
+    });
+
     //get Driver List
     this.sidenaveleftService.getDriverList().subscribe(quote => {
       this.sidebarLeftNavOp.driverList = quote.driver_data;
+      this.sidebarLeftNavOp.tmpDriverList = quote.driver_data;
     });
 
     //get All Ticket

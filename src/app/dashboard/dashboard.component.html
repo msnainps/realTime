@@ -128,28 +128,55 @@
         </div>
 
         <div class="drops-line"></div>
-        <div class="sec-div-drop-list-main">
-          <div class="drop-list-design-1">
-          <i class="material-icons drops-min-color3">local_car_wash</i>
+        <div class="sec-div-drop-list-main-a">
+          <div class="drop-list-design-1a">
+          <i class="material-icons drops-min-color3a">local_car_wash</i>
           <span>{{shipmentInfo.driverName}}</span></div>
-          <div class="drop-list-design-2">
 
-          <div>
-            <div class="postion-set postion-set-new" *ngIf="shipmentInfo.assigned_driver == 0">
-               <div class="dropdown show">
-                 <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuDlList" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <div class="drop-list-design-2a">
+
+        
+            <!--Show Hub List-->
+             <ng-container *ngIf="shipmentInfo.hubList != ''"> 
+            <div class="" *ngIf="shipmentInfo.assigned_driver == 0">
+              
+                <!-- <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuDlList" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons"> person_add </i>
+                 </a> -->
+                 <!-- <ul class="dropdown-menu" aria-labelledby="dropdownMenuDlList">
+                     <li *ngFor="let hubList of shipmentInfo.hubList;let i = index" class="dropdown-item" (click)='getDriverByHubId(hubList.id)'>
+                     {{hubList.name}}
+                     </li>
+               </ul> -->
+               <select id="iFunction" name="nFunction" (change)="getDriverBasedOnHubId($event.target.value)">
+                <option value="-1" selected="">-- Hub List --</option>
+                <option *ngFor="let hubList of shipmentInfo.hubList;let i = index" value="{{hubList.id}}">{{hubList.name}}</option>
+               </select>
+               
+             </div>
+             </ng-container>
+             
+             <!--Show Driver List-->
+            
+            <div class="" *ngIf="shipmentInfo.assigned_driver == 0">
+            
+                 <!-- <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuDlList" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                    <i class="material-icons"> person_add </i>
-                  </a>
-                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuDlList">
+                  </a> -->
+                  <!-- <ul class="dropdown-menu" aria-labelledby="dropdownMenuDlList">
                       <li *ngFor="let driverList of shipmentInfo.driverList;let i = index" class="dropdown-item" (click)='assignDriverSameCordinate(driverList.id)'>
                       {{driverList.name}}
                       </li>
-                </ul>
-                </div>
+                </ul> -->
+                  <select id="iOperation" name="nOperation" (change)='assignDriverSameCordinate($event.target.value)'>
+                  <option data-val="0" value="-1" selected="">-- Driver List --</option>
+                  <option *ngFor="let driverList of shipmentInfo.driverList;let i = index" [attr.data-val]="driverList.hub_id" value="{{driverList.id}}">{{driverList.name}}</option>
+                 </select>
+               
               </div>
             </div>
           </div>
-        </div>
+       
 
       </ng-container>
       <ng-container *ngIf="!sameCordinateSattusInfo">
