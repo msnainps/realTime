@@ -11,7 +11,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { DashboardService } from '../dashboard/dashboard.service';
 import { SharedService } from '../shared/shared.service';
 declare var document: any;
- 
+
 
 
 
@@ -41,8 +41,8 @@ export class HeaderComponent implements OnInit {
   dateDeleteBtn = false;
   private gridApiSearch;
   overlayLoadingTemplateSearch;
-  
-  
+
+
 
   //Grid headers
   columnDefs = [
@@ -66,13 +66,13 @@ export class HeaderComponent implements OnInit {
 
   modules = AllCommunityModules;
   constructor(
-    private headerService: HeaderService, 
-    dateTimeAdapter: DateTimeAdapter<any>, 
+    private headerService: HeaderService,
+    dateTimeAdapter: DateTimeAdapter<any>,
     private toastr: ToastrService,
     private spinerService: NgxSpinnerService,
-    private dashboardService:DashboardService,
-    private sharedService:SharedService
-    ) {
+    private dashboardService: DashboardService,
+    private sharedService: SharedService
+  ) {
     if (this.configSettings.env.country_code.toLowerCase() == 'us' || this.configSettings.env.country_code.toLowerCase() == 'usa') {
       dateTimeAdapter.setLocale('us');
     } else {
@@ -85,26 +85,26 @@ export class HeaderComponent implements OnInit {
     this.overlayLoadingTemplateSearch =
       '<span style="color:#33225A;font-size:14px;font-weight:bold;" class="ag-overlay-loading-center">Searching ....</span>';
 
-    document.gridDocThis = this; 
-    
+    document.gridDocThis = this;
+
   }
 
 
   ngOnInit() {
     //this.headerService.getHeaderDataListen(this);
-   this.headerService.getHeaderSavedDate().subscribe(resp => {
-    
-    if(resp.getSavedDate.length){
-      this.dateDeleteBtn = true;
-       //show saved date
-      this.headreSearch.searchdate = [new Date(resp.getSavedDate[0].start_date), new Date(resp.getSavedDate[0].end_date)];
-    }else{
-      //show todays date
-      this.headreSearch.searchdate = [new Date(), new Date()];
-    }
-  });
+    this.headerService.getHeaderSavedDate().subscribe(resp => {
 
-  this.headerService.loadDateFilterListner()
+      if (resp.getSavedDate.length) {
+        this.dateDeleteBtn = true;
+        //show saved date
+        this.headreSearch.searchdate = [new Date(resp.getSavedDate[0].start_date), new Date(resp.getSavedDate[0].end_date)];
+      } else {
+        //show todays date
+        this.headreSearch.searchdate = [new Date(), new Date()];
+      }
+    });
+
+    this.headerService.loadDateFilterListner()
   }
   isShown: Boolean = false;
   toggleShow() {
@@ -118,11 +118,11 @@ export class HeaderComponent implements OnInit {
   }
 
   getSearchRecord() {
-    
+
     //this.rowData = '';
     var searchFileds = this.headreSearch;
-    
-    if(!this.headreSearch.searchvalue){
+
+    if (!this.headreSearch.searchvalue) {
       this.toastr.error('search value is required !', '', {
         closeButton: true, positionClass: 'toast-top-right', timeOut: 4000
       });
@@ -132,11 +132,11 @@ export class HeaderComponent implements OnInit {
       this.rowData = '';
       this.gridApiSearch.showNoRowsOverlay();
       return ''
-    }else{
-      this.gridApiSearch.showLoadingOverlay(); 
+    } else {
+      this.gridApiSearch.showLoadingOverlay();
     }
-   
-    
+
+
 
     //this.searchedDate = formatDate(new Date(searchFileds.searchdate), 'dd-MM-yyyy', 'en-US', '+0530');
     this.searchedValue = searchFileds.searchvalue;
@@ -156,7 +156,7 @@ export class HeaderComponent implements OnInit {
   /**
    * Save header Date
    */
-  saveMapDataOnDateSelect(){
+  saveMapDataOnDateSelect() {
     this.selectedDateRange['start_date'] = formatDate(new Date(this.headreSearch.searchdate[0]), 'yyyy-MM-dd', 'en-US', '+0530');
     this.selectedDateRange['end_date'] = formatDate(new Date(this.headreSearch.searchdate[1]), 'yyyy-MM-dd', 'en-US', '+0530');
     //Save Header Data
@@ -170,8 +170,9 @@ export class HeaderComponent implements OnInit {
       this.dateDeleteBtn = true;
       this.spinerService.hide('header-search');
       //this.dashboardService.loadDropOnMapsEmit();
+      //Show loader
+      this.sharedService.headerDateAction = 1;
     });
-
     //Remove Route Direction Live After Date Saved
     this.sharedService.dashbrdCmpShared.removeDirectionalRouteLineFromMap();
   }
@@ -180,7 +181,7 @@ export class HeaderComponent implements OnInit {
   /**
    * Delete Header Date
    */
-  deleteHeaderDate(){
+  deleteHeaderDate() {
     this.spinerService.show("header-search", {
       type: "line-scale-party",
       size: "large",
@@ -189,33 +190,35 @@ export class HeaderComponent implements OnInit {
     this.headerService.deleteSearchDate().subscribe(resp => {
       this.dateDeleteBtn = false;
       this.spinerService.hide('header-search');
-       //show todays date
-      this.headreSearch.searchdate = [new Date(), new Date()]; 
+      //show todays date
+      this.headreSearch.searchdate = [new Date(), new Date()];
       //this.dashboardService.loadDropOnMapsEmit();
+      //Show loader
+      this.sharedService.headerDateAction = 1;
     });
 
-     //Remove Route Direction Live After Date Saved
-     this.sharedService.dashbrdCmpShared.removeDirectionalRouteLineFromMap();
+    //Remove Route Direction Live After Date Saved
+    this.sharedService.dashbrdCmpShared.removeDirectionalRouteLineFromMap();
   }
 
-   //Show grid loader while fetch tracking data
-   onGridReadySearching(params){
+  //Show grid loader while fetch tracking data
+  onGridReadySearching(params) {
     this.gridApiSearch = params.api;
-   }
+  }
 
-   //Open View Details from header search
-   viewDetailsFromHeaderSearch(viewDetailsClick){
-     var viewDetails =viewDetailsClick.data.instaDispatch_loadIdentity;
-     return '<a href="" onclick="document.gridDocThis.showViewDetails(\'' + viewDetails + '\')" data-toggle="modal" data-target="#Modal4">View Details</a>'
-   }
+  //Open View Details from header search
+  viewDetailsFromHeaderSearch(viewDetailsClick) {
+    var viewDetails = viewDetailsClick.data.instaDispatch_loadIdentity;
+    return '<a href="" onclick="document.gridDocThis.showViewDetails(\'' + viewDetails + '\')" data-toggle="modal" data-target="#Modal4">View Details</a>'
+  }
 
-   showViewDetails(loadIdentity){
+  showViewDetails(loadIdentity) {
     this.headerService.getParcelTktInfo(loadIdentity).subscribe(resp => {
-     if(resp.getParcelData.length){
-      this.sharedService.sidecmp.viewDetails(resp.getParcelData[0],resp.getParcelData[0].drop_type);
-     }
+      if (resp.getParcelData.length) {
+        this.sharedService.sidecmp.viewDetails(resp.getParcelData[0], resp.getParcelData[0].drop_type);
+      }
     });
-   }
-   
-  
+  }
+
+
 }

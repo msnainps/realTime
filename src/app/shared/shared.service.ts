@@ -15,6 +15,9 @@ export class SharedService {
   public sidecmp :SidenavLeftComponent = null;
   public dashbrdCmpShared :DashboardComponent = null;
   public filterDialogCmpShared:FilterDialog = null;
+
+  //Show loader if any action performed in Header Date;
+  public headerDateAction = 0;
   constructor(
     
   ) { }

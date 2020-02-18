@@ -60,7 +60,7 @@ export class SidenavLeftComponent implements OnInit {
     this.sidebarLeftNavOp.shipment_route_id = shipmentRouteId;
   }
 
-  assignJob(shipmentTicket, laodIdentity, collection_date, shipment_route_id) {
+  assignJob(data) {
 
     //Fill RouteName and Todays Date
     //this.sidebarLeftNavOp.assignDriverFormModel.route_name = shipmentRouteName;
@@ -69,9 +69,9 @@ export class SidenavLeftComponent implements OnInit {
 
     try {
       if (this.configSettings.env.country_code.toLowerCase() == 'us' || this.configSettings.env.country_code.toLowerCase() == 'usa') {
-        var dt = formatDate(new Date(collection_date), 'MM-dd-yyyy hh:mm:ss a', 'en-US', '+0530');
+        var dt = formatDate(new Date(data.collection_date), 'MM-dd-yyyy hh:mm:ss a', 'en-US', '+0530');
       } else {
-        var dt = formatDate(new Date(collection_date), 'dd-MM-yyyy hh:mm:ss a', 'en-US', '+0530');
+        var dt = formatDate(new Date(data.collection_date), 'dd-MM-yyyy hh:mm:ss a', 'en-US', '+0530');
       }
       this.sidebarLeftNavOp.assignDriverFormModel.assign_date_time = new Date(dt);
     } catch (err) {
@@ -80,7 +80,7 @@ export class SidenavLeftComponent implements OnInit {
     }
 
     this.sidebarLeftNavOp.showHideModal = 'block';
-    
+
     //get hub list
     this.sidenaveleftService.getHubList().subscribe(quote => {
       this.sidebarLeftNavOp.hubList = quote.hub_data
@@ -93,9 +93,13 @@ export class SidenavLeftComponent implements OnInit {
     });
 
     //get All Ticket
-    this.sidenaveleftService.getAllTickets(shipmentTicket, laodIdentity, shipment_route_id).subscribe(res => {
+    this.sidenaveleftService.getAllTickets(data).subscribe(res => {
       if (res.shipmentKey) {
-        this.sidebarLeftNavOp.assignDriverFormModel.shipment_ticket = res.shipmentKey;
+        if (data.next_day_jobtype == 'only-collection' && data.booking_type == 'NEXT') {
+          this.sidebarLeftNavOp.assignDriverFormModel.shipment_ticket = data.shipment_ticket;
+        } else {
+          this.sidebarLeftNavOp.assignDriverFormModel.shipment_ticket = res.shipmentKey;
+        }
         this.sidebarLeftNavOp.tmpRouteName = res.routeName;
       } else {
         this.toastr.info('You can not assign driver to this job !!', '', {
@@ -136,11 +140,13 @@ export class SidenavLeftComponent implements OnInit {
 
     if (data.shipment_routed_id > 0) {
       this.param.routeId = data.shipment_routed_id;
+      this.param.next_day_jobtype = data.next_day_jobtype;
     } else {
       this.param.routeId = data.instaDispatch_loadIdentity;
+      this.param.next_day_jobtype = data.next_day_jobtype;
     }
 
-    console.log(this.param.routeId);
+    console.log(this.param);
 
     //For POD download
     this.param.customer_id = data.customer_id

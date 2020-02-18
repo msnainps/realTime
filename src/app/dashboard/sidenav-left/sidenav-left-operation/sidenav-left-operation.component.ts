@@ -950,8 +950,6 @@ export class SidenavLeftOperationComponent implements OnInit {
   getDriverByHub(hubId){
     if(hubId > 0){
       this.sidenavleftservice.getDriverListByHubId(hubId).subscribe(quote => {
-        console.log("--By Hub Id--");
-        console.log(quote);
         this.assignDriverFormModel.driver_id = '';
         this.driverList = quote.driver_data;
       });

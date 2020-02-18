@@ -173,6 +173,7 @@ export class DashboardComponent implements OnInit {
     document.mapCom.showHideModal = 'block';
     document.mapCom.sameCordinateSattusInfo = 'false';
     document.mapCom.dashboardService.getSameCorrdinateTktInfo(tkt).subscribe((res) => {
+
       document.mapCom.sameCordinateSattusInfo = 'true';
       document.mapCom.shipmentInfo.route_name = (res.tktInfo[0].route_name ? res.tktInfo[0].route_name : 'Drop Info');
       document.mapCom.shipmentInfo.ticket = res.tktInfo[0].shipment_ticket;
@@ -193,6 +194,13 @@ export class DashboardComponent implements OnInit {
       document.mapCom.shipmentInfo.customer_id = res.tktInfo[0].customer_id;
       document.mapCom.shipmentInfo.job_customer_ref = res.dropDataServiceInfo.job_customer_ref;
       document.mapCom.shipmentInfo.job_service_name = res.dropDataServiceInfo.job_service_name;
+      document.mapCom.shipmentInfo.next_day_jobtype = '';
+
+      //check for nextday only collection
+      if(res.tktInfo[0].shipment_routed_id == 0 && res.tktInfo[0].booking_type == 'NEXT' && res.tktInfo[0].current_status == 'C'){
+        document.mapCom.shipmentInfo.next_day_jobtype = 'only-collection';
+      }
+
       if (res.tktInfo[0].assigned_driver == 0) {
         document.mapCom.shipmentInfo.drop_type = 'unassinged';
       } else if (res.tktInfo[0].assigned_driver && res.tktInfo[0].shipment_routed_id && res.tktInfo[0].current_status != 'D') {
@@ -212,11 +220,10 @@ export class DashboardComponent implements OnInit {
    */
   assignDriverSameCordinate(driverId) {
 
-
-
+   
     //if Shipment Route id is zero
     if (document.mapCom.shipmentInfo.shipment_routed_id == 0) {
-      document.mapCom.assignDriverWithOutRouteId(document.mapCom.shipmentInfo.loadIdentity, driverId);
+      document.mapCom.assignDriverWithOutRouteId(document.mapCom.shipmentInfo.instaDispatch_loadIdentity, driverId);
     } else { //If shipment Id is present
       document.mapCom.assignRouteSameCord =
       {
@@ -524,6 +531,7 @@ export class DashboardComponent implements OnInit {
    * Assign Driver without loadIdentity
    */
   assignDriverWithOutRouteId(loadIdentity, driverid) {
+
     //Load Spinner
     document.mapCom.spinnerService.show("driverAssign", {
       type: "line-scale-party",
@@ -531,7 +539,9 @@ export class DashboardComponent implements OnInit {
       color: "white"
     });
     //Get tikt and Route name
-    document.mapCom.dashboardService.getDropInfo(loadIdentity).subscribe((response) => {
+    var next_day_jobtype = document.mapCom.shipmentInfo.next_day_jobtype;
+    document.mapCom.dashboardService.getDropInfo(loadIdentity,next_day_jobtype).subscribe((response) => {
+
       if (response.shipmentKey && response.routeName) {
         document.mapCom.dashboardService.sameDayAssignedRoute(response, driverid).subscribe((response) => {
 

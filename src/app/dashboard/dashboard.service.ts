@@ -6,7 +6,9 @@ import { Observable, Observer, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { retry, catchError, map } from 'rxjs/operators';
 import { formatDate } from '@angular/common';
-
+import { SharedService } from '../shared/shared.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+declare var document: any;
 
 
 
@@ -53,11 +55,11 @@ export class DashboardService {
       "features": []
     }
   };
-  constructor(private socket: SocketService, private mapbox: MapboxService, private http: HttpClient) {
+  constructor(private socket: SocketService, private mapbox: MapboxService, private http: HttpClient, private sharedService:SharedService, private spinnerService:NgxSpinnerService) {
 
     this.loadDropOnMapsEmit();
     this.loadDriverData();
-
+    document.spinser = this;
 
     this.socket.websocket.on('instantnotiFication', (data) => {
       console.log('---Notification---');
@@ -81,7 +83,10 @@ export class DashboardService {
   }
 
   loadDropOnMapsListen() {
+    
     this.socket.websocket.on('get-all-drops', (data) => {
+      this.sharedService.headerDateAction = 0;
+      document.spinser.spinnerService.hide('get-header-data');
       //this.markerList = data.shipment_data;
       //data.shipment_data.push.apply(data.shipment_data, data.unassgn_shipment_data);
       //data.shipment_data.push.apply(data.shipment_data, data.completed_shipment_data)
@@ -306,8 +311,8 @@ export class DashboardService {
   }
 
   //get Tkt and Route name
-  getDropInfo(loadIdentity): Observable<any> {
-    this.socket.websocket.emit('req-drop-info', { warehouse_id: this.wairehouseId, company_id: this.companyId, loadIdentity: loadIdentity });
+  getDropInfo(loadIdentity,next_day_jobtype): Observable<any> {
+    this.socket.websocket.emit('req-drop-info', { warehouse_id: this.wairehouseId, company_id: this.companyId, loadIdentity: loadIdentity , next_day_jobtype:next_day_jobtype});
     this.socket.websocket.on('get-drop-info', (data) => {
       this.observer.next(data);
     })

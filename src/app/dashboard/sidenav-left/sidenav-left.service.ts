@@ -198,13 +198,13 @@ export class SidenavLeftService {
   }
 
   //Get All Tickets
-  getAllTickets(tkt, laodIdentity, shipment_routed_id) {
+  getAllTickets(param) {
     this.socket.websocket.emit('req-ticket-list',
       {
         warehouse_id: this.wairehouseId,
         company_id: this.companyId,
-        loadIdentity: laodIdentity,
-        routedId: shipment_routed_id
+        loadIdentity: param.instaDispatch_loadIdentity,
+        routedId: param.shipment_routed_id
       }
     );
     return Observable.create(observer => {
@@ -222,7 +222,8 @@ export class SidenavLeftService {
         company_id: this.companyId,
         routedId: param.routeId,
         route_type: type,
-        customer_id: param.customer_id
+        customer_id: param.customer_id,
+        next_day_jobtype:param.next_day_jobtype
       }
     );
     return Observable.create(observer => {

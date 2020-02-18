@@ -7,7 +7,8 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import { retry, catchError, map } from 'rxjs/operators';
 import { formatDate } from '@angular/common';
 import { DashboardService } from '../dashboard/dashboard.service';
-
+import { SharedService } from '../shared/shared.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 
 @Injectable({
@@ -25,7 +26,13 @@ export class HeaderService {
   observer: Observer<any>;
 
   notiFicationResponce;
-  constructor(private socket: SocketService, private http: HttpClient,private dashboardService:DashboardService) {
+  constructor(
+    private socket: SocketService, 
+    private http: HttpClient,
+    private dashboardService:DashboardService,
+    private sharedService:SharedService,
+    private spinerService: NgxSpinnerService,
+    ) {
     this.getHeaderDataEmit();
     this.socket.websocket.on('instantnotiFication', (data) => {
       this.notiFicationResponce = data;
@@ -39,6 +46,14 @@ export class HeaderService {
 
   loadDateFilterListner(){
     this.socket.websocket.on('get-header-date', (data) => {
+      if(this.sharedService.headerDateAction == 1){
+        //Show loader
+       this.spinerService.show("get-header-data", {
+          type: "line-scale-party",
+          size: "large",
+          color: "white"
+        });
+      }
       this.dashboardService.loadDropOnMapsEmit();
     })
   }
