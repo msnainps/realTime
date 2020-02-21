@@ -130,7 +130,9 @@ export class DashboardService {
             'execution_order': data.mapPlotData[index1].icargo_execution_order,
             'shipment_id': data.mapPlotData[index1].shipment_ticket,
             'shipment_route_id': data.mapPlotData[index1].shipment_routed_id,
-            'loadIdentity': data.mapPlotData[index1].instaDispatch_loadIdentity
+            'loadIdentity': data.mapPlotData[index1].instaDispatch_loadIdentity,
+            'booking_type': data.mapPlotData[index1].booking_type,
+            'current_status': data.mapPlotData[index1].current_status
           },
           'geometry': {
             'type': 'Point',
@@ -345,7 +347,7 @@ export class DashboardService {
         headers, responseType: 'text' as 'json'
       })
       .pipe(
-        retry(1),
+        retry(0),
         catchError(this.handleError)
       )
   }

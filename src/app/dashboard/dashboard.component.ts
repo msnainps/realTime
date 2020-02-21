@@ -54,7 +54,7 @@ export class DashboardComponent implements OnInit {
   loadIdentity: any;
   sideNavLeft: SidenavLeftComponent = null;
   sameCordinateSattusInfo;
-
+  next_day_jobtype = '';
 
 
   constructor(
@@ -114,9 +114,13 @@ export class DashboardComponent implements OnInit {
   }
 
   assignDriver(driverid) {
-
+   
     //if Shipment Route id is zero
+    this.next_day_jobtype = '';
     if (document.mapCom.shipment_route_id == 0) {
+      if(document.mapCom.booking_type == 'NEXT' && document.mapCom.current_status == 'C'){
+        this.next_day_jobtype = 'only-collection';
+      }
       document.mapCom.assignDriverWithOutRouteId(document.mapCom.loadIdentity, driverid);
     } else { //If shipment Id is present
       document.mapCom.assignRouteToDriverData =
@@ -194,11 +198,10 @@ export class DashboardComponent implements OnInit {
       document.mapCom.shipmentInfo.customer_id = res.tktInfo[0].customer_id;
       document.mapCom.shipmentInfo.job_customer_ref = res.dropDataServiceInfo.job_customer_ref;
       document.mapCom.shipmentInfo.job_service_name = res.dropDataServiceInfo.job_service_name;
-      document.mapCom.shipmentInfo.next_day_jobtype = '';
-
       //check for nextday only collection
+      this.next_day_jobtype = '';
       if(res.tktInfo[0].shipment_routed_id == 0 && res.tktInfo[0].booking_type == 'NEXT' && res.tktInfo[0].current_status == 'C'){
-        document.mapCom.shipmentInfo.next_day_jobtype = 'only-collection';
+        this.next_day_jobtype = 'only-collection';
       }
 
       if (res.tktInfo[0].assigned_driver == 0) {
@@ -399,7 +402,8 @@ export class DashboardComponent implements OnInit {
         document.mapCom.shipment_id = e.features[0].properties.shipment_id;
         document.mapCom.shipment_route_id = e.features[0].properties.shipment_route_id;
         document.mapCom.loadIdentity = e.features[0].properties.loadIdentity;
-
+        document.mapCom.booking_type = e.features[0].properties.booking_type;
+        document.mapCom.current_status = e.features[0].properties.current_status;  
 
         new mapboxgl.Popup()
           .setLngLat(coordinates)
@@ -539,9 +543,8 @@ export class DashboardComponent implements OnInit {
       color: "white"
     });
     //Get tikt and Route name
-    var next_day_jobtype = document.mapCom.shipmentInfo.next_day_jobtype;
-    document.mapCom.dashboardService.getDropInfo(loadIdentity,next_day_jobtype).subscribe((response) => {
-
+    document.mapCom.dashboardService.getDropInfo(loadIdentity,this.next_day_jobtype).subscribe((response) => {
+      this.next_day_jobtype = '';
       if (response.shipmentKey && response.routeName) {
         document.mapCom.dashboardService.sameDayAssignedRoute(response, driverid).subscribe((response) => {
 
@@ -550,8 +553,6 @@ export class DashboardComponent implements OnInit {
 
 
           document.mapCom.showHideModal = 'none';//Close modal
-          document.querySelector(".modal-backdrop").remove();
-
           document.mapCom.dashboardService.loadDropOnMapsEmit();//For Realtime Data
 
           var myStr = response;
@@ -567,6 +568,7 @@ export class DashboardComponent implements OnInit {
               closeButton: true, positionClass: 'toast-top-right', timeOut: 4000
             });
           }
+          document.querySelector(".modal-backdrop").remove();
         })
       } else {
         document.mapCom.spinnerService.hide("driverAssign");
