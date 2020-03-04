@@ -176,6 +176,7 @@ export class DashboardComponent implements OnInit {
   getTktInfo(tkt: string) {
     document.mapCom.showHideModal = 'block';
     document.mapCom.sameCordinateSattusInfo = 'false';
+    document.mapCom.shipmentInfo=new Object();
     document.mapCom.dashboardService.getSameCorrdinateTktInfo(tkt).subscribe((res) => {
 
       document.mapCom.sameCordinateSattusInfo = 'true';
@@ -202,6 +203,9 @@ export class DashboardComponent implements OnInit {
       this.next_day_jobtype = '';
       if(res.tktInfo[0].shipment_routed_id == 0 && res.tktInfo[0].booking_type == 'NEXT' && res.tktInfo[0].current_status == 'C'){
         this.next_day_jobtype = 'only-collection';
+        document.mapCom.shipmentInfo.next_day_jobtype = 'only-collection';
+      }else{
+        document.mapCom.shipmentInfo.next_day_jobtype = '';
       }
 
       if (res.tktInfo[0].assigned_driver == 0) {

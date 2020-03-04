@@ -31,11 +31,13 @@ export class SidenavLeftComponent implements OnInit {
   driverName: any;
   param: any = {};
   getFocusLatLong = '';
+  panelOpenState:boolean;
+  
 
 
   @Input() sidebarLeftNavOp: SidenavLeftOperationComponent; //Send Data to SidenavLeftOperationComponent
   constructor(
-    private sidenaveleftService: SidenavLeftService,
+    public sidenaveleftService: SidenavLeftService,
     private toastr: ToastrService,
     private spinerService: NgxSpinnerService,
     private dashboradCmp: DashboardComponent,
@@ -137,6 +139,10 @@ export class SidenavLeftComponent implements OnInit {
     // } else {
     //   this.param.routeId = data.shipment_routed_id;
     // }
+
+    if(data.next_day_jobtype == 'undefined' || typeof data.next_day_jobtype == 'undefined'){
+      data.next_day_jobtype = '';
+    }
 
     if (data.shipment_routed_id > 0) {
       this.param.routeId = data.shipment_routed_id;

@@ -31,7 +31,7 @@ export class HeaderComponent implements OnInit {
   headreSearch: any = {};
   header: Header = new Header();
   toaserMsg;
-  private defaultColDef;
+  public defaultColDef;
   selectionMode = 'multiple';
   rowData: any;
   paginationPageSize: any;
@@ -39,7 +39,7 @@ export class HeaderComponent implements OnInit {
   searchedValue;
   selectedDateRange = {}
   dateDeleteBtn = false;
-  private gridApiSearch;
+  public gridApiSearch;
   overlayLoadingTemplateSearch;
 
 

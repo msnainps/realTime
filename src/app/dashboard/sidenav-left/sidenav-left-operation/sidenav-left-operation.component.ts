@@ -53,7 +53,7 @@ export class SidenavLeftOperationComponent implements OnInit {
   submittedAssign = false;
   showHideModal = 'block';
   //Resize grid column
-  private defaultColDef;
+  public defaultColDef;
   disputedList: any;
   booking_type: any;
   resetDisputed: any = { action_id: 0 };
@@ -78,6 +78,7 @@ export class SidenavLeftOperationComponent implements OnInit {
   customerAccountNumber;
   loadIdentity;
   hubList: any[] = [];
+  modal:String = 'modal';
 
   //Grid headers
   columnDefs = [

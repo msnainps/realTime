@@ -43,9 +43,9 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
     FormsModule,
     ReactiveFormsModule,
     MaterialDesignModule,
-    AgmCoreModule.forRoot({
-      apiKey: new config().env.google_api_key
-    }),
+    // AgmCoreModule.forRoot({
+    //   apiKey: new config().env.google_api_key
+    // }),
     MatDialogModule,
     NgxSpinnerModule,
     HttpClientModule,
