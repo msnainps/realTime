@@ -17,6 +17,7 @@ export class FilterService {
   companyId = this.configSettings.env.company_id;
   wairehouseId = this.configSettings.env.wairehouse_id;
   socketRestAPI = this.configSettings.env.socket_rest_api_url;
+  userId = this.configSettings.env.user_id;
   apiData;
   observer: Observer<any>;
   hubData:any;
@@ -32,6 +33,7 @@ export class FilterService {
       'endPoint': 'savefilterData',
       'company_id': '' + this.companyId,
       'warehouse_id': '' + this.wairehouseId,
+      'user_id': ''+this.userId,
       'data':filterData,
       'hubdata':hubFilterData
     }
@@ -54,6 +56,7 @@ export class FilterService {
       'endPoint': 'getFilterData',
       'company_id': '' + this.companyId,
       'warehouse_id': '' + this.wairehouseId,
+      'user_id': ''+this.userId,
     }
     
     return this.http.post<any>(this.socketRestAPI + this.apiData.endPoint, JSON.stringify(this.apiData),
@@ -74,9 +77,12 @@ export class FilterService {
       'endPoint': 'deleteFilter',
       'company_id': '' + this.companyId,
       'warehouse_id': '' + this.wairehouseId,
+      'user_id': ''+this.userId,
     }
 
-    return this.http.delete<any>(this.socketRestAPI + this.apiData.endPoint+'/'+this.apiData.company_id+'/'+this.apiData.warehouse_id,
+  
+
+    return this.http.delete<any>(this.socketRestAPI + this.apiData.endPoint+'/'+this.apiData.company_id+'/'+this.apiData.warehouse_id+'/'+this.apiData.user_id,
       {
         "headers":headers, 
         responseType: 'text' as 'json'

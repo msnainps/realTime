@@ -20,6 +20,7 @@ export class DashboardService {
   configSettings = new config();
   companyId = this.configSettings.env.company_id;
   wairehouseId = this.configSettings.env.wairehouse_id;
+  userId = this.configSettings.env.user_id;
   iacrgoApiUrl = this.configSettings.env.icargo_api_url;
   email = this.configSettings.env.email;
   access_token = this.configSettings.env.icargo_access_token;
@@ -55,7 +56,7 @@ export class DashboardService {
       "features": []
     }
   };
-  constructor(private socket: SocketService, private mapbox: MapboxService, private http: HttpClient, private sharedService:SharedService, private spinnerService:NgxSpinnerService) {
+  constructor(private socket: SocketService, private mapbox: MapboxService, private http: HttpClient, private sharedService: SharedService, private spinnerService: NgxSpinnerService) {
 
     this.loadDropOnMapsEmit();
     this.loadDriverData();
@@ -83,7 +84,7 @@ export class DashboardService {
   }
 
   loadDropOnMapsListen() {
-    
+
     this.socket.websocket.on('get-all-drops', (data) => {
       this.sharedService.headerDateAction = 0;
       document.spinser.spinnerService.hide('get-header-data');
@@ -146,16 +147,22 @@ export class DashboardService {
 
       this.formatedData.data.features = this.points.features;
       //console.log(JSON.stringify(this.formatedData));
-      if (this.mapbox.map.getSource('points') != undefined) {
-        this.mapbox.map.getSource('points').setData(this.formatedData.data);
+    
+      try {
+        if (this.mapbox.map.getSource('points') != undefined) {
+          this.mapbox.map.getSource('points').setData(this.formatedData.data);
+        }
       }
-    });
+      catch (err) {
+          console.log("Error for getSource");
+          console.log(err);
+        }
+      });
 
   }
 
   loadDropOnMapsEmit() {
-
-    this.socket.websocket.emit('req-all-drops', { search_date: '', warehouse_id: this.wairehouseId, company_id: this.companyId });
+    this.socket.websocket.emit('req-all-drops', { search_date: '', warehouse_id: this.wairehouseId, company_id: this.companyId, user_id: this.userId });
   }
 
   loadDriverData() {
@@ -313,8 +320,8 @@ export class DashboardService {
   }
 
   //get Tkt and Route name
-  getDropInfo(loadIdentity,next_day_jobtype): Observable<any> {
-    this.socket.websocket.emit('req-drop-info', { warehouse_id: this.wairehouseId, company_id: this.companyId, loadIdentity: loadIdentity , next_day_jobtype:next_day_jobtype});
+  getDropInfo(loadIdentity, next_day_jobtype): Observable<any> {
+    this.socket.websocket.emit('req-drop-info', { warehouse_id: this.wairehouseId, company_id: this.companyId, loadIdentity: loadIdentity, next_day_jobtype: next_day_jobtype });
     this.socket.websocket.on('get-drop-info', (data) => {
       this.observer.next(data);
     })
@@ -427,29 +434,29 @@ export class DashboardService {
   getDirectionBtwnLatLng(coordinatesArray): Observable<any> {
     const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
     var coordinateJoin = '';
-   
+
     for (var di = 0; di < coordinatesArray.length; di++) {
-      if(di == 0){
-        coordinateJoin +=coordinatesArray[di][0]+','+coordinatesArray[di][1];
-      }else{
-        coordinateJoin +=';'+coordinatesArray[di][0]+','+coordinatesArray[di][1];
+      if (di == 0) {
+        coordinateJoin += coordinatesArray[di][0] + ',' + coordinatesArray[di][1];
+      } else {
+        coordinateJoin += ';' + coordinatesArray[di][0] + ',' + coordinatesArray[di][1];
       }
-      
+
     }
 
     var requestQueryString = '';
-    if(coordinateJoin){
-      requestQueryString = 'https://api.mapbox.com/directions/v5/mapbox/driving/'+coordinateJoin+'?geometries=geojson&steps=true&overview=full&access_token='+this.map_box_key; 
+    if (coordinateJoin) {
+      requestQueryString = 'https://api.mapbox.com/directions/v5/mapbox/driving/' + coordinateJoin + '?geometries=geojson&steps=true&overview=full&access_token=' + this.map_box_key;
 
       return this.http.get<any>(requestQueryString,
-      {
-        headers, responseType: 'json' as 'json'
-      })
-      .pipe(
-        retry(1),
-        catchError(this.handleError)
-      )
+        {
+          headers, responseType: 'json' as 'json'
+        })
+        .pipe(
+          retry(1),
+          catchError(this.handleError)
+        )
     }
-    
+
   }
 }

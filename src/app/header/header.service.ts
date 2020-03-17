@@ -21,6 +21,7 @@ export class HeaderService {
   configSettings = new config();
   companyId = this.configSettings.env.company_id;
   wairehouseId = this.configSettings.env.wairehouse_id;
+  userId = this.configSettings.env.user_id;
   socketRestAPI = this.configSettings.env.socket_rest_api_url;
   apiData;
   observer: Observer<any>;
@@ -119,6 +120,7 @@ export class HeaderService {
     this.socket.websocket.emit('save-header-date', { 
       warehouse_id: this.wairehouseId,
       company_id: this.companyId,
+      user_id: this.userId,
       start_date: dateInfo.start_date,
       end_date:  dateInfo.end_date
     });
@@ -137,7 +139,8 @@ export class HeaderService {
   deleteSearchDate():Observable<any> {
     this.socket.websocket.emit('delete-header-date', { 
       warehouse_id: this.wairehouseId,
-      company_id: this.companyId
+      company_id: this.companyId,
+      user_id: this.userId,
     });
     // this.socket.websocket.on('get-header-date', (data) => {
     //   this.observer.next(data);
@@ -148,7 +151,8 @@ export class HeaderService {
   getHeaderSavedDate():Observable<any> {
     this.socket.websocket.emit('req-header-date', {
       warehouse_id: this.wairehouseId,
-      company_id: this.companyId
+      company_id: this.companyId,
+      user_id: this.userId,
     });
     this.socket.websocket.on('get-header-date', (data) => {
       this.observer.next(data);

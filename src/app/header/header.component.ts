@@ -11,7 +11,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { DashboardService } from '../dashboard/dashboard.service';
 import { SharedService } from '../shared/shared.service';
 declare var document: any;
-
+import {FormControl} from '@angular/forms';
 
 
 
@@ -42,6 +42,9 @@ export class HeaderComponent implements OnInit {
   public gridApiSearch;
   overlayLoadingTemplateSearch;
 
+
+  toppings = new FormControl();
+  toppingList: string[] = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
 
 
   //Grid headers
