@@ -179,6 +179,8 @@ export class SidenavLeftComponent implements OnInit {
       } else {
         this.sidebarLeftNavOp.customerAccountNumber = '';
       }
+
+      this.sidebarLeftNavOp.vehicle_cat_name = resp.vehicle_cat_name;
     });
 
     //get Disputed List && get Assign Route List 

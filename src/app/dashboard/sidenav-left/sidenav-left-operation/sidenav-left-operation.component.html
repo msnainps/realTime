@@ -210,6 +210,11 @@
                 <span *ngIf="booking_type == 'Vendor' || booking_type == 'NEXT'">
                   <h4>Total Item:</h4>{{totalJobItem}}
                 </span>
+
+                <span *ngIf="booking_type != 'Vendor'">
+                  <h4>Vehicle Type:</h4>{{vehicle_cat_name}}
+                </span>
+                
               </div>
 
               <!--Show View Details Info-->

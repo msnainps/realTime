@@ -79,6 +79,7 @@ export class SidenavLeftOperationComponent implements OnInit {
   loadIdentity;
   hubList: any[] = [];
   modal:String = 'modal';
+  vehicle_cat_name;
 
   //Grid headers
   columnDefs = [

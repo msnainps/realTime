@@ -106,6 +106,7 @@ export class DashboardService {
               <div class="sec-div-drop-list-main sec-div-drop"><div class="drop-list-design-1"><i class="material-icons drops-min-color2">help_outline</i></div>\
               <div class="drop-list-design-2"><div><span>Ref:</span> '+ data.mapPlotData[index1].job_customer_ref + '</div>\
               <div><span>Service Type:</span> ' + data.mapPlotData[index1].job_service_name + '</div>\
+              <div><span>Vehicle Type:</span> ' + data.mapPlotData[index1].vehicle_cat_name + '</div>\
               <div><span>Job:</span> ' + data.mapPlotData[index1].job_type + '</div>\
               <div><span>Ticket:</span> ' + data.mapPlotData[index1].shipment_ticket + '</div>\
               <div><span>Tracking No:</span> ' + data.mapPlotData[index1].instaDispatch_loadIdentity + '</div>\

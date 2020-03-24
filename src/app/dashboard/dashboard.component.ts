@@ -199,6 +199,7 @@ export class DashboardComponent implements OnInit {
       document.mapCom.shipmentInfo.customer_id = res.tktInfo[0].customer_id;
       document.mapCom.shipmentInfo.job_customer_ref = res.dropDataServiceInfo.job_customer_ref;
       document.mapCom.shipmentInfo.job_service_name = res.dropDataServiceInfo.job_service_name;
+      document.mapCom.shipmentInfo.job_vehicle_name = res.vinfo;
       //check for nextday only collection
       this.next_day_jobtype = '';
       if(res.tktInfo[0].shipment_routed_id == 0 && res.tktInfo[0].booking_type == 'NEXT' && res.tktInfo[0].current_status == 'C'){
