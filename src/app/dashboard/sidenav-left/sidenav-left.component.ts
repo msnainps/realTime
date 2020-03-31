@@ -31,8 +31,8 @@ export class SidenavLeftComponent implements OnInit {
   driverName: any;
   param: any = {};
   getFocusLatLong = '';
-  panelOpenState:boolean;
-  
+  panelOpenState: boolean;
+
 
 
   @Input() sidebarLeftNavOp: SidenavLeftOperationComponent; //Send Data to SidenavLeftOperationComponent
@@ -69,13 +69,36 @@ export class SidenavLeftComponent implements OnInit {
     this.sidebarLeftNavOp.assignDriverFormModel.driver_id = '';
     this.sidebarLeftNavOp.assignDriverFormModel.hub_id = '';
 
+
+
+
+    // try {
+    //   if (this.configSettings.env.country_code.toLowerCase() == 'us' || this.configSettings.env.country_code.toLowerCase() == 'usa') {
+    //     var dt = formatDate(new Date(data.collection_date), 'MM-dd-yyyy hh:mm:ss a', 'en-US', '+0530');
+    //   } else {
+    //     var dt = formatDate(new Date(data.collection_date), 'dd-MM-yyyy hh:mm:ss a', 'en-US', '+0530');
+    //   }
+    //   this.sidebarLeftNavOp.assignDriverFormModel.assign_date_time = new Date(dt);
+    // } catch (err) {
+    //   console.log(err.message);
+    //   this.sidebarLeftNavOp.assignDriverFormModel.assign_date_time = new Date();
+    // }
+
+
     try {
-      if (this.configSettings.env.country_code.toLowerCase() == 'us' || this.configSettings.env.country_code.toLowerCase() == 'usa') {
-        var dt = formatDate(new Date(data.collection_date), 'MM-dd-yyyy hh:mm:ss a', 'en-US', '+0530');
-      } else {
-        var dt = formatDate(new Date(data.collection_date), 'dd-MM-yyyy hh:mm:ss a', 'en-US', '+0530');
-      }
-      this.sidebarLeftNavOp.assignDriverFormModel.assign_date_time = new Date(dt);
+      var assignDatTime = data.collection_date.split(" ");
+      var onlyDate = assignDatTime[0].split("/");//Split Date
+      var onlyTime = assignDatTime[1].split(":");//Split Time
+      var cdate = onlyDate[0];
+      var cmonth = onlyDate[1] - 1;
+      var cyear = onlyDate[2];
+      var chour = onlyTime[0];
+      var cminute = onlyTime[1];
+
+      console.log(data.collection_date);
+      
+      this.sidebarLeftNavOp.assignDriverFormModel.assign_date_time = new Date(cyear, cmonth, cdate, chour, cminute, 0);
+
     } catch (err) {
       console.log(err.message);
       this.sidebarLeftNavOp.assignDriverFormModel.assign_date_time = new Date();
@@ -140,7 +163,7 @@ export class SidenavLeftComponent implements OnInit {
     //   this.param.routeId = data.shipment_routed_id;
     // }
 
-    if(data.next_day_jobtype == 'undefined' || typeof data.next_day_jobtype == 'undefined'){
+    if (data.next_day_jobtype == 'undefined' || typeof data.next_day_jobtype == 'undefined') {
       data.next_day_jobtype = '';
     }
 

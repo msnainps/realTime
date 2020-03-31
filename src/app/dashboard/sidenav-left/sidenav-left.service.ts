@@ -148,9 +148,12 @@ export class SidenavLeftService {
       'shipment_ticket': '' + assignFormData.shipment_ticket,
       'route_name': '' + assignFormData.route_name,
       'driver_id': '' + assignFormData.driver_id,
-      'assign_time': formatDate(new Date(assignFormData.assign_date_time), 'dd-MM-yyyy hh:mm:ss a', 'en-US', '+0530'),
+      'assign_time11': formatDate(new Date(assignFormData.assign_date_time), 'dd-MM-yyyy hh:mm:ss a', 'en-IN', '+0530'),
+      'assign_time': this.getDateFormat(assignFormData.assign_date_time),
       "timezone_name": Intl.DateTimeFormat().resolvedOptions().timeZone
     }
+
+
 
     return this.http.post<any>(this.iacrgoApiUrl + this.routeData.endPointUrl, JSON.stringify(this.routeData),
       {
@@ -160,6 +163,42 @@ export class SidenavLeftService {
         retry(0),
         catchError(this.handleError)
       )
+  }
+
+  getDateFormat(assignDateTime) {
+
+    var t = new Date(assignDateTime);
+
+    
+
+    var hr: any = ("0" + t.getHours()).slice(-2);
+    var min = ("0" + t.getMinutes()).slice(-2);
+    var sec = ("0" + t.getSeconds()).slice(-2);
+
+    var day: any = t.getDate();
+    var month: any = t.getMonth();
+    var year: any = t.getFullYear();
+    if (day < 10) {
+      day = "0" + day;
+    }
+
+    //var monthVlaue:any = 1;
+    month = month + 1;
+    if (month < 10) {
+      month = "0" + month;
+    }
+
+    var timeFormat: any = '';
+
+    if (hr < 12) {
+      timeFormat = 'AM';
+    } else {
+      hr = hr - 12
+      timeFormat = 'PM';
+    }
+
+    var fullData = day + "-" + month + "-" + year + " " + hr + ":" + min + ":" + sec + " " + timeFormat;
+    return fullData;
   }
 
   // Error handling 
@@ -223,7 +262,7 @@ export class SidenavLeftService {
         routedId: param.routeId,
         route_type: type,
         customer_id: param.customer_id,
-        next_day_jobtype:param.next_day_jobtype
+        next_day_jobtype: param.next_day_jobtype
       }
     );
     return Observable.create(observer => {
@@ -568,7 +607,7 @@ export class SidenavLeftService {
    * @param hubId
    */
   getDriverListByHubId(hubId) {
-    this.socket.websocket.emit('req-driver-list-byhubid', { hub_id:hubId});
+    this.socket.websocket.emit('req-driver-list-byhubid', { hub_id: hubId });
     return Observable.create(observer => {
       this.socket.websocket.on('get-driver-list-byhubid', data => {
         observer.next(data);

@@ -78,7 +78,7 @@ export class SidenavLeftOperationComponent implements OnInit {
   customerAccountNumber;
   loadIdentity;
   hubList: any[] = [];
-  modal:String = 'modal';
+  modal: String = 'modal';
   vehicle_cat_name;
 
   //Grid headers
@@ -175,10 +175,10 @@ export class SidenavLeftOperationComponent implements OnInit {
     this.overlayLoadingTemplateTracking =
       '<span style="color:#33225A;font-size:14px;font-weight:bold;" class="ag-overlay-loading-center">Loading Tracking Data....</span>';
 
-      this.overlayLoadingTemplateParcel =
+    this.overlayLoadingTemplateParcel =
       '<span style="color:#33225A;font-size:14px;font-weight:bold;" class="ag-overlay-loading-center">Loading Parcel Data....</span>';
 
-      this.overlayLoadingTemplatePod =
+    this.overlayLoadingTemplatePod =
       '<span style="color:#33225A;font-size:14px;font-weight:bold;" class="ag-overlay-loading-center">Loading POD Data....</span>';
 
   }
@@ -203,7 +203,7 @@ export class SidenavLeftOperationComponent implements OnInit {
       route_name: [''],
       driver_id: ['', Validators.required],
       assign_date_time: ['', Validators.required],
-      hub_id:['']
+      hub_id: ['']
     });
   }
 
@@ -303,6 +303,18 @@ export class SidenavLeftOperationComponent implements OnInit {
       return;
     }
 
+
+    var todaysDate = this.getTodaysDate();
+    var assignDate = this.getAssignDate(this.assignDriverFormModel.assign_date_time);
+
+    if (new Date(assignDate) < new Date(todaysDate)) {
+      this.toastr.error('can not assign driver on back date!', '', {
+        closeButton: true, positionClass: 'toast-top-right', timeOut: 6000
+      });
+      return;
+    }
+
+
     if (this.assignDriverFormModel.driver_id == 0) {
       this.toastr.info('Invalid Driver', '', {
         closeButton: true, positionClass: 'toast-top-right', timeOut: 4000
@@ -339,6 +351,51 @@ export class SidenavLeftOperationComponent implements OnInit {
       this.assignDriverFormModel = {};
     });
 
+  }
+
+  getTodaysDate() {
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+
+    var fullDate = mm + '/' + dd + '/' + yyyy;
+    return fullDate;
+  }
+
+  getAssignDate(assignDateTime) {
+    var t = new Date(assignDateTime);
+
+
+
+    var hr: any = ("0" + t.getHours()).slice(-2);
+    var min = ("0" + t.getMinutes()).slice(-2);
+    var sec = ("0" + t.getSeconds()).slice(-2);
+
+    var day: any = t.getDate();
+    var month: any = t.getMonth();
+    var year: any = t.getFullYear();
+    if (day < 10) {
+      day = "0" + day;
+    }
+
+    //var monthVlaue:any = 1;
+    month = month + 1;
+    if (month < 10) {
+      month = "0" + month;
+    }
+
+    var timeFormat: any = '';
+
+    if (hr < 12) {
+      timeFormat = 'AM';
+    } else {
+      hr = hr - 12
+      timeFormat = 'PM';
+    }
+
+    var fullData = month + "/" + day + "/" + year;
+    return fullData;
   }
 
   onSelectionChanged(event) { //When select check box from grid
@@ -811,7 +868,7 @@ export class SidenavLeftOperationComponent implements OnInit {
   }
 
   //Click on picture click
-  customCellPictureClickPod(param){
+  customCellPictureClickPod(param) {
     if (param.data.action) {
       //var path = 'http://localhost/parcel-api/pod/signature/ICARGOSF51636.png';
       return '<a href="' + param.data.action + '" target="_blank"><img src="' + param.data.action + '" height="50" width="50"></a>';
@@ -858,7 +915,7 @@ export class SidenavLeftOperationComponent implements OnInit {
       this.gridApiTracking.showLoadingOverlay();
       this.gridApiByParcel.showLoadingOverlay();
       this.gridApiPod.showLoadingOverlay();
-      
+
       this.rowDataByParcelInfo = '';//Reset By Parcel Info row data
       this.rowDataTrackingInfo = '';//Reset Tracking Info row data
       var Jtypes = data.booking_type.toLowerCase();
@@ -867,9 +924,9 @@ export class SidenavLeftOperationComponent implements OnInit {
           var strArray = resp.split(".");
           this.trakingCallStatus = true;
           var decodeBAse64 = JSON.parse(atob(strArray[1]));
-          if(decodeBAse64.code != 'undefined' && decodeBAse64.code == 'invalid_user'){
-             //Controller Logout
-             this.toastr.error('Controller Logout! please login again', '', {
+          if (decodeBAse64.code != 'undefined' && decodeBAse64.code == 'invalid_user') {
+            //Controller Logout
+            this.toastr.error('Controller Logout! please login again', '', {
               closeButton: true, positionClass: 'toast-top-right', timeOut: 10000
             });
           }
@@ -882,7 +939,7 @@ export class SidenavLeftOperationComponent implements OnInit {
             this.rowDataByParcelInfo = decodeBAse64.trackinginfo;
             this.rowDataTrackingInfo = decodeBAse64.shipmentTrackinginfo;
             this.rowDataPodInfo = decodeBAse64.podinfo;
-          }else if(Jtypes == 'vendor'){
+          } else if (Jtypes == 'vendor') {
             this.rowDataByParcelInfo = decodeBAse64.retail.trackinginfo;
             this.rowDataTrackingInfo = decodeBAse64.retail.shipmentTrackinginfo;
             this.rowDataPodInfo = decodeBAse64.retail.podinfo;
@@ -897,11 +954,11 @@ export class SidenavLeftOperationComponent implements OnInit {
     this.gridApiTracking = params.api;
   }
 
-  onGridReadyByParcel(params){
+  onGridReadyByParcel(params) {
     this.gridApiByParcel = params.api;
   }
 
-  onGridReadyPod(params){
+  onGridReadyPod(params) {
     this.gridApiPod = params.api;
   }
 
@@ -915,32 +972,32 @@ export class SidenavLeftOperationComponent implements OnInit {
         size: "large",
         color: "white"
       });
-      
+
       this.sidenavleftservice.getPodLabel(this.customerAccountNumber, this.loadIdentity, this.booking_type).subscribe(resp => {
         this.spinerService.hide("podlabel");
         var strArray = resp.split(".");
         this.trakingCallStatus = true;
         var decodeBAse64 = JSON.parse(atob(strArray[1]));
-        if(decodeBAse64.status == 'success'){
+        if (decodeBAse64.status == 'success') {
           //window.location.href = decodeBAse64.pod_path;
           var evt = new MouseEvent('click', {
             'view': window,
             'bubbles': true,
             'cancelable': false
-        });
-        var save = document.createElement('a');
-            save.href = decodeBAse64.pod_path;
-            save.target = '_blank';
-            var filename = decodeBAse64.pod_path.substring(decodeBAse64.pod_path.lastIndexOf('/')+1);
-            save.download = 'test' || filename;
-        save.dispatchEvent(evt);
-        (window.URL).revokeObjectURL(save.href);
+          });
+          var save = document.createElement('a');
+          save.href = decodeBAse64.pod_path;
+          save.target = '_blank';
+          var filename = decodeBAse64.pod_path.substring(decodeBAse64.pod_path.lastIndexOf('/') + 1);
+          save.download = 'test' || filename;
+          save.dispatchEvent(evt);
+          (window.URL).revokeObjectURL(save.href);
         }
       },
-      error => {
-        this.spinerService.hide("podlabel");
-        console.log(error);
-      },
+        error => {
+          this.spinerService.hide("podlabel");
+          console.log(error);
+        },
       );
     }
   }
@@ -949,13 +1006,13 @@ export class SidenavLeftOperationComponent implements OnInit {
    * Get Driver List By Hub Id
    * @param hubId
    */
-  getDriverByHub(hubId){
-    if(hubId > 0){
+  getDriverByHub(hubId) {
+    if (hubId > 0) {
       this.sidenavleftservice.getDriverListByHubId(hubId).subscribe(quote => {
         this.assignDriverFormModel.driver_id = '';
         this.driverList = quote.driver_data;
       });
-    }else{
+    } else {
       this.assignDriverFormModel.driver_id = '';
       this.driverList = this.tmpDriverList;
     }
