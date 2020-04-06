@@ -65,6 +65,11 @@
                                         data-toggle="modal" data-target="#Modal1">
                                         <mat-icon>how_to_reg</mat-icon> <span>Assign Job</span>
                                     </a></li>
+                                    <li><a href=""
+                                        (click)="assignJob(unassignData)"
+                                        data-toggle="modal" data-target="#Modal7">
+                                        <mat-icon>directions_bike</mat-icon> <span>Assign Job to CX Driver</span>
+                                    </a></li>    
                                 <li *ngIf="unassignData.booking_type != 'Vendor'"><a href=""
                                         (click)="cancelShipment(unassignData.instaDispatch_loadIdentity)"
                                         data-toggle="modal" data-target="#Modal2">

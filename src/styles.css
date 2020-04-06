@@ -1167,3 +1167,9 @@ top: 7px;
   outline: none;
   box-shadow: none;
 }
+span.or-middle{
+  display:inline-block;
+  margin:10px 10px 0 0;
+  padding:5px 10px;
+  width: 100%;
+}
