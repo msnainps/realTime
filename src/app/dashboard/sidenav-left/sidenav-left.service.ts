@@ -315,7 +315,8 @@ export class SidenavLeftService {
       'shipment_route_id': shipRouteId,
       'shipment_ticket': cradedTktList.join('","'),
       'comment': cardedFormValue.driver_comment,
-      'next_date_time': formatDate(new Date(cardedFormValue.carded_date_time), 'dd-MM-yyyy hh:mm:ss a', 'en-US', '+0530'),
+      'next_date_time1': formatDate(new Date(cardedFormValue.carded_date_time), 'dd-MM-yyyy hh:mm:ss a', 'en-US', '+0530'),
+      'next_date_time': this.getDateFormat(cardedFormValue.carded_date_time),
       'failure_status': cardedFormValue.carded_status,
       'timezone_name': Intl.DateTimeFormat().resolvedOptions().timeZone
     }
@@ -348,11 +349,12 @@ export class SidenavLeftService {
       'shipment_route_id': shipRouteId,
       'shipment_ticket': deliverTktList.join(","),
       'comment': deliverFormValue.deliver_comment,
-      'next_date_time': formatDate(new Date(deliverFormValue.deliver_date_time), 'dd-MM-yyyy hh:mm:ss a', 'en-US', '+0530'),
+      'next_date_time1': formatDate(new Date(deliverFormValue.deliver_date_time), 'dd-MM-yyyy hh:mm:ss a', 'en-US', '+0530'),
+      'next_date_time': this.getDateFormat(deliverFormValue.deliver_date_time),
       'contact_name': deliverFormValue.contact_person,
       'timezone_name': Intl.DateTimeFormat().resolvedOptions().timeZone
     }
-
+    
     return this.http.post<any>(this.iacrgoApiUrl + this.routeData.endPointUrl, JSON.stringify(this.routeData),
       {
         headers, responseType: 'text' as 'json'
