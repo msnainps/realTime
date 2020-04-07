@@ -193,8 +193,12 @@ export class SidenavLeftService {
     if (hr < 12) {
       timeFormat = 'AM';
     } else {
-      hr = hr - 12
+      //hr = hr - 12
       timeFormat = 'PM';
+    }
+
+    if(hr == '00'){
+      hr = 12;
     }
 
     var fullData = day + "-" + month + "-" + year + " " + hr + ":" + min + ":" + sec + " " + timeFormat;
