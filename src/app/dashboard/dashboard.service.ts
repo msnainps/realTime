@@ -345,7 +345,8 @@ export class DashboardService {
       'shipment_ticket': '' + data.shipmentKey,
       'route_name': '' + data.routeName,
       'driver_id': '' + driver_id,
-      'assign_time': formatDate(new Date(), 'dd-MM-yyyy hh:mm:ss a', 'en-US', '+0530'),
+      //'assign_time1': formatDate(new Date(), 'dd-MM-yyyy hh:mm:ss a', 'en-US', '+0530'),
+      'assign_time': this.getDateFormat(new Date()),
       "timezone_name": Intl.DateTimeFormat().resolvedOptions().timeZone
     }
 
@@ -359,6 +360,46 @@ export class DashboardService {
         catchError(this.handleError)
       )
   }
+  getDateFormat(assignDateTime) {
+
+    var t = new Date(assignDateTime);
+
+    
+
+    var hr: any = ("0" + t.getHours()).slice(-2);
+    var min = ("0" + t.getMinutes()).slice(-2);
+    var sec = ("0" + t.getSeconds()).slice(-2);
+
+    var day: any = t.getDate();
+    var month: any = t.getMonth();
+    var year: any = t.getFullYear();
+    if (day < 10) {
+      day = "0" + day;
+    }
+
+    //var monthVlaue:any = 1;
+    month = month + 1;
+    if (month < 10) {
+      month = "0" + month;
+    }
+
+    var timeFormat: any = '';
+
+    if (hr < 12) {
+      timeFormat = 'AM';
+    } else {
+      //hr = hr - 12
+      timeFormat = 'PM';
+    }
+
+    if(hr == '00'){
+      hr = 12;
+    }
+
+    var fullData = day + "-" + month + "-" + year + " " + hr + ":" + min + ":" + sec + " " + timeFormat;
+    return fullData;
+  }
+
 
   //Show driver secod name initials
   getDriverNameInitials(drivareName) {
