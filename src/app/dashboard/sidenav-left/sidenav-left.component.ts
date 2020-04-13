@@ -232,4 +232,10 @@ export class SidenavLeftComponent implements OnInit {
     this.dashboradCmp.showFocusToDrop(this.sidenaveleftService.setFocusLatLong);
   }
 
+  assignJobToCx(unassingedInfo){
+    if(unassingedInfo.booking_type == "SAME") {
+      this.sidebarLeftNavOp.loadIdentity = unassingedInfo.instaDispatch_loadIdentity 
+    }
+  }
+
 }

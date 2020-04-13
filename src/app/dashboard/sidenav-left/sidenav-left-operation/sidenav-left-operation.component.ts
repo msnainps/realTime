@@ -11,7 +11,7 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 import { Observable, Observer, throwError, observable } from 'rxjs';
 import { DateTimeAdapter } from 'ng-pick-datetime';
 import { config } from 'src/config/config';
-
+import * as vhList from './cxvehiclelist.json';
 
 
 
@@ -80,6 +80,9 @@ export class SidenavLeftOperationComponent implements OnInit {
   hubList: any[] = [];
   modal: String = 'modal';
   vehicle_cat_name;
+  cxBidFrom: FormGroup;
+  cxBidFormModel: any = {};
+  cxVehicleList: any[] = [];
 
   //Grid headers
   columnDefs = [
@@ -155,7 +158,6 @@ export class SidenavLeftOperationComponent implements OnInit {
     }
   ]
 
-
   modules = AllCommunityModules;
 
   constructor(
@@ -205,7 +207,34 @@ export class SidenavLeftOperationComponent implements OnInit {
       assign_date_time: ['', Validators.required],
       hub_id: ['']
     });
+
+    //Cx Bid from
+    this.cxBidFrom = this.formBuilder.group({
+       bid_vehicle_value:['',Validators.required],
+       bid_collection_date : ['',Validators.required],
+       bid_delivery_date : ['',Validators.required],
+    });
+  
+  //[Bike, Car, S/Van, M/Van, SWB, Transit, LWB, XLWB, Luton, 7.5T, 12T, 18T, 26T, 13.6M, Skel 1x20, 
+  //Skel 2x20, Skel 1x40, Skel 1x44, 4ax Trac, 6ax Trac, CARGO VLA, CARGO, CAR_PUP, CARGO VSM, 
+  //SPRINTER, FLATBED, STAKEBED, S_STRAIGHT, L_STRAIGHT, TRACTOR48, TRACTOR53, SUPERB, LOW_BOY, TANK, 
+//  OTHER, CARGO_V, SPRINTER_C, STR_TRUCK, TRACTOR, BIKE, CAR, CARGO SM, Sprinter, CARGO LA, PUP OP, 
+//PUP CL, SUV, FLAT, STAKE, BOX10, BOX12, BOX14, BOX16, BOX18, BOX20, BOX22, BOX24, BOX26, BOX28, BOX30, BOX40, BOX48, BOX53
+    
+    //get vechile list
+    console.log(vhList);
+  this.cxVehicleList = [
+    {
+      "name":"Bike","value":"Bike"
+    },
+    {
+      "name":"Bike","value":"Bike"
+    }
+  ];
   }
+
+  
+
 
 
   /**
@@ -1016,6 +1045,15 @@ export class SidenavLeftOperationComponent implements OnInit {
       this.assignDriverFormModel.driver_id = '';
       this.driverList = this.tmpDriverList;
     }
+  }
+
+  processForBid(){
+    console.log(this.loadIdentity);
+    if (this.cxBidFrom.invalid) {
+      return;
+    }
+
+    console.log(this.cxBidFormModel);
   }
 
 }

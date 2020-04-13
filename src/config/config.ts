@@ -16,7 +16,8 @@ export class config {
     //     icargo_api_url:'https://api.instadispatch.com/app-allignment/parcel-api/v1/',
     //     socket_rest_api_url: 'https://socketapi.instadispatch.com:3001/',
     //     icargo_url:'https://www.idtest.uk/',
-    //     country_code:localStorage.getItem('country_code')
+    //     country_code:localStorage.getItem('country_code'),
+    //     currency_code: localStorage.getItem('currency_code')
     // }
     //Live
     // env = {
@@ -36,6 +37,7 @@ export class config {
     //     socket_rest_api_url: 'https://socketapi.instadispatch.com:3002/',
     //     icargo_url:'https://route.instadispatch.com',
     //     country_code:localStorage.getItem('country_code')
+    //     currency_code: localStorage.getItem('currency_code')
     // }
 
     //Local
@@ -55,6 +57,7 @@ export class config {
         icargo_api_url: 'http://localhost/parcel-api/v1/',
         socket_rest_api_url: 'http://localhost:3000/',
         icargo_url:'http://localhost/icargo',
-        country_code:'GB'
+        country_code:'GB',
+        currency_code:'GBP'
     }
 }
