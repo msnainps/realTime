@@ -233,6 +233,7 @@ export class SidenavLeftComponent implements OnInit {
   }
 
   assignJobToCx(unassingedInfo){
+    this.sidebarLeftNavOp.showHideModal = 'block';
     if(unassingedInfo.booking_type == "SAME") {
       this.sidebarLeftNavOp.loadIdentity = unassingedInfo.instaDispatch_loadIdentity 
     }

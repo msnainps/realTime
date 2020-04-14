@@ -22,6 +22,8 @@ export class SidenavLeftService {
   email = this.configSettings.env.email;
   access_token = this.configSettings.env.icargo_access_token;
   socketRestAPI = this.configSettings.env.socket_rest_api_url;
+  currency_code = this.configSettings.env.currency_code;
+  country_code = this.configSettings.env.country_code;
 
   public dataList: any = new Array();
   setFocusLatLong: any = '';
@@ -627,6 +629,46 @@ export class SidenavLeftService {
         observer.next(data);
       });
     });
+  }
+
+  placeBidForCxDriver(cxData): Observable<any> {
+
+    this.routeData = {
+      'endPointUrl': 'cx-api/requestforloads',
+      'company_id': '' + this.companyId,
+      'warehouse_id': '' + this.wairehouseId,
+      'email': this.email,
+      'access_token': this.access_token,
+      'loadIdentity':cxData.loadIdentity,
+      'minVehicleSize':cxData.bid_vehicle_value,
+      'deliveryDate':this.getDateFormat(cxData.bid_delivery_date),
+      'pickupDate':this.getDateFormat(cxData.bid_collection_date),
+      'currency_code':this.currency_code,
+      'country_code':this.country_code,
+      "timezone_name": Intl.DateTimeFormat().resolvedOptions().timeZone
+    }
+
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.http.post(this.iacrgoApiUrl + this.routeData.endPointUrl, JSON.stringify(this.routeData), {
+      "headers": headers,
+      responseType: 'text' as 'json'
+    }).pipe(
+      retry(1),
+      map(data => {
+        return data;
+      }),
+      catchError((error: HttpErrorResponse) => {
+        if (error.error instanceof Error) {
+          // A client-side or network error occurred. Handle it accordingly.
+          console.error('An error occurred:', error.error.message);
+        } else {
+          console.error(`Backend returned code ${error.status}, body was: ${error.error}`);
+          return `${error.status}`;
+        }
+        return EMPTY;
+      })
+    );
+
   }
 
 }

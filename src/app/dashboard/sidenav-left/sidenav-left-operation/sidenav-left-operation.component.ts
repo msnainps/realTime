@@ -11,8 +11,8 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 import { Observable, Observer, throwError, observable } from 'rxjs';
 import { DateTimeAdapter } from 'ng-pick-datetime';
 import { config } from 'src/config/config';
-import * as vhList from './cxvehiclelist.json';
 
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 
 
 
@@ -82,7 +82,8 @@ export class SidenavLeftOperationComponent implements OnInit {
   vehicle_cat_name;
   cxBidFrom: FormGroup;
   cxBidFormModel: any = {};
-  cxVehicleList: any[] = [];
+  cxVehicleList: any = [];
+  submitedCx = false;
 
   //Grid headers
   columnDefs = [
@@ -166,7 +167,8 @@ export class SidenavLeftOperationComponent implements OnInit {
     private toastr: ToastrService,
     private dashboardService: DashboardService,
     private formBuilder: FormBuilder,
-    dateTimeAdapter: DateTimeAdapter<any>
+    dateTimeAdapter: DateTimeAdapter<any>,
+    private httpClient: HttpClient
   ) {
     if (this.getCountrtTime.env.country_code.toLowerCase() == 'us' || this.getCountrtTime.env.country_code.toLowerCase() == 'usa') {
       dateTimeAdapter.setLocale('us');
@@ -214,23 +216,11 @@ export class SidenavLeftOperationComponent implements OnInit {
        bid_collection_date : ['',Validators.required],
        bid_delivery_date : ['',Validators.required],
     });
-  
-  //[Bike, Car, S/Van, M/Van, SWB, Transit, LWB, XLWB, Luton, 7.5T, 12T, 18T, 26T, 13.6M, Skel 1x20, 
-  //Skel 2x20, Skel 1x40, Skel 1x44, 4ax Trac, 6ax Trac, CARGO VLA, CARGO, CAR_PUP, CARGO VSM, 
-  //SPRINTER, FLATBED, STAKEBED, S_STRAIGHT, L_STRAIGHT, TRACTOR48, TRACTOR53, SUPERB, LOW_BOY, TANK, 
-//  OTHER, CARGO_V, SPRINTER_C, STR_TRUCK, TRACTOR, BIKE, CAR, CARGO SM, Sprinter, CARGO LA, PUP OP, 
-//PUP CL, SUV, FLAT, STAKE, BOX10, BOX12, BOX14, BOX16, BOX18, BOX20, BOX22, BOX24, BOX26, BOX28, BOX30, BOX40, BOX48, BOX53
-    
-    //get vechile list
-    console.log(vhList);
-  this.cxVehicleList = [
-    {
-      "name":"Bike","value":"Bike"
-    },
-    {
-      "name":"Bike","value":"Bike"
-    }
-  ];
+
+  //get vechile list
+  this.httpClient.get("./assets/cxvehiclelist.json").subscribe(data =>{
+    this.cxVehicleList=data;
+  })
   }
 
   
@@ -1048,12 +1038,50 @@ export class SidenavLeftOperationComponent implements OnInit {
   }
 
   processForBid(){
-    console.log(this.loadIdentity);
+    this.submitedCx = true;
+    
     if (this.cxBidFrom.invalid) {
       return;
     }
 
-    console.log(this.cxBidFormModel);
+    
+    if(this.cxBidFormModel.bid_vehicle_value == 0){
+      this.toastr.error('Please Select Vehicle Type', '', {
+        closeButton: true, positionClass: 'toast-top-right', timeOut: 6000
+      });
+      return;
+    }
+
+    this.cxBidFormModel.loadIdentity = this.loadIdentity;
+
+    this.spinerService.show("placebid", {
+      type: "line-scale-party",
+      size: "large",
+      color: "white"
+    });
+
+    this.sidenavleftservice.placeBidForCxDriver(this.cxBidFormModel).subscribe(val => {
+
+      this.showHideModal = 'none';
+      document.querySelector(".modal-backdrop").remove();
+      var myStr = val;
+      var strArray = myStr.split(".");
+      var decodeBAse64 = JSON.parse(atob(strArray[1]));
+      if (decodeBAse64.status == 'error') {
+        this.toastr.error(decodeBAse64.message, '', {
+          closeButton: true, positionClass: 'toast-top-right', timeOut: 4000
+        });
+        this.spinerService.hide("placebid");
+      } else {
+        this.toastr.success(decodeBAse64.message, '', {
+          closeButton: true, positionClass: 'toast-top-right', timeOut: 4000
+        });
+        this.spinerService.hide("placebid");
+      }
+      this.cxBidFormModel = {};
+    });
+
+
   }
 
 }
