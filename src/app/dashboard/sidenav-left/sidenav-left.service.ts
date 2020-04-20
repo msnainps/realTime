@@ -643,8 +643,63 @@ export class SidenavLeftService {
       'minVehicleSize':cxData.bid_vehicle_value,
       'deliveryDate':this.getDateFormat(cxData.bid_delivery_date),
       'pickupDate':this.getDateFormat(cxData.bid_collection_date),
+      'wait_return':cxData.bid_waitreturn,
       'currency_code':this.currency_code,
       'country_code':this.country_code,
+      "timezone_name": Intl.DateTimeFormat().resolvedOptions().timeZone
+    }
+
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.http.post(this.iacrgoApiUrl + this.routeData.endPointUrl, JSON.stringify(this.routeData), {
+      "headers": headers,
+      responseType: 'text' as 'json'
+    }).pipe(
+      retry(1),
+      map(data => {
+        return data;
+      }),
+      catchError((error: HttpErrorResponse) => {
+        if (error.error instanceof Error) {
+          // A client-side or network error occurred. Handle it accordingly.
+          console.error('An error occurred:', error.error.message);
+        } else {
+          console.error(`Backend returned code ${error.status}, body was: ${error.error}`);
+          return `${error.status}`;
+        }
+        return EMPTY;
+      })
+    );
+
+  }
+
+
+ /**
+  * Get Job Status
+  * @param laodIdentity 
+  */
+  
+  getCxBidStatus(laodIdentity) {
+    this.socket.websocket.emit('req-cx-bid-status', { instaDispatch_loadIdentity: laodIdentity });
+    return Observable.create(observer => {
+      this.socket.websocket.on('get-cx-bid-status', data => {
+        observer.next(data);
+      });
+    });
+  }
+
+  bookJobForCxDriver(cxAssignData): Observable<any> {
+
+    this.routeData = {
+      'endPointUrl': 'cx-api/assignJobToCxDriver',
+      'company_id': '' + this.companyId,
+      'warehouse_id': '' + this.wairehouseId,
+      'email': this.email,
+      'access_token': this.access_token,
+      'loadIdentity':cxAssignData.loadIdentity,
+      'subcon_id':cxAssignData.subcon_id,
+      'aggred_rate':cxAssignData.aggred_rate,
+      'order_id':cxAssignData.order_id,
+      'request_id':cxAssignData.request_id,
       "timezone_name": Intl.DateTimeFormat().resolvedOptions().timeZone
     }
 

@@ -236,6 +236,19 @@ export class SidenavLeftComponent implements OnInit {
     this.sidebarLeftNavOp.showHideModal = 'block';
     if(unassingedInfo.booking_type == "SAME") {
       this.sidebarLeftNavOp.loadIdentity = unassingedInfo.instaDispatch_loadIdentity 
+      //check bid status of this job
+      this.sidenaveleftService.getCxBidStatus(this.sidebarLeftNavOp.loadIdentity).subscribe(bidsttaus => {
+         if(bidsttaus.cx_bid_data.length){
+           this.sidebarLeftNavOp.cxBidStatus = false;
+           this.sidebarLeftNavOp.cxAssignFromModel = {
+             'order_id' : bidsttaus.cx_bid_data[0].order_id,
+             'loadIdentity': bidsttaus.cx_bid_data[0].loadIdentity,
+             'request_id':bidsttaus.cx_bid_data[0].id
+           }
+         }else{
+           this.sidebarLeftNavOp.cxBidStatus = true;
+         }
+      });
     }
   }
 

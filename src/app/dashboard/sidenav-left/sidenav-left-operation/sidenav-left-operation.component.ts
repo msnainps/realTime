@@ -84,6 +84,10 @@ export class SidenavLeftOperationComponent implements OnInit {
   cxBidFormModel: any = {};
   cxVehicleList: any = [];
   submitedCx = false;
+  cxBidStatus;
+  cxAssignFrom:FormGroup;
+  cxAssignFromModel: any = {};
+  submitedCxAssign = false;
 
   //Grid headers
   columnDefs = [
@@ -215,12 +219,22 @@ export class SidenavLeftOperationComponent implements OnInit {
        bid_vehicle_value:['',Validators.required],
        bid_collection_date : ['',Validators.required],
        bid_delivery_date : ['',Validators.required],
+       bid_waitreturn:['']
     });
+
+    //Cx Job Assign From
+    this.cxAssignFrom = this.formBuilder.group({
+       aggred_rate:['',Validators.required],
+       subcon_id:['',Validators.required]
+    })
 
   //get vechile list
   this.httpClient.get("./assets/cxvehiclelist.json").subscribe(data =>{
     this.cxVehicleList=data;
   })
+
+   //set default of wait and return
+   this.cxBidFormModel.bid_waitreturn = false;
   }
 
   
@@ -1043,7 +1057,6 @@ export class SidenavLeftOperationComponent implements OnInit {
     if (this.cxBidFrom.invalid) {
       return;
     }
-
     
     if(this.cxBidFormModel.bid_vehicle_value == 0){
       this.toastr.error('Please Select Vehicle Type', '', {
@@ -1082,6 +1095,43 @@ export class SidenavLeftOperationComponent implements OnInit {
     });
 
 
+  }
+
+  processCxJobAssign(){
+    this.submitedCxAssign = true;
+
+    if (this.cxAssignFrom.invalid) {
+      return;
+    }
+
+    this.spinerService.show("driverAssign", {
+      type: "line-scale-party",
+      size: "large",
+      color: "white"
+    });
+
+    this.sidenavleftservice.bookJobForCxDriver(this.cxAssignFromModel).subscribe(val => {
+
+      this.showHideModal = 'none';
+      document.querySelector(".modal-backdrop").remove();
+      var myStr = val;
+      var strArray = myStr.split(".");
+      var decodeBAse64 = JSON.parse(atob(strArray[1]));
+      if (decodeBAse64.status == 'error') {
+        this.toastr.error(decodeBAse64.message, '', {
+          closeButton: true, positionClass: 'toast-top-right', timeOut: 4000
+        });
+        this.spinerService.hide("driverAssign");
+      } else {
+        this.toastr.success(decodeBAse64.message, '', {
+          closeButton: true, positionClass: 'toast-top-right', timeOut: 4000
+        });
+        this.spinerService.hide("driverAssign");
+      }
+      this.cxBidFormModel = {};
+    });
+
+    
   }
 
 }
