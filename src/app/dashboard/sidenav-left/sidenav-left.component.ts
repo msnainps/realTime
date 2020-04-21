@@ -239,12 +239,19 @@ export class SidenavLeftComponent implements OnInit {
       //check bid status of this job
       this.sidenaveleftService.getCxBidStatus(this.sidebarLeftNavOp.loadIdentity).subscribe(bidsttaus => {
          if(bidsttaus.cx_bid_data.length){
+           if(bidsttaus.cx_bid_data[0].bid_status === 1 && bidsttaus.cx_bid_data[0].cancel_status === 0 && bidsttaus.cx_bid_data[0].job_assign_status === 0){
            this.sidebarLeftNavOp.cxBidStatus = false;
            this.sidebarLeftNavOp.cxAssignFromModel = {
              'order_id' : bidsttaus.cx_bid_data[0].order_id,
              'loadIdentity': bidsttaus.cx_bid_data[0].loadIdentity,
              'request_id':bidsttaus.cx_bid_data[0].id
            }
+          }else if(bidsttaus.cx_bid_data[0].job_assign_status === 1){
+            this.sidebarLeftNavOp.cxAssignFromModel = {
+              'order_id' : bidsttaus.cx_bid_data[0].order_id,
+              'request_id':bidsttaus.cx_bid_data[0].id
+            }
+          }
          }else{
            this.sidebarLeftNavOp.cxBidStatus = true;
          }

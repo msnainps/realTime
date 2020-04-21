@@ -687,6 +687,10 @@ export class SidenavLeftService {
     });
   }
 
+  /**
+   * Book job for cx
+   * @param cxAssignData 
+   */
   bookJobForCxDriver(cxAssignData): Observable<any> {
 
     this.routeData = {
@@ -726,4 +730,43 @@ export class SidenavLeftService {
 
   }
 
+  /**
+   * Cancel Job
+   * @param cxCancelData 
+   */
+  cancelBid(cxCancelData): Observable<any> {
+
+    this.routeData = {
+      'endPointUrl': 'cx-api/cancelBid',
+      'company_id': '' + this.companyId,
+      'warehouse_id': '' + this.wairehouseId,
+      'email': this.email,
+      'access_token': this.access_token,
+      'order_id':cxCancelData.order_id,
+      'request_id':cxCancelData.request_id,
+      "timezone_name": Intl.DateTimeFormat().resolvedOptions().timeZone
+    }
+
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.http.post(this.iacrgoApiUrl + this.routeData.endPointUrl, JSON.stringify(this.routeData), {
+      "headers": headers,
+      responseType: 'text' as 'json'
+    }).pipe(
+      retry(1),
+      map(data => {
+        return data;
+      }),
+      catchError((error: HttpErrorResponse) => {
+        if (error.error instanceof Error) {
+          // A client-side or network error occurred. Handle it accordingly.
+          console.error('An error occurred:', error.error.message);
+        } else {
+          console.error(`Backend returned code ${error.status}, body was: ${error.error}`);
+          return `${error.status}`;
+        }
+        return EMPTY;
+      })
+    );
+
+  }
 }

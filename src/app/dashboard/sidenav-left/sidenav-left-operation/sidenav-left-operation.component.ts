@@ -1134,4 +1134,43 @@ export class SidenavLeftOperationComponent implements OnInit {
     
   }
 
+  cancelBid(){
+    console.log(this.cxAssignFromModel);
+
+    if(!this.cxAssignFromModel.order_id || typeof this.cxAssignFromModel.order_id == 'undefined'){
+      this.toastr.error('Invalid Order Id', '', {
+        closeButton: true, positionClass: 'toast-top-right', timeOut: 4000
+      });
+      return;
+    }
+
+    this.spinerService.show("cancelJob", {
+      type: "line-scale-party",
+      size: "large",
+      color: "white"
+    });
+
+    this.sidenavleftservice.cancelBid(this.cxAssignFromModel).subscribe(val => {
+
+      this.showHideModal = 'none';
+      document.querySelector(".modal-backdrop").remove();
+      var myStr = val;
+      var strArray = myStr.split(".");
+      var decodeBAse64 = JSON.parse(atob(strArray[1]));
+      if (decodeBAse64.status == 'error') {
+        this.toastr.error(decodeBAse64.message, '', {
+          closeButton: true, positionClass: 'toast-top-right', timeOut: 4000
+        });
+        this.spinerService.hide("cancelJob");
+      } else {
+        this.toastr.success(decodeBAse64.message, '', {
+          closeButton: true, positionClass: 'toast-top-right', timeOut: 4000
+        });
+        this.spinerService.hide("cancelJob");
+      }
+      this.cxBidFormModel = {};
+    });
+
+  }
+
 }
